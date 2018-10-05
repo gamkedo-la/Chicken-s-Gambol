@@ -1,15 +1,6 @@
 const Chicken = function () {
 
-  const sprite = new Sprite(Images.chicken, {
-    default: {
-      frames: 2,
-      frameTime: 500,
-      width: 83,
-      height: 76,
-      firstFrameX: 0,
-      firstFrameY: 0
-    }
-  });
+  const sprite = new Sprite(Sprites.chicken);
   const unit = new Unit(200, 200);
 
   this.update = function(delta) {

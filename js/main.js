@@ -1,6 +1,6 @@
 let gameCanvas, gameContext;
 
-window.onload = function() {
+window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
   gameContext = gameCanvas.getContext('2d');
 
@@ -12,8 +12,10 @@ window.onload = function() {
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 
-  Images.initialize(gameInitialize);
-};
+  Images.initialize(function() {
+    Sprites.initialize(gameInitialize);
+  });
+});
 
 function windowOnBlur() {
   if (MainLoop.isRunning()) {
@@ -21,6 +23,7 @@ function windowOnBlur() {
   }
 }
 let c;
+
 function gameInitialize() {
   c = new Chicken();
 
