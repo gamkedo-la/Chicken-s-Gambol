@@ -25,13 +25,17 @@ function windowOnBlur() {
 let c;
 
 function gameInitialize() {
-  c = new Chicken();
+  Input.initialize();
+
+  c = new Chicken(200, 200);
 
   MainLoop.start();
 }
 
 function gameUpdate(delta) {
   c.update(delta);
+
+  Input.update(delta);
 }
 
 function gameDraw(interpolationPercentage) {
@@ -44,6 +48,8 @@ function gameDraw(interpolationPercentage) {
   // all other draws
   c.draw();
 
+  let m = Input.getMousePosition();
+  drawFillRect(gameContext, m.x - 10, m.y - 10, 20, 20, '#444');
 
   gameContext.restore();
   redrawCanvas();

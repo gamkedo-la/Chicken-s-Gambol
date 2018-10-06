@@ -1,7 +1,7 @@
-const Chicken = function () {
+const Chicken = function (x, y) {
 
   const sprite = new Sprite(Sprites.chicken);
-  const unit = new Unit(200, 200);
+  const unit = new Unit(x, y);
 
   this.update = function(delta) {
     unit.update(delta);

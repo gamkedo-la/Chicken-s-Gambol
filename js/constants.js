@@ -5,37 +5,55 @@ const CANVAS_PADDING = 60;
 const TILE_W = 32;
 const TILE_H = 32;
 
-const KEY_ENTER = 13;
-const KEY_SPACE = 32;
-const KEY_ESC = 27;
-const KEY_LEFT = 37;
-const KEY_UP = 38;
-const KEY_RIGHT = 39;
-const KEY_DOWN = 40;
+const KEY = {
+  MOUSE_LEFT: 'MOUSE_LEFT',
+  MOUSE_MIDDLE: 'MOUSE_MIDDLE',
+  MOUSE_RIGHT: 'MOUSE_RIGHT',
 
-const KEY_A = 65;
-const KEY_B = 66;
-const KEY_C = 67;
-const KEY_D = 68;
-const KEY_E = 69;
-const KEY_F = 70;
-const KEY_G = 71;
-const KEY_H = 72;
-const KEY_I = 73;
-const KEY_J = 74;
-const KEY_K = 75;
-const KEY_L = 76;
-const KEY_M = 77;
-const KEY_N = 78;
-const KEY_O = 79;
-const KEY_P = 80;
-const KEY_Q = 81;
-const KEY_R = 82;
-const KEY_S = 83;
-const KEY_T = 84;
-const KEY_U = 85;
-const KEY_V = 86;
-const KEY_W = 87;
-const KEY_X = 88;
-const KEY_Y = 89;
-const KEY_Z = 90;
+  ENTER: 13,
+  PAUSE: 19,
+  ESC: 27,
+  SPACE: 32,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+
+  A: 65,
+  B: 66,
+  C: 67,
+  D: 68,
+  E: 69,
+  F: 70,
+  G: 71,
+  H: 72,
+  I: 73,
+  J: 74,
+  K: 75,
+  L: 76,
+  M: 77,
+  N: 78,
+  O: 79,
+  P: 80,
+  Q: 81,
+  R: 82,
+  S: 83,
+  T: 84,
+  U: 85,
+  V: 86,
+  W: 87,
+  X: 88,
+  Y: 89,
+  Z: 90,
+
+  ZERO: 48,
+  ONE: 49,
+  TWO: 50,
+  THREE: 51,
+  FOUR: 52,
+  FIVE: 53,
+  SIX: 54,
+  SEVEN: 55,
+  EIGHT: 56,
+  NINE: 57,
+};
