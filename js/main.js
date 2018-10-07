@@ -15,25 +15,36 @@ window.addEventListener('load', function() {
   Images.initialize(function() {
     Sprites.initialize(gameInitialize);
   });
+
+  window.addEventListener('blur', windowOnBlur);
+  window.addEventListener('focus', windowOnFocus);
 });
 
 function windowOnBlur() {
   if (MainLoop.isRunning()) {
     // Pause gameloop and show pause screen ?
+    console.log('pause');
+    MainLoop.stop();
   }
 }
-let c;
+
+function windowOnFocus() {
+  if (!MainLoop.isRunning()) {
+    console.log('resume');
+    MainLoop.start();
+  }
+}
 
 function gameInitialize() {
   Input.initialize();
 
-  c = new Chicken(200, 200);
+  Game.createUnit(Chicken, {x:200, y:200});
 
   MainLoop.start();
 }
 
 function gameUpdate(delta) {
-  c.update(delta);
+  Game.update(delta);
 
   Input.update(delta);
 }
@@ -45,8 +56,7 @@ function gameDraw(interpolationPercentage) {
   screenShake.draw(interpolationPercentage);
 
   // draw level
-  // all other draws
-  c.draw();
+  Game.draw();
 
   let m = Input.getMousePosition();
   drawFillRect(gameContext, m.x - 10, m.y - 10, 20, 20, '#444');
