@@ -45,6 +45,11 @@ function gameInitialize() {
     });
   }
 
+  Game.createEnemy(Chicken, {
+    x: 1000,
+    y: 700
+  });
+
   MainLoop.start();
 
   Input.bindMouseMove(function(pos) {

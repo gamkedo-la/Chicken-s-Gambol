@@ -14,6 +14,9 @@ const KEY = {
   MOUSE_RIGHT: 'MOUSE_RIGHT',
 
   ENTER: 13,
+  SHIFT: 16,
+  CTRL: 17,
+  ALT: 18,
   PAUSE: 19,
   ESC: 27,
   SPACE: 32,

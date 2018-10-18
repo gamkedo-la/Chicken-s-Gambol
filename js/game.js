@@ -34,17 +34,38 @@ let Game = new (function() {
   };
 
   this.addUnitToSelection = function(unit) {
+    if (selection.length) {
+      if (this.unitIsInList(selection[0], enemies)) {
+        this.clearSelection();
+      }
+    }
     selection.push(unit);
+    unit.select();
   };
 
-  this.removeUnitFromSelection = function(item) {
+  this.removeUnitFromSelection = function(unit) {
     let l = selection.length;
     for (let i = 0; i < l; i++) {
-      if (selection[i] === item) {
+      if (selection[i] === unit) {
+        unit.deselect();
         selection.splice(i, 1);
         return;
       }
     }
+  };
+
+  this.unitIsInSelection = function(unit) {
+    return this.unitIsInList(unit, selection);
+  };
+
+  this.unitIsInList = function(unit, list) {
+    let l = list.length;
+    for (let i = 0; i < l; i++) {
+      if (list[i] === unit) {
+        return true;
+      }
+    }
+    return false;
   };
 
   this.update = function(delta) {
@@ -57,7 +78,7 @@ let Game = new (function() {
   };
 
   function handleLeftClick() {
-    if (this.clickedOnItem(units)) {
+    if (this.clickedOnItem(units, Input.isDown(KEY.CTRL))) {
       return;
     }
 
@@ -68,14 +89,21 @@ let Game = new (function() {
     this.clearSelection();
   }
 
-  this.clickedOnItem = function(list, callback) {
+  this.clickedOnItem = function(list, canAppend) {
     let mousePosition = Input.getMousePosition();
     for (let i = 0; i < list.length; i++) {
       let target = list[i];
       if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
-        this.setUnitSelection(target);
-        if (target.select) {
-          target.select();
+        if (canAppend) {
+          if (this.unitIsInSelection(target)) {
+            this.removeUnitFromSelection(target);
+          }
+          else {
+            this.addUnitToSelection(target);
+          }
+        }
+        else {
+          this.setUnitSelection(target);
         }
 
         return true;
