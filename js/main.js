@@ -38,14 +38,24 @@ function windowOnFocus() {
 function gameInitialize() {
   Input.initialize();
 
-  Game.createUnit(Chicken, {x:200, y:200});
+  for (let i = 0; i < 5; i++) {
+    Game.createUnit(Chicken, {
+      x: randomInt(100, 600),
+      y: randomInt(100, 600)
+    });
+  }
 
   MainLoop.start();
+
+  Input.bindMouseMove(function(pos) {
+    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y);
+  });
 }
 
 function gameUpdate(delta) {
   Game.update(delta);
 
+  HotKeys.update(delta);
   Input.update(delta);
 }
 

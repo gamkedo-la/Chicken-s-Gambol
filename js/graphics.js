@@ -97,7 +97,8 @@ function drawText(canvasContext, x, y, color, font, align, baseline, text, alpha
 // reuses the same temp buffer over and over for performance reasons
 var _tintImageCanvas = document.createElement('canvas');
 var _tintImageCTX = _tintImageCanvas.getContext('2d');
-function tintImage (image, color) {
+
+function tintImage(image, color) {
   _tintImageCanvas.width = image.width;
   _tintImageCanvas.height = image.height;
   _tintImageCTX.fillStyle = color;
@@ -109,7 +110,7 @@ function tintImage (image, color) {
 }
 
 // creates a brand new sprite in a new color
-function createTintedSprite (image, color) {
+function createTintedSprite(image, color) {
   var newCanvas = document.createElement('canvas');
   var newContext = newCanvas.getContext('2d');
   newCanvas.width = image.width;
@@ -129,8 +130,10 @@ function drawImageTinted(canvasContext, image, x, y, angle, color, opacity) {
   if (angle !== undefined) {
     canvasContext.rotate(angle);
   }
-  if (opacity != null) canvasContext.globalAlpha = opacity;
-  canvasContext.drawImage(tintImage(image,color), -image.width / 2, -image.height / 2);
+  if (opacity != null) {
+    canvasContext.globalAlpha = opacity;
+  }
+  canvasContext.drawImage(tintImage(image, color), -image.width / 2, -image.height / 2);
   canvasContext.restore();
 }
 
@@ -140,7 +143,9 @@ function drawImageRotatedAlpha(canvasContext, image, x, y, angle, opacity) {
   if (angle !== undefined) {
     canvasContext.rotate(angle);
   }
-  if (opacity != null) canvasContext.globalAlpha = opacity;
+  if (opacity != null) {
+    canvasContext.globalAlpha = opacity;
+  }
   canvasContext.drawImage(image, -image.width / 2, -image.height / 2);
   canvasContext.restore();
 }

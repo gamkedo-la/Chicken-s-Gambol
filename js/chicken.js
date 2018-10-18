@@ -1,15 +1,13 @@
-const Chicken = function (settings) {
+const Chicken = function(settings) {
 
-  const sprite = new Sprite(Sprites.chicken);
-  const unit = new Unit(settings.x, settings.y);
+  settings = extend(settings, {
+    sprite: Sprites.chicken,
+    clickRadius: 56
+  });
 
-  this.update = function(delta) {
-    unit.update(delta);
-    sprite.update(delta);
-  };
 
-  this.draw = function() {
-    sprite.drawAt(unit.getPosition());
-  };
-
+  Unit.call(this, settings);
 };
+
+Chicken.prototype = Object.create(Unit.prototype);
+Chicken.prototype.constructor = Chicken;

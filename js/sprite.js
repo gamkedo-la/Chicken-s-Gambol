@@ -17,6 +17,10 @@ const Sprite = function (spriteConfig, currentState = 'default') {
   };
   this.setState(currentState);
 
+  this.getState = function() {
+    return currentState;
+  };
+
   this.update = function(delta) {
     currentFrameTime += delta;
 

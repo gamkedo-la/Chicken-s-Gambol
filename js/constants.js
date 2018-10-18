@@ -1,6 +1,9 @@
-const DEBUG = false;
+let DEBUG = false;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
+
+const DEC2RAD = (Math.PI / 180);
+const ANGLE360 = Math.PI * 2;
 
 const TILE_W = 32;
 const TILE_H = 32;

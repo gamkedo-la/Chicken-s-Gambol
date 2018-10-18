@@ -24,8 +24,10 @@ const Input = new (function() {
   let canvasRect;
 
   this.initialize = function() {
-    canvasRect = drawCanvas.getBoundingClientRect();
+    refreshBoundingClientRect();
+    const self = this;
 
+    window.addEventListener('resize', refreshBoundingClientRect);
     document.addEventListener('keydown', function(event) {
       buttonDown(getButtonId(event));
     }, false);
@@ -40,6 +42,10 @@ const Input = new (function() {
     }, false);
     drawCanvas.addEventListener('mousemove', function(event) {
       updateMousePosition(event);
+
+      for (let i = 0; i < moveCallbacks.length; i++) {
+        moveCallbacks[i](self.getMousePosition());
+      }
     }, false);
 
     document.addEventListener('keydown', function(event) {
@@ -54,6 +60,10 @@ const Input = new (function() {
       }
     }, false);
   };
+
+  function refreshBoundingClientRect() {
+    canvasRect = drawCanvas.getBoundingClientRect();
+  }
 
   function buttonDown(buttonId) {
     buttonsDown[buttonId] = true;
@@ -122,14 +132,6 @@ const Input = new (function() {
   };
 
   function getButtonId(event) {
-    if (event.key !== undefined) {
-      return event.key;
-    }
-
-    if (event.keyIdentifier !== undefined) {
-      return event.keyIdentifier;
-    }
-
     if (event.keyCode !== undefined) {
       return event.keyCode;
     }
