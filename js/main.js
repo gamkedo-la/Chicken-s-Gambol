@@ -73,9 +73,6 @@ function gameDraw(interpolationPercentage) {
   // draw level
   Game.draw();
 
-  let m = Input.getMousePosition();
-  drawFillRect(gameContext, m.x - 10, m.y - 10, 20, 20, '#444');
-
   gameContext.restore();
   redrawCanvas();
 }
