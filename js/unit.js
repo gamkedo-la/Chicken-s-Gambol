@@ -25,6 +25,11 @@ const Unit = function(settings) {
     };
   };
 
+  this.isInBox = function(point1, point2) {
+    return ((x - point1.x) * (x - point2.x) < 0) &&
+      ((y - point1.y) * (y - point2.y) < 0);
+  };
+
   this.disable = function() {
     enabled = false;
   };
@@ -51,7 +56,7 @@ const Unit = function(settings) {
       drawStrokeCircle(gameContext, x, y, clickRadius, 100, 'red', 2);
     }
     if (isSelected) {
-      drawStrokeCircle(gameContext, x, y, clickRadius, 100, 'blue', 2);
+      drawStrokeCircle(gameContext, x, y, clickRadius, 100, SELECTED_COLOR, 2);
     }
   };
 

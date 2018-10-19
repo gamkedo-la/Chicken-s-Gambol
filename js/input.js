@@ -107,7 +107,10 @@ const Input = new (function() {
   };
 
   this.getMousePosition = function() {
-    return mousePosition;
+    return {
+      x: mousePosition.x,
+      y: mousePosition.y
+    };
   };
 
   this.bindMouseMove = function(fn) {

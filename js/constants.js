@@ -8,6 +8,9 @@ const ANGLE360 = Math.PI * 2;
 const TILE_W = 32;
 const TILE_H = 32;
 
+const LASSO_COLOR = '#ffffce';
+const SELECTED_COLOR = '#ffe6ad';
+
 const KEY = {
   MOUSE_LEFT: 'MOUSE_LEFT',
   MOUSE_MIDDLE: 'MOUSE_MIDDLE',

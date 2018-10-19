@@ -3,6 +3,11 @@ let Game = new (function() {
   let units = [];
   let selection = [];
 
+  const minLassoDistanceSquared = 100;
+  let mouseLassoing = false;
+  let mouseLassoPosition1;
+  let mouseLassoPosition2;
+
   this.createEnemy = function(Constructor, settings) {
     return create(enemies, Constructor, settings);
   };
@@ -73,9 +78,36 @@ let Game = new (function() {
     callbackList(enemies, 'update', [delta]);
 
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      handleLeftClick.call(this);
+      mouseLassoing = true;
+      mouseLassoPosition1 = Input.getMousePosition();
+    }
+    if (mouseLassoing && Input.isDown(KEY.MOUSE_LEFT)) {
+      mouseLassoPosition2 = Input.getMousePosition();
+    }
+    if (mouseLassoing && !Input.isDown(KEY.MOUSE_LEFT)) {
+      mouseLassoPosition2 = Input.getMousePosition();
+      mouseLassoing = false;
+      if (minLassoDistanceSquared < distanceBetweenPointsSquared(mouseLassoPosition1, mouseLassoPosition2)) {
+        handleLassoSelect.call(this);
+      }
+      else {
+        handleLeftClick.call(this);
+      }
     }
   };
+
+  function handleLassoSelect() {
+    if (!Input.isDown(KEY.CTRL)) {
+      this.clearSelection();
+    }
+    for (let i = 0; i < units.length; i++) {
+      let target = units[i];
+      if (target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
+        target.select();
+        this.addUnitToSelection(target);
+      }
+    }
+  }
 
   function handleLeftClick() {
     if (this.clickedOnItem(units, Input.isDown(KEY.CTRL))) {
@@ -115,6 +147,17 @@ let Game = new (function() {
   this.draw = function(interpolationPercentage) {
     callbackList(enemies, 'draw', [interpolationPercentage]);
     callbackList(units, 'draw', [interpolationPercentage]);
+
+    if (mouseLassoing) {
+      drawStrokeRect(
+        gameContext,
+        mouseLassoPosition1.x, mouseLassoPosition1.y,
+        mouseLassoPosition2.x - mouseLassoPosition1.x,
+        mouseLassoPosition2.y - mouseLassoPosition1.y,
+        LASSO_COLOR,
+        2
+      );
+    }
   };
 
   function callbackList(items, callback, arguments) {
