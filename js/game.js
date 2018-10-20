@@ -1,6 +1,7 @@
 let Game = new (function() {
   let enemies = [];
   let units = [];
+  let targets = [];
   let selection = [];
 
   const minLassoDistanceSquared = 100;
@@ -8,12 +9,22 @@ let Game = new (function() {
   let mouseLassoPosition1;
   let mouseLassoPosition2;
 
+  let removeDeadUnits = false;
+
+  this.scheduleRemoveDeadUnits = function() {
+    removeDeadUnits = true;
+  };
+
   this.createEnemy = function(Constructor, settings) {
     return create(enemies, Constructor, settings);
   };
 
   this.createUnit = function(Constructor, settings) {
     return create(units, Constructor, settings);
+  };
+
+  this.createTarget = function(settings) {
+    return create(targets, FakeTarget, settings);
   };
 
   function create(collection, Constructor, settings) {
@@ -76,17 +87,22 @@ let Game = new (function() {
   this.update = function(delta) {
     callbackList(units, 'update', [delta]);
     callbackList(enemies, 'update', [delta]);
+    callbackList(targets, 'update', [delta]);
+
+    if (removeDeadUnits) {
+      removeDeadUnits = false;
+      removeRemovableUnitsFromList(units);
+      removeRemovableUnitsFromList(enemies);
+      removeRemovableUnitsFromList(targets);
+    }
 
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
       mouseLassoing = true;
       mouseLassoPosition1 = Input.getMousePosition();
     }
-    if (mouseLassoing && Input.isDown(KEY.MOUSE_LEFT)) {
-      mouseLassoPosition2 = Input.getMousePosition();
-    }
     if (mouseLassoing && !Input.isDown(KEY.MOUSE_LEFT)) {
-      mouseLassoPosition2 = Input.getMousePosition();
       mouseLassoing = false;
+      mouseLassoPosition2 = Input.getMousePosition();
       if (minLassoDistanceSquared < distanceBetweenPointsSquared(mouseLassoPosition1, mouseLassoPosition2)) {
         handleLassoSelect.call(this);
       }
@@ -94,7 +110,29 @@ let Game = new (function() {
         handleLeftClick.call(this);
       }
     }
+
+    if (Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
+      let target = this.getClickedUnit(enemies);
+      if (target) {
+        // @todo make the selection attack the unit!
+      }
+      else {
+        // make a fake target that doesn't move
+        target = Game.createTarget(Input.getMousePosition());
+      }
+      let unitsAlongSide = Math.floor(Math.sqrt(selection.length + 2));
+      callbackList(selection, 'setTarget', [target, unitsAlongSide]);
+    }
   };
+
+  function removeRemovableUnitsFromList(list) {
+    let l = list.length;
+    for (let i = list.length - 1; 0 < i; i--) {
+      if (list[i].isReadyToRemove()) {
+        list.splice(i, 1);
+      }
+    }
+  }
 
   function handleLassoSelect() {
     if (!Input.isDown(KEY.CTRL)) {
@@ -144,11 +182,22 @@ let Game = new (function() {
     return false;
   };
 
+  this.getClickedUnit = function(list) {
+    let mousePosition = Input.getMousePosition();
+    for (let i = 0; i < list.length; i++) {
+      let target = list[i];
+      if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
+        return target;
+      }
+    }
+  };
+
   this.draw = function(interpolationPercentage) {
     callbackList(enemies, 'draw', [interpolationPercentage]);
     callbackList(units, 'draw', [interpolationPercentage]);
 
     if (mouseLassoing) {
+      mouseLassoPosition2 = Input.getMousePosition();
       drawStrokeRect(
         gameContext,
         mouseLassoPosition1.x, mouseLassoPosition1.y,
@@ -167,7 +216,9 @@ let Game = new (function() {
         continue;
       }
 
-      items[i][callback].call(items[i], arguments);
+      arguments.push(i);
+      items[i][callback].apply(items[i], arguments);
+      arguments.pop();
     }
   }
 })();

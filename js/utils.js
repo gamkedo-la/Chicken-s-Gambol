@@ -28,3 +28,17 @@ function distanceBetweenPointsSquared(point1, point2) {
 function randomInt(min, max) {
   return Math.floor(min + Math.random() * (max + 1 - min))
 }
+
+function rotateToTarget(vx, vy, speed, rotationEase, targetPosition, position) {
+  let diffX = targetPosition.x - position.x;
+  let diffY = targetPosition.y - position.y;
+  let dist = Math.sqrt(diffX * diffX + diffY * diffY);
+  let newVX = (diffX / dist) * speed;
+  let newVY = (diffY / dist) * speed;
+
+  return {
+    vx: vx * rotationEase + newVX * (1.0 - rotationEase),
+    vy: vy * rotationEase + newVY * (1.0 - rotationEase),
+    dist: dist
+  };
+}

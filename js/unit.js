@@ -1,14 +1,61 @@
 const Unit = function(settings) {
 
-  const sprite = new Sprite(settings.sprite);
+  let sprite = false;
+  if (settings.sprite) {
+    sprite = new Sprite(settings.sprite);
+  }
 
+  let speed = settings.speed || 0;
+  let rotationEase = settings.rotationEase || 0.6;
   let x = settings.x;
   let y = settings.y;
+  let vx = settings.vx || 0;
+  let vy = settings.vy || 0;
+  let unitsAlongSide = 0;
+  let formationIndex = 0;
 
+  let readyToRemove = false;
   let enabled = true;
   let clickRadius = settings.clickRadius;
   let clickRadiusSquared = clickRadius * clickRadius;
   let isSelected = false;
+
+  let followers = [];
+  let target;
+
+  this.addFollower = function(unit) {
+    followers.push(unit);
+  };
+
+  this.removeFollower = function(unit) {
+    let l = followers.length;
+    for (let i = 0; i < l; i++) {
+      if (followers[i] === unit) {
+        followers.splice(i, 1);
+        return;
+      }
+    }
+  };
+
+  this.setTarget = function(unit, _unitsAlongSide, _formationIndex) {
+    if (!unit) {
+      return;
+    }
+
+    if (unit.addFollower) {
+      unit.addFollower(this);
+    }
+    target = unit;
+    unitsAlongSide = _unitsAlongSide;
+    formationIndex = _formationIndex;
+  };
+
+  this.unsetTarget = function() {
+    if (target && target.removeFollower) {
+      target.removeFollower(this);
+    }
+    target = undefined;
+  };
 
   this.select = function() {
     isSelected = true;
@@ -23,6 +70,10 @@ const Unit = function(settings) {
       x: x,
       y: y
     };
+  };
+
+  this.isReadyToRemove = function() {
+    return readyToRemove;
   };
 
   this.isInBox = function(point1, point2) {
@@ -42,16 +93,57 @@ const Unit = function(settings) {
     return distanceBetweenPointsSquared(this.getPosition(), clickPosition) < clickRadiusSquared;
   };
 
+  this.getTargetPosition = function() {
+    // @todo figure out how to position relative to the approach-angle
+    let targetPosition = target.getPosition();
+    let colNum = formationIndex % unitsAlongSide;
+    let rowNum = Math.floor(formationIndex / unitsAlongSide);
+    targetPosition.x = targetPosition.x + colNum * UNIT_RANKS_SPACING;
+    targetPosition.y = targetPosition.y + rowNum * UNIT_RANKS_SPACING;
+
+    return targetPosition;
+  };
+
   this.update = function(delta) {
     if (!enabled) {
       return;
     }
 
-    sprite.update(delta);
+    if (target) {
+      let targetPosition = this.getTargetPosition();
+      let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
+      if (speed < newVs.dist) {
+        vx = newVs.vx;
+        vy = newVs.vy;
+      }
+      else {
+        x = targetPosition.x;
+        y = targetPosition.y;
+        vx = 0;
+        vy = 0;
+        if (target.constructor === FakeTarget) {
+          this.unsetTarget();
+        }
+      }
+    }
+
+    x = x + vx;
+    y = y + vy;
+
+    if (sprite) {
+      sprite.update(delta);
+    }
+
+    if (readyToRemove) {
+      Game.scheduleRemoveDeadUnits();
+    }
   };
 
   this.draw = function(interpolationPercentage) {
-    sprite.drawAt(this.getPosition());
+    if (sprite) {
+      sprite.drawAt(this.getPosition());
+    }
+
     if (DEBUG) {
       drawStrokeCircle(gameContext, x, y, clickRadius, 100, 'red', 2);
     }

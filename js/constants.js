@@ -10,6 +10,7 @@ const TILE_H = 32;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
+const UNIT_RANKS_SPACING = 115;
 
 const KEY = {
   MOUSE_LEFT: 'MOUSE_LEFT',
