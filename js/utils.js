@@ -39,6 +39,7 @@ function rotateToTarget(vx, vy, speed, rotationEase, targetPosition, position) {
   return {
     vx: vx * rotationEase + newVX * (1.0 - rotationEase),
     vy: vy * rotationEase + newVY * (1.0 - rotationEase),
-    dist: dist
+    dist: dist,
+    angle: Math.atan2(diffY, diffX)
   };
 }

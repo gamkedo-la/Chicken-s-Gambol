@@ -26,7 +26,39 @@ var Sprites = new (function() {
           width: 83,
           height: 76,
           firstFrameX: 0,
+          firstFrameY: 318
+        },
+        moveRight: {
+          frames: 2,
+          frameTime: 500,
+          width: 83,
+          height: 76,
+          firstFrameX: 0,
           firstFrameY: 0
+        },
+        moveLeft: {
+          frames: 2,
+          frameTime: 500,
+          width: 83,
+          height: 76,
+          firstFrameX: 0,
+          firstFrameY: 76
+        },
+        moveUp: {
+          frames: 2,
+          frameTime: 500,
+          width: 76,
+          height: 83,
+          firstFrameX: 0,
+          firstFrameY: 152
+        },
+        moveDown: {
+          frames: 2,
+          frameTime: 500,
+          width: 76,
+          height: 83,
+          firstFrameX: 0,
+          firstFrameY: 235
         }
       }
     }

@@ -42,6 +42,4 @@ function resizeWindow() {
 
   drawScaleX = drawCanvas.width / gameCanvas.width;
   drawScaleY = drawCanvas.height / gameCanvas.height;
-
-  console.log('resized', drawScaleX, drawScaleY);
 }

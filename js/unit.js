@@ -11,6 +11,7 @@ const Unit = function(settings) {
   let y = settings.y;
   let vx = settings.vx || 0;
   let vy = settings.vy || 0;
+  let angle = 0;
   let unitsAlongSide = 0;
   let formationIndex = 0;
 
@@ -45,6 +46,11 @@ const Unit = function(settings) {
     if (unit.addFollower) {
       unit.addFollower(this);
     }
+
+    if (target) {
+      this.unsetTarget();
+    }
+
     target = unit;
     unitsAlongSide = _unitsAlongSide;
     formationIndex = _formationIndex;
@@ -96,8 +102,8 @@ const Unit = function(settings) {
   this.getTargetPosition = function() {
     // @todo figure out how to position relative to the approach-angle
     let targetPosition = target.getPosition();
-    let colNum = formationIndex % unitsAlongSide;
-    let rowNum = Math.floor(formationIndex / unitsAlongSide);
+    let rowNum = formationIndex % unitsAlongSide;
+    let colNum = Math.floor(formationIndex / unitsAlongSide);
     targetPosition.x = targetPosition.x + colNum * UNIT_RANKS_SPACING;
     targetPosition.y = targetPosition.y + rowNum * UNIT_RANKS_SPACING;
 
@@ -112,9 +118,11 @@ const Unit = function(settings) {
     if (target) {
       let targetPosition = this.getTargetPosition();
       let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
-      if (speed < newVs.dist) {
+      angle = newVs.angle;
+      if (0 < newVs.dist && speed < newVs.dist) {
         vx = newVs.vx;
         vy = newVs.vy;
+        sprite.setState(getMoveStateByAngle());
       }
       else {
         x = targetPosition.x;
@@ -123,6 +131,7 @@ const Unit = function(settings) {
         vy = 0;
         if (target.constructor === FakeTarget) {
           this.unsetTarget();
+          sprite.setState('default');
         }
       }
     }
@@ -138,6 +147,25 @@ const Unit = function(settings) {
       Game.scheduleRemoveDeadUnits();
     }
   };
+
+  function getMoveStateByAngle() {
+    if (angle < 0) {
+      angle += ANGLE360;
+    }
+    if (ANGLE35 < angle && angle < ANGLE145) {
+      return 'moveDown';
+    }
+
+    if (ANGLE145 <= angle && angle <= ANGLE235) {
+      return 'moveLeft';
+    }
+
+    if (ANGLE235 < angle && angle < ANGLE305) {
+      return 'moveUp';
+    }
+
+    return 'moveRight';
+  }
 
   this.draw = function(interpolationPercentage) {
     if (sprite) {

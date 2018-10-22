@@ -5,12 +5,24 @@ const CANVAS_PADDING = 60;
 const DEC2RAD = (Math.PI / 180);
 const ANGLE360 = Math.PI * 2;
 
+const ANGLE35 = 35 * DEC2RAD;
+const ANGLE145 = 145 * DEC2RAD;
+const ANGLE235 = 235 * DEC2RAD;
+const ANGLE305 = 305 * DEC2RAD;
+
 const TILE_W = 32;
 const TILE_H = 32;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
 const UNIT_RANKS_SPACING = 115;
+
+const STATE = {
+  IDLE: 'idle',
+  MOVE: 'move',
+  ATTACK: 'attack',
+  DEAD: 'dead'
+};
 
 const KEY = {
   MOUSE_LEFT: 'MOUSE_LEFT',
