@@ -18,7 +18,7 @@ const Chicken2 = function(settings) {
 
   settings = extend(settings, {
     sprite: Sprites.chicken2,
-    clickRadius: 56,
+    clickRadius: 32,
     speed: 5
   });
 
