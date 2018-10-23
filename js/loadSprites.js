@@ -1,4 +1,4 @@
-var Sprites = new (function() {
+let Sprites = new (function() {
   /**
    * this.spriteName = {
    *   image: Images.imageName,

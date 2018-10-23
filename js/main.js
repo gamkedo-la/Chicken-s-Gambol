@@ -38,17 +38,7 @@ function windowOnFocus() {
 function gameInitialize() {
   Input.initialize();
 
-  for (let i = 0; i < 5; i++) {
-    Game.createUnit(Chicken, {
-      x: randomInt(100, 600),
-      y: randomInt(100, 600)
-    });
-  }
-
-  Game.createEnemy(Chicken, {
-    x: 1000,
-    y: 700
-  });
+  Grid.initialize(levels[0]);
 
   MainLoop.start();
 
@@ -68,9 +58,12 @@ function gameDraw(interpolationPercentage) {
   clearCanvas();
   gameContext.save();
 
+  let panPosition = Grid.getPanPosition();
+  gameContext.translate(-panPosition.x, -panPosition.y);
+
   screenShake.draw(interpolationPercentage);
 
-  // draw level
+  Grid.draw();
   Game.draw();
 
   gameContext.restore();
@@ -86,7 +79,7 @@ function clearCanvas() {
 // For example when the browser window is hidden or moved to the background.
 MainLoop.setEnd(function(fps, panic) {
   if (panic) {
-    var discardedTime = Math.round(MainLoop.resetFrameDelta());
+    let discardedTime = Math.round(MainLoop.resetFrameDelta());
     console.warn('Main loop panicked, probably because the browser tab was put in the background. Discarding ' + discardedTime + 'ms');
   }
 });

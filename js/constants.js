@@ -10,8 +10,8 @@ const ANGLE145 = 145 * DEC2RAD;
 const ANGLE235 = 235 * DEC2RAD;
 const ANGLE305 = 305 * DEC2RAD;
 
-const TILE_W = 32;
-const TILE_H = 32;
+const TILE_WIDTH = 32;
+const TILE_HEIGHT = 32;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
@@ -22,6 +22,26 @@ const STATE = {
   MOVE: 'move',
   ATTACK: 'attack',
   DEAD: 'dead'
+};
+
+const TILE = {
+  GRASS: 0,
+
+  PLAYER_CHICKEN: 30,
+  PLAYER_PIG: 31,
+  PLAYER_GOBLIN: 32,
+  PLAYER_HOUSE: 33,
+  PLAYER_BARRACKS: 34,
+  PLAYER_MUD_PIT: 35,
+  PLAYER_BLOB: 36,
+  
+  ENEMY_CHICKEN: 50,
+  ENEMY_PIG: 51,
+  ENEMY_GOBLIN: 52,
+  ENEMY_HOUSE: 53,
+  ENEMY_BARRACKS: 54,
+  ENEMY_MUD_PIT: 55,
+  ENEMY_BLOB: 56,
 };
 
 const KEY = {

@@ -168,6 +168,12 @@ const Unit = function(settings) {
   }
 
   this.draw = function(interpolationPercentage) {
+    // @todo check if unit is visible
+    let gridBounds = Grid.getBounds();
+    if (!this.isInBox(gridBounds.topLeft, gridBounds.bottomRight)) {
+      return;
+    }
+
     if (sprite) {
       sprite.drawAt(this.getPosition());
     }

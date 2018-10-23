@@ -25,8 +25,8 @@ function drawImageFrame(canvasContext, image, frame, firstFrameX, firstFrameY, x
 }
 
 function drawFillRectRotated(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fillColor, angle) {
-  var hw = boxWidth / 2;
-  var hh = boxHeight / 2;
+  let hw = boxWidth / 2;
+  let hh = boxHeight / 2;
   canvasContext.save();
   canvasContext.translate(topLeftX + hw, topLeftY + hh);
   canvasContext.rotate(angle);
@@ -43,9 +43,10 @@ function drawFillRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fi
 }
 
 function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, strokeColor, lineWidth) {
+  let oldLineWidth;
   canvasContext.strokeStyle = strokeColor;
   if (lineWidth !== undefined) {
-    var oldLineWidth = canvasContext.lineWidth;
+    oldLineWidth = canvasContext.lineWidth;
     canvasContext.lineWidth = lineWidth;
   }
   canvasContext.strokeRect(topLeftX, topLeftY, boxWidth, boxHeight);
@@ -55,8 +56,8 @@ function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, 
 }
 
 function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth) {
-  var startAngle = Math.PI * -0.5;
-  var endAngle = Math.PI * 2 * percentage + startAngle;
+  let startAngle = Math.PI * -0.5;
+  let endAngle = Math.PI * 2 * percentage + startAngle;
   canvasContext.strokeStyle = strokeColor;
   canvasContext.lineWidth = lineWidth;
   canvasContext.beginPath();
@@ -67,7 +68,7 @@ function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, 
 function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.beginPath();
   canvasContext.moveTo(points[0].x, points[0].y);
-  for (var i = 1; i < points.length; i++) {
+  for (let i = 1; i < points.length; i++) {
     canvasContext.lineTo(points[i].x, points[i].y);
   }
   canvasContext.strokeStyle = color;
@@ -95,8 +96,8 @@ function drawText(canvasContext, x, y, color, font, align, baseline, text, alpha
 // takes an image and colors and fades it as required
 // returns a new canvas we can use as a sprite
 // reuses the same temp buffer over and over for performance reasons
-var _tintImageCanvas = document.createElement('canvas');
-var _tintImageCTX = _tintImageCanvas.getContext('2d');
+let _tintImageCanvas = document.createElement('canvas');
+let _tintImageCTX = _tintImageCanvas.getContext('2d');
 
 function tintImage(image, color) {
   _tintImageCanvas.width = image.width;
@@ -111,8 +112,8 @@ function tintImage(image, color) {
 
 // creates a brand new sprite in a new color
 function createTintedSprite(image, color) {
-  var newCanvas = document.createElement('canvas');
-  var newContext = newCanvas.getContext('2d');
+  let newCanvas = document.createElement('canvas');
+  let newContext = newCanvas.getContext('2d');
   newCanvas.width = image.width;
   newCanvas.height = image.height;
   newContext.fillStyle = color;

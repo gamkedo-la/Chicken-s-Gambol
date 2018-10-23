@@ -1,23 +1,32 @@
-var Images = new (function() {
+const TileImages = [];
 
-  var images = {
+const Images = new (function() {
+
+  let images = {
     // key: 'img/image_name.png'
-    grass: 'img/grass.png',
     chicken: 'img/chicken.png'
   };
 
+  let tileTypeImages = [
+    { type: TILE.GRASS, src: 'img/grass.png' }
+  ];
+
   this.initialize = function(callback) {
-    var numToLoad = Object.keys(images).length;
+    let numToLoad = Object.keys(images).length + tileTypeImages.length;
     if (numToLoad === 0 && callback) {
       callback();
       return;
     }
 
-    for (var key in images) {
+    for (let key in images) {
       if (images.hasOwnProperty(key)) {
-        this.loadImage(key, images[key]);
-        this[key].onload = doneLoading;
+        this[key] = this.loadImage(images[key], doneLoading);
       }
+    }
+
+    for (let key = 0; key < tileTypeImages.length; key++) {
+      let tileTypeImage = tileTypeImages[key];
+      TileImages[tileTypeImage['type']] = this.loadImage(tileTypeImage['src'], doneLoading);
     }
 
     function doneLoading() {
@@ -30,13 +39,12 @@ var Images = new (function() {
     return this;
   };
 
-  this.loadImage = function(key, src) {
-    var img = document.createElement('img');
+  this.loadImage = function(src, callback) {
+    let img = document.createElement('img');
     img.src = src;
-    this[key] = img;
-    img.onload = function() {
-      this.downloaded = true;
-    }
+    img.onload = callback;
+
+    return img;
   };
 
 })();

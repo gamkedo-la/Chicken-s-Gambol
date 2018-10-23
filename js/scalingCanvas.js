@@ -25,8 +25,8 @@ function redrawCanvas() {
 }
 
 function resizeWindow() {
-  var maxHeight = window.innerHeight - 2;
-  var maxWidth = window.innerWidth - 2;
+  let maxHeight = window.innerHeight - 2;
+  let maxWidth = window.innerWidth - 2;
 
   if (maxWidth / maxHeight < aspectRatio) {
     drawCanvas.width = maxWidth;

@@ -94,8 +94,9 @@ const Input = new (function() {
     mousePosition.ux = mouseRaw.x - canvasRect.left;
     mousePosition.uy = mouseRaw.y - canvasRect.top;
     let scaled = scaleCoordinates(mousePosition.ux, mousePosition.uy);
-    mousePosition.x = scaled.x;
-    mousePosition.y = scaled.y;
+    let panPosition = Grid.getPanPosition();
+    mousePosition.x = scaled.x + panPosition.x;
+    mousePosition.y = scaled.y + panPosition.y;
   }
 
   this.isDown = function(buttonId) {
@@ -118,7 +119,7 @@ const Input = new (function() {
   };
 
   this.unbindMouseMove = function(fn) {
-    for (var i = 0; i < moveCallbacks.length; i++) {
+    for (let i = 0; i < moveCallbacks.length; i++) {
       if (moveCallbacks[i] === fn) {
         moveCallbacks.splice(i, 1);
         return;
