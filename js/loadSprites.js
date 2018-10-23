@@ -61,6 +61,51 @@ let Sprites = new (function() {
           firstFrameY: 235
         }
       }
+    },
+    chicken2: {
+      image: 'chicken2',
+      frames: {
+        default: {
+          frames: 2,
+          frameTime: 500,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 6,
+          frameTime: 500,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveLeft: {
+          frames: 6 ,
+          frameTime: 500,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 32
+        },
+        moveUp: {
+          frames: 2,
+          frameTime: 500,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 96
+        },
+        moveDown: {
+          frames: 3,
+          frameTime: 500,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 64
+        }
+      }
     }
   };
 

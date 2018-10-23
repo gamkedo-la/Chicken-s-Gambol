@@ -85,7 +85,7 @@ const Grid = new (function() {
     let tileType = levelGrid[i];
     switch (tileType) {
       case TILE.PLAYER_CHICKEN:
-        Game.createUnit(Chicken, {x: x, y: y});
+        Game.createUnit(Chicken2, {x: x, y: y});
         break;
 //      case TILE.PLAYER_PIG:
 //        Game.createUnit(Pig, {x: x, y: y});

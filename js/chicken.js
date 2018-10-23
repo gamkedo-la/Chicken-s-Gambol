@@ -12,3 +12,19 @@ const Chicken = function(settings) {
 
 Chicken.prototype = Object.create(Unit.prototype);
 Chicken.prototype.constructor = Chicken;
+
+
+const Chicken2 = function(settings) {
+
+  settings = extend(settings, {
+    sprite: Sprites.chicken2,
+    clickRadius: 56,
+    speed: 5
+  });
+
+
+  Unit.call(this, settings);
+};
+
+Chicken2.prototype = Object.create(Unit.prototype);
+Chicken2.prototype.constructor = Chicken2;
