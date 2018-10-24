@@ -1,6 +1,7 @@
 let Selection = new (function(){
 
   let selection = [];
+  let hasEnemySelected = false;
 
   const minLassoDistanceSquared = 100;
   let mouseLassoing = false;
@@ -62,11 +63,13 @@ let Selection = new (function(){
   }
 
   function handleLeftClick() {
+    hasEnemySelected = false;
     if (Selection.clickedOnItem(Game.units, Input.isDown(KEY.CTRL))) {
       return;
     }
 
     if (Selection.clickedOnItem(Game.enemies)) {
+      hasEnemySelected = true;
       return;
     }
 
@@ -122,7 +125,7 @@ let Selection = new (function(){
       }
     }
 
-    if (Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
+    if (!hasEnemySelected && Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
       let target = this.getClickedUnit(Game.enemies);
       if (target) {
         // @todo make the selection attack the unit!
