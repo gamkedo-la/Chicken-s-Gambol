@@ -32,13 +32,13 @@ const Grid = new (function() {
   };
 
   // @todo debug
-  let d = 1;
-  setInterval(function(){
-    x += 10 * d;
-    if (maxX < x || x < 0) {
-      d = -d;
-    }
-  }, 300);
+//  let d = 1;
+//  setInterval(function(){
+//    x += 10 * d;
+//    if (maxX < x || x < 0) {
+//      d = -d;
+//    }
+//  }, 300);
   // @todo debug
 
   this.initialize = function(_levelData) {

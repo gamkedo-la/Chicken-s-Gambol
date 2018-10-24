@@ -43,3 +43,26 @@ function rotateToTarget(vx, vy, speed, rotationEase, targetPosition, position) {
     angle: Math.atan2(diffY, diffX)
   };
 }
+
+function unitIsInList(unit, list) {
+  let l = list.length;
+  for (let i = 0; i < l; i++) {
+    if (list[i] === unit) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function callbackList(items, callback, arguments) {
+  let length = items.length;
+  for (let index = 0; index < length; index++) {
+    if (items[index][callback] === undefined) {
+      continue;
+    }
+
+    arguments.push(index);
+    items[index][callback].apply(items[index], arguments);
+    arguments.pop();
+  }
+}

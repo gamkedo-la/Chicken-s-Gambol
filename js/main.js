@@ -49,6 +49,7 @@ function gameInitialize() {
 
 function gameUpdate(delta) {
   Game.update(delta);
+  Selection.update(delta);
 
   HotKeys.update(delta);
   Input.update(delta);
@@ -64,6 +65,7 @@ function gameDraw(interpolationPercentage) {
   screenShake.draw(interpolationPercentage);
 
   Grid.draw();
+  Selection.draw();
   Game.draw();
 
   gameContext.restore();
