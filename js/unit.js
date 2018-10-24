@@ -5,8 +5,12 @@ const Unit = function(settings) {
     sprite = new Sprite(settings.sprite);
   }
 
-  let speed = settings.speed || 0;
-  let rotationEase = settings.rotationEase || 0.6;
+  const speed = settings.speed || 0;
+  const rotationEase = settings.rotationEase || 0.6;
+  const clickRadius = settings.clickRadius;
+  const clickRadiusSquared = clickRadius * clickRadius;
+  const unitRanksSpacing = settings.unitRanksSpacing || clickRadius * 2.25;
+
   let x = settings.x;
   let y = settings.y;
   let vx = settings.vx || 0;
@@ -17,8 +21,6 @@ const Unit = function(settings) {
 
   let readyToRemove = false;
   let enabled = true;
-  let clickRadius = settings.clickRadius;
-  let clickRadiusSquared = clickRadius * clickRadius;
   let isSelected = false;
 
   let followers = [];
@@ -104,8 +106,8 @@ const Unit = function(settings) {
     let targetPosition = target.getPosition();
     let rowNum = formationIndex % unitsAlongSide;
     let colNum = Math.floor(formationIndex / unitsAlongSide);
-    targetPosition.x = targetPosition.x + colNum * UNIT_RANKS_SPACING;
-    targetPosition.y = targetPosition.y + rowNum * UNIT_RANKS_SPACING;
+    targetPosition.x = targetPosition.x + colNum * unitRanksSpacing;
+    targetPosition.y = targetPosition.y + rowNum * unitRanksSpacing;
 
     return targetPosition;
   };

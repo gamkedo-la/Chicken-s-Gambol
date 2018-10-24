@@ -3,6 +3,7 @@ const Chicken = function(settings) {
   settings = extend(settings, {
     sprite: Sprites.chicken,
     clickRadius: 16,
+    unitRanksSpacing: 36,
     speed: 5
   });
 

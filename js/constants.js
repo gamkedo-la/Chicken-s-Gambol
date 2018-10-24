@@ -17,7 +17,6 @@ const TILE_HALF_HEIGHT = TILE_HEIGHT / 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
-const UNIT_RANKS_SPACING = 115;
 
 const STATE = {
   IDLE: 'idle',
