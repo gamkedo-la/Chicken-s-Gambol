@@ -5,7 +5,9 @@ let Sprites = new (function() {
    *   frames: {
    *     default: {
    *       frames: 2, // number of frames
-   *       frameTime: 500, // time a single frame lasts
+   *       frameTime: .2, // time a single frame lasts in seconds
+   *       // Optional property to specify different timings per frame
+   *       frameSpecificTimings: {2, .75, 3: .75}, // frameIndex: specificTiming in seconds
    *       width: 50, // Dimensions of each frame
    *       height: 50,
    *       firstFrameX: 0, // Position of the first frame
@@ -22,7 +24,7 @@ let Sprites = new (function() {
       frames: {
         default: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 83,
           height: 76,
           firstFrameX: 0,
@@ -30,7 +32,7 @@ let Sprites = new (function() {
         },
         moveRight: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 83,
           height: 76,
           firstFrameX: 0,
@@ -38,7 +40,7 @@ let Sprites = new (function() {
         },
         moveLeft: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 83,
           height: 76,
           firstFrameX: 0,
@@ -46,7 +48,7 @@ let Sprites = new (function() {
         },
         moveUp: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 76,
           height: 83,
           firstFrameX: 0,
@@ -54,7 +56,7 @@ let Sprites = new (function() {
         },
         moveDown: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 76,
           height: 83,
           firstFrameX: 0,
@@ -67,7 +69,7 @@ let Sprites = new (function() {
       frames: {
         default: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -75,7 +77,7 @@ let Sprites = new (function() {
         },
         moveRight: {
           frames: 6,
-          frameTime: 500,
+          frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -83,7 +85,7 @@ let Sprites = new (function() {
         },
         moveLeft: {
           frames: 6 ,
-          frameTime: 500,
+          frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -91,7 +93,7 @@ let Sprites = new (function() {
         },
         moveUp: {
           frames: 2,
-          frameTime: 500,
+          frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -99,7 +101,7 @@ let Sprites = new (function() {
         },
         moveDown: {
           frames: 3,
-          frameTime: 500,
+          frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -116,6 +118,7 @@ let Sprites = new (function() {
       }
 
       sprites[key]['image'] = Images[sprites[key]['image']];
+      sprites[key]['frames'] = processFrameTimings(sprites[key]['frames']);
       this[key] = sprites[key];
     }
 
@@ -123,4 +126,33 @@ let Sprites = new (function() {
       callback();
     }
   };
+
+  function processFrameTimings(frames) {
+    for (let key in frames) {
+      if (!frames.hasOwnProperty(key)) {
+        continue;
+      }
+
+      let frame = frames[key];
+      let timings = [];
+
+      for (let i = 0; i < frame.frames; i++) {
+        timings[i] = frame.frameTime;
+      }
+
+      if (frame.frameSpecificTimings) {
+        for (let index in frame.frameSpecificTimings) {
+          if (!frame.frameSpecificTimings.hasOwnProperty(index)) {
+            continue;
+          }
+
+          timings[index] = frame.frameSpecificTimings[index];
+        }
+      }
+
+      frames[key]['frameTimings'] = timings;
+    }
+
+    return frames;
+  }
 })();
