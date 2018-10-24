@@ -45,8 +45,8 @@ function rotateToTarget(vx, vy, speed, rotationEase, targetPosition, position) {
 }
 
 function unitIsInList(unit, list) {
-  let l = list.length;
-  for (let i = 0; i < l; i++) {
+  let length = list.length;
+  for (let i = 0; i < length; i++) {
     if (list[i] === unit) {
       return true;
     }

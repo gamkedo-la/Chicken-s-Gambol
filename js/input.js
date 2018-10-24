@@ -43,7 +43,8 @@ const Input = new (function() {
     drawCanvas.addEventListener('mousemove', function(event) {
       updateMousePosition(event);
 
-      for (let i = 0; i < moveCallbacks.length; i++) {
+      let length = moveCallbacks.length;
+      for (let i = 0; i < length; i++) {
         moveCallbacks[i](self.getMousePosition());
       }
     }, false);
@@ -52,7 +53,8 @@ const Input = new (function() {
       let suppressedKeys = [
         KEY.SPACE, KEY.UP, KEY.LEFT, KEY.RIGHT, KEY.DOWN
       ];
-      for (let i = 0; i < suppressedKeys.length; i++) {
+      let length = suppressedKeys.length;
+      for (let i = 0; i < length; i++) {
         if (suppressedKeys[i] === getButtonId(event)) {
           event.preventDefault();
           return;
@@ -119,7 +121,8 @@ const Input = new (function() {
   };
 
   this.unbindMouseMove = function(fn) {
-    for (let i = 0; i < moveCallbacks.length; i++) {
+    let length = moveCallbacks.length;
+    for (let i = 0; i < length; i++) {
       if (moveCallbacks[i] === fn) {
         moveCallbacks.splice(i, 1);
         return;

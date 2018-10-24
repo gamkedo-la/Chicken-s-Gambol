@@ -9,7 +9,8 @@ let Selection = new (function(){
   let mouseLassoPosition2;
 
   this.clearSelection = function() {
-    for (let i = 0; i < selection.length; i++) {
+    let length = selection.length;
+    for (let i = 0; i < length; i++) {
       if (selection[i].deselect) {
         selection[i].deselect();
       }
@@ -52,6 +53,7 @@ let Selection = new (function(){
     if (!Input.isDown(KEY.CTRL)) {
       Selection.clearSelection();
     }
+
     let length = Game.units.length;
     for (let i = 0; i < length; i++) {
       let target = Game.units[i];
@@ -78,7 +80,8 @@ let Selection = new (function(){
 
   this.clickedOnItem = function(list, canAppend) {
     let mousePosition = Input.getMousePosition();
-    for (let i = 0; i < list.length; i++) {
+    let length = list.length;
+    for (let i = 0; i < length; i++) {
       let target = list[i];
       if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
         if (canAppend) {
@@ -101,7 +104,8 @@ let Selection = new (function(){
 
   this.getClickedUnit = function(list) {
     let mousePosition = Input.getMousePosition();
-    for (let i = 0; i < list.length; i++) {
+    let length = list.length;
+    for (let i = 0; i < length; i++) {
       let target = list[i];
       if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
         return target;

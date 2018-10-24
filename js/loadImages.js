@@ -25,7 +25,8 @@ const Images = new (function() {
       }
     }
 
-    for (let key = 0; key < tileTypeImages.length; key++) {
+    let length = tileTypeImages.length;
+    for (let key = 0; key < length; key++) {
       let tileTypeImage = tileTypeImages[key];
       TileImages[tileTypeImage['type']] = this.loadImage(tileTypeImage['src'], doneLoading);
     }

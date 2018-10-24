@@ -68,7 +68,8 @@ function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, 
 function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.beginPath();
   canvasContext.moveTo(points[0].x, points[0].y);
-  for (let i = 1; i < points.length; i++) {
+  let length = points.length;
+  for (let i = 1; i < length; i++) {
     canvasContext.lineTo(points[i].x, points[i].y);
   }
   canvasContext.strokeStyle = color;
