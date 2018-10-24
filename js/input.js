@@ -97,6 +97,8 @@ const Input = new (function() {
     mousePosition.uy = mouseRaw.y - canvasRect.top;
     let scaled = scaleCoordinates(mousePosition.ux, mousePosition.uy);
     let panPosition = Grid.getPanPosition();
+    mousePosition.sx = scaled.x;
+    mousePosition.sy = scaled.y;
     mousePosition.x = scaled.x + panPosition.x;
     mousePosition.y = scaled.y + panPosition.y;
   }
@@ -112,7 +114,9 @@ const Input = new (function() {
   this.getMousePosition = function() {
     return {
       x: mousePosition.x,
-      y: mousePosition.y
+      y: mousePosition.y,
+      sx: mousePosition.sx,
+      sy: mousePosition.sy
     };
   };
 
@@ -148,10 +152,14 @@ const Input = new (function() {
 
   function getMouseButtonId(event) {
     if (event.which !== undefined || event.button !== undefined) {
-      if (event.which === 3 || event.button === 2) {
+
+      if (event.which === 2 || event.button === 1) {
+        return KEY.MOUSE_MIDDLE;
+      }
+      else if (event.which === 3 || event.button === 2) {
         return KEY.MOUSE_RIGHT;
       }
-      else if (event.which === 1 || event.button === 0 || event.button === 1) {
+      else if (event.which === 1 || event.button === 0) {
         return KEY.MOUSE_LEFT;
       }
     }

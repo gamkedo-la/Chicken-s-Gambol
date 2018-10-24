@@ -17,8 +17,8 @@ let Sprites = new (function() {
    * }
    */
   const sprites = {
-    chicken: {
-      image: 'chicken',
+    chickenEnemy: {
+      image: 'chickenEnemy',
       frames: {
         default: {
           frames: 2,
@@ -62,8 +62,8 @@ let Sprites = new (function() {
         }
       }
     },
-    chicken2: {
-      image: 'chicken2',
+    chicken: {
+      image: 'chicken',
       frames: {
         default: {
           frames: 2,

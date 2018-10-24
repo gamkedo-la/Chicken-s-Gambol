@@ -4,8 +4,8 @@ const Images = new (function() {
 
   let images = {
     // key: 'img/image_name.png'
-    chicken: 'img/chicken.png',
-    chicken2: 'img/chicken2.png',
+    chickenEnemy: 'img/chicken.png',
+    chicken: 'img/chicken2.png',
   };
 
   let tileTypeImages = [

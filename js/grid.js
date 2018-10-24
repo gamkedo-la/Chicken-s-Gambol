@@ -3,13 +3,20 @@ const Grid = new (function() {
   let levelData;
   let levelGrid;
 
+  const scrollSpeed = 200;
+
+  const maxLeftDistance = 20;
+  const maxRightDistance = gameCanvas.width - maxLeftDistance;
+  const maxTopDistance = 20;
+  const maxBottomDistance = gameCanvas.height - maxTopDistance;
+
   let x = 0;
   let y = 0;
   let maxX = 0;
   let maxY = 0;
 
-  let levelCanvas = document.createElement('canvas');
-  let levelContext = levelCanvas.getContext('2d');
+  const levelCanvas = document.createElement('canvas');
+  const levelContext = levelCanvas.getContext('2d');
 
   this.getPanPosition = function() {
     return {
@@ -53,13 +60,11 @@ const Grid = new (function() {
     maxY = levelCanvas.height - gameCanvas.height;
 
     // draw level-tiles on the canvas
-    let tileHalfWidth = TILE_WIDTH / 2;
-    let tileHalfHeight = TILE_HEIGHT / 2;
     let tileIndex = 0;
     let tileX = 0, tileY = 0, tileType;
     for (let row = 0; row < levelData.rows; row++) {
       for (let col = 0; col < levelData.cols; col++) {
-        tileType = processGridCell(tileX + tileHalfWidth, tileY + tileHalfHeight, tileIndex);
+        tileType = processGridCell(tileX + TILE_HALF_WIDTH, tileY + TILE_HALF_HEIGHT, tileIndex);
 
         drawImage(levelContext, TileImages[tileType], tileX, tileY);
 
@@ -83,42 +88,43 @@ const Grid = new (function() {
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
+    let settings = {x: x, y: y};
     switch (tileType) {
       case TILE.PLAYER_CHICKEN:
-        Game.createUnit(Chicken2, {x: x, y: y});
+        Game.createUnit(Chicken, settings);
         break;
 //      case TILE.PLAYER_PIG:
-//        Game.createUnit(Pig, {x: x, y: y});
+//        Game.createUnit(Pig, settings);
 //        break;
 //      case TILE.PLAYER_GOBLIN:
-//        Game.createUnit(Goblin, {x: x, y: y});
+//        Game.createUnit(Goblin, settings);
 //        break;
 //      case TILE.PLAYER_HOUSE:
-//        Game.createUnit(House, {x: x, y: y});
+//        Game.createUnit(House, settings);
 //        break;
 //      case TILE.PLAYER_BARRACKS:
-//        Game.createUnit(Barracks, {x: x, y: y});
+//        Game.createUnit(Barracks, settings);
 //        break;
 //      case TILE.PLAYER_MUD_PIT:
-//        Game.createUnit(MutPit, {x: x, y: y});
+//        Game.createUnit(MutPit, settings);
 //        break;
       case TILE.ENEMY_CHICKEN:
-        Game.createEnemy(Chicken, {x: x, y: y});
+        Game.createEnemy(ChickenEnemy, settings);
         break;
 //      case TILE.ENEMY_PIG:
-//        Game.createEnemy(Pig, {x: x, y: y});
+//        Game.createEnemy(Pig, settings);
 //        break;
 //      case TILE.ENEMY_GOBLIN:
-//        Game.createEnemy(Goblin, {x: x, y: y});
+//        Game.createEnemy(Goblin, settings);
 //        break;
 //      case TILE.ENEMY_HOUSE:
-//        Game.createEnemy(House, {x: x, y: y});
+//        Game.createEnemy(House, settings);
 //        break;
 //      case TILE.ENEMY_BARRACKS:
-//        Game.createEnemy(Barracks, {x: x, y: y});
+//        Game.createEnemy(Barracks, settings);
 //        break;
 //      case TILE.ENEMY_MUD_PIT:
-//        Game.createEnemy(MutPit, {x: x, y: y});
+//        Game.createEnemy(MutPit, settings);
 //        break;
       default:
         return tileType;
@@ -138,8 +144,24 @@ const Grid = new (function() {
     return (col + levelData.cols * row);
   };
 
-  // @todo track mouse position to move map
-  // @todo track cursor/wsad keys to move map
+  this.update = function(delta) {
+    let mousePosition = Input.getMousePosition();
+    let step = scrollSpeed * delta;
+
+    if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
+      x = Math.max(0, x - step);
+    }
+    else if (maxRightDistance < mousePosition.sx || Input.isDown(KEY.D) || Input.isDown(KEY.RIGHT)) {
+      x = Math.min(maxX, x + step);
+    }
+
+    if (mousePosition.sy < maxTopDistance || Input.isDown(KEY.W) || Input.isDown(KEY.UP)) {
+      y = Math.max(0, y - step);
+    }
+    else if (maxBottomDistance < mousePosition.sy || Input.isDown(KEY.S) || Input.isDown(KEY.DOWN)) {
+      y = Math.min(maxY, y + step);
+    }
+  };
 
   this.draw = function() {
     gameContext.drawImage(levelCanvas, x, y, gameCanvas.width, gameCanvas.height, x, y, gameCanvas.width, gameCanvas.height);

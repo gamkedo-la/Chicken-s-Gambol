@@ -43,11 +43,14 @@ function gameInitialize() {
   MainLoop.start();
 
   Input.bindMouseMove(function(pos) {
-    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y);
+    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy);
   });
 }
 
 function gameUpdate(delta) {
+  // Make sure we have actual seconds instead of milliseconds
+  delta = delta / 1000;
+  Grid.update(delta);
   Game.update(delta);
   Selection.update(delta);
 

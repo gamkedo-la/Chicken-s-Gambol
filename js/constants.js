@@ -12,6 +12,8 @@ const ANGLE305 = 305 * DEC2RAD;
 
 const TILE_WIDTH = 32;
 const TILE_HEIGHT = 32;
+const TILE_HALF_WIDTH = TILE_WIDTH / 2;
+const TILE_HALF_HEIGHT = TILE_HEIGHT / 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
