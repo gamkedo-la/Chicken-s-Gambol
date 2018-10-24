@@ -71,7 +71,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 4
         },
         moveRight: {
           frames: 6,
@@ -79,7 +79,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 4
         },
         moveLeft: {
           frames: 6 ,
@@ -87,7 +87,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 32
+          firstFrameY: 36
         },
         moveUp: {
           frames: 2,
@@ -95,7 +95,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 96
+          firstFrameY: 100
         },
         moveDown: {
           frames: 3,
@@ -103,7 +103,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 64
+          firstFrameY: 68
         }
       }
     }
