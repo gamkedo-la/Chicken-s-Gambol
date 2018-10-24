@@ -74,16 +74,6 @@ const Grid = new (function() {
       tileX = 0;
       tileY += TILE_HEIGHT;
     }
-
-    // debug lines
-    // @todo remove!
-    drawStrokeRect(levelContext, 10, 10, levelCanvas.width - 20, 20, 'red', 3);
-    drawStrokeRect(levelContext, 10, levelCanvas.height - 30, levelCanvas.width - 20, 20, 'red', 3);
-    drawStrokeRect(levelContext, 10, 10, 20, levelCanvas.height - 20, 'red', 3);
-    drawStrokeRect(levelContext, levelCanvas.width - 30, 10, 20, levelCanvas.height - 20, 'red', 3);
-    drawStrokeRect(levelContext, 1, 1, levelCanvas.width - 2, levelCanvas.height - 2, 'blue', 2);
-    drawStrokeRect(levelContext, levelCanvas.width / 2, 10, 2, levelCanvas.height - 20, 'red', 3);
-    drawStrokeRect(levelContext, 10, levelCanvas.height / 2, levelCanvas.width - 20, 2, 'red', 3);
   };
 
   function processGridCell(x, y, i) {
