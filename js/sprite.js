@@ -14,6 +14,7 @@ const Sprite = function (spriteConfig, currentState = 'default') {
     }
     currentState = state;
     currentFrameConfig = frameConfig[currentState];
+    currentFrameIndex = 0;
   };
   this.setState(currentState);
 
