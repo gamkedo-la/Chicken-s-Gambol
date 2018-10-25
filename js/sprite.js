@@ -1,7 +1,7 @@
 const Sprite = function (spriteConfig, currentState = 'default') {
 
-  let image = spriteConfig.image;
-  let frameConfig = spriteConfig.frames;
+  const image = spriteConfig.image;
+  const frameConfig = spriteConfig.frames;
 
   let currentFrameIndex = 0;
   let currentFrameTime = 0;
@@ -14,6 +14,7 @@ const Sprite = function (spriteConfig, currentState = 'default') {
     }
     currentState = state;
     currentFrameConfig = frameConfig[currentState];
+    currentFrameIndex = 0;
   };
   this.setState(currentState);
 
@@ -24,10 +25,10 @@ const Sprite = function (spriteConfig, currentState = 'default') {
   this.update = function(delta) {
     currentFrameTime += delta;
 
-    if (frameConfig[currentState]['frameTime'] <= currentFrameTime) {
+    if (currentFrameConfig['frameTimings'][currentFrameIndex] <= currentFrameTime) {
       currentFrameTime = 0;
       currentFrameIndex++;
-      if (frameConfig[currentState]['frames'] <= currentFrameIndex) {
+      if (currentFrameConfig['frames'] <= currentFrameIndex) {
         currentFrameIndex = 0;
       }
     }

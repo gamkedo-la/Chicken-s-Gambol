@@ -6,7 +6,7 @@ html, body {
 }
 
 body {
-  background: url(../img/grass.png);
+  background: #8cc137;
   overflow: hidden;
 }
 
@@ -17,6 +17,10 @@ body {
   transform: translate(-50%, -50%);
 
   cursor: url(../img/mouse-cursor.png), auto;
+
+  border: solid 1px #1b2a0f;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 1px rgba(27,42,15,.5);
 }
 
 #gameDiv {

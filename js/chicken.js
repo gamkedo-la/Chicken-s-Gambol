@@ -4,7 +4,7 @@ const Chicken = function(settings) {
     sprite: Sprites.chicken,
     clickRadius: 16,
     unitRanksSpacing: 36,
-    speed: 5
+    speed: 1.4
   });
 
   Unit.call(this, settings);
