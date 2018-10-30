@@ -1,4 +1,4 @@
-let Selection = new (function(){
+let Selection = new (function() {
 
   let selection = [];
   let hotkey1Group = [];
@@ -62,7 +62,6 @@ let Selection = new (function(){
     for (let i = 0; i < length; i++) {
       let target = Game.units[i];
       if (target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
-        target.select();
         Selection.addUnitToSelection(target);
       }
     }
@@ -162,61 +161,59 @@ let Selection = new (function(){
       2
     );
   };
-  
-  this.addSelectionToHotkeyGroup = function(hotkey){
-	hotkeyGroup = [];
-	  
-	let length = selection.length;
-	for (let i = 0; i < length; i++){
-		hotkeyGroup.push(selection[i]);
-	}
-	
-	switch(hotkey){
-		case 1:
-			hotkey1Group = []
-			hotkey1Group = hotkeyGroup
-			break;
-		case 2:
-			hotkey2Group = []
-			hotkey2Group = hotkeyGroup
-			break;
-		case 3:
-			hotkey3Group = []
-			hotkey3Group = hotkeyGroup
-			break;
-		case 4:
-			hotkey4Group = []
-			hotkey4Group = hotkeyGroup
-			break;
-	}
-  }
-  
-  this.selectHotKeyGroup = function(hotkey){ 
-	hotkeyGroup = [];
-	this.clearSelection();
-	  
-	switch(hotkey){
-		case 1:
-			hotkeyGroup = hotkey1Group
-			break;
-		case 2:
-			hotkeyGroup = hotkey2Group
-			break;
-		case 3:
-			hotkeyGroup = hotkey3Group
-			break;
-		case 4:
-			hotkeyGroup = hotkey4Group
-			break;
-	}
-	
-	let length = hotkeyGroup.length;
-	for (let i = 0; i < length; i++){
-		target = hotkeyGroup[i];
-		target.select();
-		this.addUnitToSelection(target);
-	}
-  }
-  
+
+  this.addSelectionToHotkeyGroup = function(hotkey) {
+    let hotkeyGroup = [];
+
+    let length = selection.length;
+    for (let i = 0; i < length; i++) {
+      hotkeyGroup.push(selection[i]);
+    }
+
+    switch (hotkey) {
+      case 1:
+        hotkey1Group = [];
+        hotkey1Group = hotkeyGroup;
+        break;
+      case 2:
+        hotkey2Group = [];
+        hotkey2Group = hotkeyGroup;
+        break;
+      case 3:
+        hotkey3Group = [];
+        hotkey3Group = hotkeyGroup;
+        break;
+      case 4:
+        hotkey4Group = [];
+        hotkey4Group = hotkeyGroup;
+        break;
+    }
+  };
+
+  this.selectHotKeyGroup = function(hotkey) {
+    let hotkeyGroup = [];
+    this.clearSelection();
+
+    switch (hotkey) {
+      case 1:
+        hotkeyGroup = hotkey1Group;
+        break;
+      case 2:
+        hotkeyGroup = hotkey2Group;
+        break;
+      case 3:
+        hotkeyGroup = hotkey3Group;
+        break;
+      case 4:
+        hotkeyGroup = hotkey4Group;
+        break;
+    }
+
+    let length = hotkeyGroup.length;
+    for (let i = 0; i < length; i++) {
+      let target = hotkeyGroup[i];
+      this.addUnitToSelection(target);
+    }
+  };
 
 })();
