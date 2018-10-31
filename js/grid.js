@@ -38,7 +38,7 @@ const Grid = new (function() {
     };
   };
 
-<<<<<<< HEAD
+
   // @todo debug
 //  let d = 1;
 //  setInterval(function(){
@@ -61,8 +61,6 @@ const Grid = new (function() {
      return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
  }
 
-=======
->>>>>>> 16c92e88575e12a9e01a37685b0b15ee0de37b92
   this.initialize = function(_levelData) {
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
