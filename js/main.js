@@ -1,4 +1,5 @@
 let gameCanvas, gameContext;
+let minimap = new Minimap();
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
@@ -70,8 +71,9 @@ function gameDraw(interpolationPercentage) {
   Grid.draw();
   Selection.draw();
   Game.draw();
-
+  
   gameContext.restore();
+  minimap.draw();
   redrawCanvas();
 }
 

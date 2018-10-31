@@ -47,6 +47,18 @@ const Grid = new (function() {
 //    }
 //  }, 300);
   // @todo debug
+    
+ this.returnMapRatio = function() {
+     return levelCanvas.width/levelCanvas.height;      
+ }
+ 
+ this.returnMinimapX = function(worldX, mapW) {
+     return (worldX / levelCanvas.width) * mapW + MINI_MAP_MARGIN;
+ }
+ 
+ this.returnMinimapY = function(worldY, mapH) {
+     return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
+ }
 
   this.initialize = function(_levelData) {
     levelData = _levelData;
@@ -75,6 +87,7 @@ const Grid = new (function() {
       tileY += TILE_HEIGHT;
     }
   };
+
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
