@@ -1,5 +1,4 @@
 let gameCanvas, gameContext;
-let minimap = new Minimap();
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');

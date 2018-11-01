@@ -71,6 +71,8 @@ const Grid = new (function() {
     x = y = 0;
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
+    
+    minimap.initMinimap();
 
     // draw level-tiles on the canvas
     let tileIndex = 0;

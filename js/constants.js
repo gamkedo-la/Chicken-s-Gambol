@@ -2,6 +2,8 @@ let DEBUG = false;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
 
+const MINI_MAP_MARGIN = 10;
+
 const DEC2RAD = (Math.PI / 180);
 const ANGLE360 = Math.PI * 2;
 
