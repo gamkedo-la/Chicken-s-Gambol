@@ -38,6 +38,7 @@ const Grid = new (function() {
     };
   };
 
+
   // @todo debug
 //  let d = 1;
 //  setInterval(function(){
@@ -47,6 +48,18 @@ const Grid = new (function() {
 //    }
 //  }, 300);
   // @todo debug
+    
+ this.returnMapRatio = function() {
+     return levelCanvas.width/levelCanvas.height;      
+ }
+ 
+ this.returnMinimapX = function(worldX, mapW) {
+     return (worldX / levelCanvas.width) * mapW + MINI_MAP_MARGIN;
+ }
+ 
+ this.returnMinimapY = function(worldY, mapH) {
+     return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
+ }
 
   this.initialize = function(_levelData) {
     levelData = _levelData;
@@ -58,6 +71,8 @@ const Grid = new (function() {
     x = y = 0;
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
+    
+    minimap.initMinimap();
 
     // draw level-tiles on the canvas
     let tileIndex = 0;
@@ -75,6 +90,7 @@ const Grid = new (function() {
       tileY += TILE_HEIGHT;
     }
   };
+
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];

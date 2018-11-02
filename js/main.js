@@ -70,8 +70,9 @@ function gameDraw(interpolationPercentage) {
   Grid.draw();
   Selection.draw();
   Game.draw();
-
+  
   gameContext.restore();
+  minimap.draw();
   redrawCanvas();
 }
 
