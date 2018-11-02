@@ -7,6 +7,7 @@ const Images = new (function() {
     chickenEnemy: 'img/chicken.png',
     chicken: 'img/chicken2.png',
     house: 'img/Untitled.png',
+    footprints: 'img/footprints.png'
   };
 
   let tileTypeImages = [
@@ -43,10 +44,10 @@ const Images = new (function() {
   };
 
   this.loadImage = function(src, callback) {
+    console.log("Loading image: " + src);
     let img = document.createElement('img');
     img.src = src;
     img.onload = callback;
-
     return img;
   };
 

@@ -4,7 +4,8 @@ const Chicken = function(settings) {
     sprite: Sprites.chicken,
     clickRadius: 16,
     unitRanksSpacing: 36,
-    speed: 1.4
+    speed: 1.4,
+    footprints: Images.footprints
   });
 
   Unit.call(this, settings);
@@ -16,7 +17,8 @@ Chicken.prototype.constructor = Chicken;
 const ChickenEnemy = function(settings) {
 
   settings = extend(settings, {
-    sprite: Sprites.chickenEnemy
+    sprite: Sprites.chickenEnemy,
+    footprints: Images.footprints
   });
 
   Chicken.call(this, settings);

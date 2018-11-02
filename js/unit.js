@@ -5,6 +5,12 @@ const Unit = function(settings) {
     sprite = new Sprite(settings.sprite);
   }
 
+  let footprints = false;
+  if (settings.footprints) {
+    //console.log("This unit leaves footprints!");
+    footprints = settings.footprints;
+  }
+
   const speed = settings.speed || 0;
   const rotationEase = settings.rotationEase || 0.6;
   const clickRadius = settings.clickRadius;
@@ -145,6 +151,10 @@ const Unit = function(settings) {
       sprite.update(delta);
     }
 
+    if (footprints) {
+      this.updateFootprints();
+    }
+
     if (readyToRemove) {
       Game.scheduleRemoveDeadUnits();
     }
@@ -169,11 +179,47 @@ const Unit = function(settings) {
     return 'moveRight';
   }
 
+  this.updateFootprints = function() {
+    //console.log("updating footprints!");
+
+    if (!this.footprintPositions) { // first frame init
+      this.footprintPositions = [this.getPosition()];
+      this.footprintMax = 50;
+      this.footprintSpacingSquared = 8*8; // pixels
+    }
+
+    let pos = this.getPosition();
+    let dist = distanceBetweenPointsSquared(pos, this.footprintPositions[this.footprintPositions.length-1]);
+
+    if (dist >= this.footprintSpacingSquared) {
+      //console.log("time for a new footprint because dist =" + dist);
+      this.footprintPositions.push(pos);
+      if (this.footprintPositions.length >= this.footprintMax) {
+        this.footprintPositions.shift();
+      }
+    }
+  }
+
+  this.drawFootprints = function() {
+    //console.log("drawing footprints!");
+    if (!this.footprintPositions) return;
+    for (let i = 0; i < this.footprintPositions.length; i++) {
+      // FIXME: this should probably be levelContext but it's a private var
+      gameContext.globalAlpha = i / this.footprintPositions.length;
+      drawImage(gameContext,footprints,this.footprintPositions[i].x,this.footprintPositions[i].y);
+    }
+    gameContext.globalAlpha = 1;
+  }
+
   this.draw = function(interpolationPercentage) {
     // @todo check if unit is visible
     let gridBounds = Grid.getBounds();
     if (!this.isInBox(gridBounds.topLeft, gridBounds.bottomRight)) {
       return;
+    }
+
+    if (footprints) {
+      this.drawFootprints();
     }
 
     if (sprite) {
@@ -187,11 +233,11 @@ const Unit = function(settings) {
       drawStrokeCircle(gameContext, x, y, clickRadius, 100, SELECTED_COLOR, 2);
     }
   };
-    
+
     this.minimapDraw = function(mapW, mapH, color) {
-        var mapX = Grid.returnMinimapX(x, mapW); 
+        var mapX = Grid.returnMinimapX(x, mapW);
         var mapY = Grid.returnMinimapY(y, mapH);
-        drawFillRect(gameContext, mapX, mapY, 
+        drawFillRect(gameContext, mapX, mapY,
                      2, 2, color);
     }
 
