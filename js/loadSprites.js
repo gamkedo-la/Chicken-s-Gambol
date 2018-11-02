@@ -108,6 +108,51 @@ let Sprites = new (function() {
           firstFrameY: 68
         }
       }
+    },
+    house: {
+      image: 'house',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 4
+        },
+        moveLeft: {
+          frames: 6 ,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 36
+        },
+        moveUp: {
+          frames: 2,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 100
+        },
+        moveDown: {
+          frames: 3,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 68
+        }
+      },
     }
   };
 

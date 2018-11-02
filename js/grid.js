@@ -117,6 +117,9 @@ const Grid = new (function() {
       case TILE.ENEMY_CHICKEN:
         Game.createEnemy(ChickenEnemy, settings);
         break;
+      case TILE.PLAYER_HOUSE:
+        Game.createEnemy(House, settings);
+        break;
 //      case TILE.ENEMY_PIG:
 //        Game.createEnemy(Pig, settings);
 //        break;
