@@ -187,5 +187,12 @@ const Unit = function(settings) {
       drawStrokeCircle(gameContext, x, y, clickRadius, 100, SELECTED_COLOR, 2);
     }
   };
+    
+    this.minimapDraw = function(mapW, mapH, color) {
+        var mapX = Grid.returnMinimapX(x, mapW); 
+        var mapY = Grid.returnMinimapY(y, mapH);
+        drawFillRect(gameContext, mapX, mapY, 
+                     2, 2, color);
+    }
 
 };
