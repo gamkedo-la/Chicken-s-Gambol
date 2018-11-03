@@ -10,17 +10,16 @@ const Chicken = function(settings) {
     speed: 1.4
   });
 
-  Unit.call(this, settings);
+  MovingUnit.call(this, settings);
 };
 
-Chicken.prototype = Object.create(Unit.prototype);
+Chicken.prototype = Object.create(MovingUnit.prototype);
 Chicken.prototype.constructor = Chicken;
 
 const ChickenEnemy = function(settings) {
 
   settings = extend(settings, {
-    sprite: Sprites.chickenEnemy,
-    footprints: Images.footprints
+    sprite: Sprites.chickenEnemy
   });
 
   Chicken.call(this, settings);
