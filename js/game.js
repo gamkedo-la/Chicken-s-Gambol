@@ -29,6 +29,9 @@ let Game = new (function() {
   }
 
   this.update = function(delta) {
+
+    updateGroundDecals(delta);
+
     callbackList(this.units, 'update', [delta]);
     callbackList(this.enemies, 'update', [delta]);
     callbackList(this.targets, 'update', [delta]);
@@ -51,6 +54,7 @@ let Game = new (function() {
   }
 
   this.draw = function(interpolationPercentage) {
+    drawGroundDecals();
     callbackList(this.enemies, 'draw', [interpolationPercentage]);
     callbackList(this.units, 'draw', [interpolationPercentage]);
   };

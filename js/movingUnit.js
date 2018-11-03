@@ -124,25 +124,11 @@ const MovingUnit = function(settings) {
       if (footprintMax <= footprintPositions.length) {
         footprintPositions.shift();
       }
-    }
-  };
-
-  this.drawFootprints = function() {
-    //console.log("drawing footprints!");
-    if (!footprintPositions) {
-      return;
-    }
-
-    let length = footprintPositions.length;
-    for (let i = 0; i < length; i++) {
-      drawImageRotatedAlpha(gameContext, footprints, footprintPositions[i].x, footprintPositions[i].y, footprintPositions[i].angle, i / length);
+      addGroundDecal(pos,footprints); // emit a ground decal "particle"
     }
   };
 
   this._draw = function(interpolationPercentage) {
-    if (footprints) {
-      this.drawFootprints();
-    }
 
     if (DEBUG) {
       drawLines(gameContext, 'red', 1, [
