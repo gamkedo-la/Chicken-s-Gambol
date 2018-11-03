@@ -16,6 +16,8 @@ const Unit = function(settings) {
   const clickRadius = settings.clickRadius;
   const clickRadiusSquared = clickRadius * clickRadius;
   const unitRanksSpacing = settings.unitRanksSpacing || clickRadius * 2.25;
+  const softCollisionRange = settings.softCollisionRange || clickRadius * 1.3;
+  const hardCollisionRange = settings.hardCollisionRange || clickRadius;
 
   let x = settings.x;
   let y = settings.y;
@@ -86,6 +88,13 @@ const Unit = function(settings) {
     };
   };
 
+  this.getCollisionRanges = function() {
+    return {
+      soft: softCollisionRange,
+      hard: hardCollisionRange
+    };
+  };
+
   this.isReadyToRemove = function() {
     return readyToRemove;
   };
@@ -123,6 +132,7 @@ const Unit = function(settings) {
       return;
     }
 
+    // https://github.com/adityaravishankar/command-and-conquer/blob/master/js/cnc.js#L2581
     if (target) {
       let targetPosition = this.getTargetPosition();
       let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
@@ -185,11 +195,11 @@ const Unit = function(settings) {
     if (!this.footprintPositions) { // first frame init
       this.footprintPositions = [this.getPosition()];
       this.footprintMax = 50;
-      this.footprintSpacingSquared = 8*8; // pixels
+      this.footprintSpacingSquared = 8 * 8; // pixels
     }
 
     let pos = this.getPosition();
-    let dist = distanceBetweenPointsSquared(pos, this.footprintPositions[this.footprintPositions.length-1]);
+    let dist = distanceBetweenPointsSquared(pos, this.footprintPositions[this.footprintPositions.length - 1]);
 
     if (dist >= this.footprintSpacingSquared) {
       //console.log("time for a new footprint because dist =" + dist);
@@ -198,21 +208,21 @@ const Unit = function(settings) {
         this.footprintPositions.shift();
       }
     }
-  }
+  };
 
   this.drawFootprints = function() {
     //console.log("drawing footprints!");
-    if (!this.footprintPositions) return;
+    if (!this.footprintPositions) {
+      return;
+    }
     for (let i = 0; i < this.footprintPositions.length; i++) {
-      // FIXME: this should probably be levelContext but it's a private var
       gameContext.globalAlpha = i / this.footprintPositions.length;
-      drawImage(gameContext,footprints,this.footprintPositions[i].x,this.footprintPositions[i].y);
+      drawImage(gameContext, footprints, this.footprintPositions[i].x, this.footprintPositions[i].y);
     }
     gameContext.globalAlpha = 1;
-  }
+  };
 
   this.draw = function(interpolationPercentage) {
-    // @todo check if unit is visible
     let gridBounds = Grid.getBounds();
     if (!this.isInBox(gridBounds.topLeft, gridBounds.bottomRight)) {
       return;
@@ -227,18 +237,23 @@ const Unit = function(settings) {
     }
 
     if (DEBUG) {
-      drawStrokeCircle(gameContext, x, y, clickRadius, 100, 'red', 2);
+      drawStrokeCircle(gameContext, x, y, clickRadius, 100, 'green', 1);
+      drawStrokeCircle(gameContext, x, y, softCollisionRange, 100, 'red', 1);
+      drawStrokeCircle(gameContext, x, y, hardCollisionRange, 100, 'red', 1);
+      drawLines(gameContext, 'red', 1, [
+        { x: x, y: y },
+        { x: x + Math.cos(angle) * 20, y: y + Math.sin(angle) * 20 }
+      ]);
     }
     if (isSelected) {
       drawStrokeCircle(gameContext, x, y, clickRadius, 100, SELECTED_COLOR, 2);
     }
   };
 
-    this.minimapDraw = function(mapW, mapH, color) {
-        var mapX = Grid.returnMinimapX(x, mapW);
-        var mapY = Grid.returnMinimapY(y, mapH);
-        drawFillRect(gameContext, mapX, mapY,
-                     2, 2, color);
-    }
+  this.minimapDraw = function(mapW, mapH, color) {
+    let mapX = Grid.returnMinimapX(x, mapW);
+    let mapY = Grid.returnMinimapY(y, mapH);
+    drawFillRect(gameContext, mapX, mapY, 2, 2, color);
+  }
 
 };

@@ -4,8 +4,10 @@ const Chicken = function(settings) {
     sprite: Sprites.chicken,
     clickRadius: 16,
     unitRanksSpacing: 36,
-    speed: 1.4,
-    footprints: Images.footprints
+    footprints: Images.footprints,
+    softCollisionRange: 26,
+    hardCollisionRange: 13,
+    speed: 1.4
   });
 
   Unit.call(this, settings);

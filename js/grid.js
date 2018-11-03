@@ -27,7 +27,7 @@ const Grid = new (function() {
 
   this.getBounds = function() {
     return {
-      topLeft : {
+      topLeft: {
         x: x,
         y: y
       },
@@ -38,40 +38,29 @@ const Grid = new (function() {
     };
   };
 
+  this.returnMapRatio = function() {
+    return levelCanvas.width / levelCanvas.height;
+  };
 
-  // @todo debug
-//  let d = 1;
-//  setInterval(function(){
-//    x += 10 * d;
-//    if (maxX < x || x < 0) {
-//      d = -d;
-//    }
-//  }, 300);
-  // @todo debug
-    
- this.returnMapRatio = function() {
-     return levelCanvas.width/levelCanvas.height;      
- }
- 
- this.returnMinimapX = function(worldX, mapW) {
-     return (worldX / levelCanvas.width) * mapW + MINI_MAP_MARGIN;
- }
- 
- this.returnMinimapY = function(worldY, mapH) {
-     return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
- }
+  this.returnMinimapX = function(worldX, mapW) {
+    return (worldX / levelCanvas.width) * mapW + MINI_MAP_MARGIN;
+  };
+
+  this.returnMinimapY = function(worldY, mapH) {
+    return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
+  };
 
   this.initialize = function(_levelData) {
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
 
-    levelCanvas.width = levelData.cols * TILE_WIDTH;
-    levelCanvas.height = levelData.rows * TILE_HEIGHT;
+    levelCanvas.width = levelData.cols * TILE_SIZE;
+    levelCanvas.height = levelData.rows * TILE_SIZE;
 
     x = y = 0;
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
-    
+
     minimap.initMinimap();
 
     // draw level-tiles on the canvas
@@ -79,22 +68,22 @@ const Grid = new (function() {
     let tileX = 0, tileY = 0, tileType;
     for (let row = 0; row < levelData.rows; row++) {
       for (let col = 0; col < levelData.cols; col++) {
-        tileType = processGridCell(tileX + TILE_HALF_WIDTH, tileY + TILE_HALF_HEIGHT, tileIndex);
+        tileType = processGridCell(tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, tileIndex);
 
         drawImage(levelContext, TileImages[tileType], tileX, tileY);
 
-        tileX += TILE_WIDTH;
+        tileX += TILE_SIZE;
         tileIndex++;
       }
       tileX = 0;
-      tileY += TILE_HEIGHT;
+      tileY += TILE_SIZE;
     }
   };
 
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
-    let settings = {x: x, y: y};
+    let settings = { x: x, y: y };
     switch (tileType) {
       case TILE.PLAYER_CHICKEN:
         Game.createUnit(Chicken, settings);
@@ -147,8 +136,8 @@ const Grid = new (function() {
   }
 
   this.coordsToIndex = function(x, y) {
-    let col = Math.floor(x / TILE_WIDTH);
-    let row = Math.floor(y / TILE_HEIGHT);
+    let col = Math.floor(x / TILE_SIZE);
+    let row = Math.floor(y / TILE_SIZE);
 
     return (col + levelData.cols * row);
   };

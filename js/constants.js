@@ -12,10 +12,8 @@ const ANGLE145 = 145 * DEC2RAD;
 const ANGLE235 = 235 * DEC2RAD;
 const ANGLE305 = 305 * DEC2RAD;
 
-const TILE_WIDTH = 32;
-const TILE_HEIGHT = 32;
-const TILE_HALF_WIDTH = TILE_WIDTH / 2;
-const TILE_HALF_HEIGHT = TILE_HEIGHT / 2;
+const TILE_SIZE = 32;
+const TILE_HALF_SIZE = TILE_SIZE / 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
