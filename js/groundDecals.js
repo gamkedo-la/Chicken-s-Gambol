@@ -44,38 +44,5 @@ function drawGroundDecals() {
             drawImageRotatedAlpha(gameContext, decalPositions[i].img, decalPositions[i].x, decalPositions[i].y, decalPositions[i].angle, decalPositions[i].alpha);
         }
       }
-
 }
 
-
-
-this.updateFootprints = function() {
-    //console.log("updating footprints!");
-    if (!footprintPositions) { // first frame init
-      footprintPositions = [this.getPosition()];
-    }
-
-    let pos = this.getPosition();
-    let dist = distanceBetweenPointsSquared(pos, footprintPositions[footprintPositions.length - 1]);
-
-    if (footprintSpacingSquared <= dist) {
-      //console.log("time for a new footprint because dist =" + dist);
-      pos.angle = angle;
-      footprintPositions.push(pos);
-      if (footprintMax <= footprintPositions.length) {
-        footprintPositions.shift();
-      }
-    }
-  };
-
-  this.drawFootprints = function() {
-    //console.log("drawing footprints!");
-    if (!footprintPositions) {
-      return;
-    }
-
-    let length = footprintPositions.length;
-    for (let i = 0; i < length; i++) {
-      drawImageRotatedAlpha(gameContext, footprints, footprintPositions[i].x, footprintPositions[i].y, footprintPositions[i].angle, i / length);
-    }
-  };
