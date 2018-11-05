@@ -8,7 +8,9 @@ const MovingUnit = function(settings) {
 
   const speed = settings.speed || 0;
   const rotationEase = settings.rotationEase || 0.6;
-  const unitRanksSpacing = settings.unitRanksSpacing || clickRadius * 2.25;
+  const unitRanksSpacing = settings.unitRanksSpacing || settings.clickRadius * 2.25;
+  const actionRange = settings.actionRangeSquared || settings.clickRadius * 0.9;
+  const actionRangeSquared = actionRange * actionRange;
 
   let footprintPositions = false;
   const footprintMax = settings.footprintMax || 50;
@@ -59,32 +61,73 @@ const MovingUnit = function(settings) {
     return targetPosition;
   };
 
+  this.isWithinActionRange = function(unit) {
+    return distanceBetweenPointsSquared(this.getPosition(), unit.getPosition()) <= actionRangeSquared;
+  };
+
   this._update = function(delta) {
-    if (target) {
-      let targetPosition = this.getTargetPosition();
-      let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
-      angle = newVs.angle;
-      if (0 < newVs.dist && speed < newVs.dist) {
-        vx = newVs.vx;
-        vy = newVs.vy;
-        this.sprite.setState(getMoveStateByAngle());
-      }
-      else {
-        this.x = targetPosition.x;
-        this.y = targetPosition.y;
-        vx = 0;
-        vy = 0;
-        if (target.constructor === FakeTarget) {
-          this.unsetTarget();
-          this.sprite.setState('default');
-        }
-      }
+    let state = this.getState();
+    if (!target && state === 'default') {
+      // find closest enemy within detection range; set target else return
+      return;
     }
 
+    if (target && !this.isWithinActionRange(target)) {
+      this.stepTowardsTarget();
+      return;
+    }
+
+    if (target && target.constructor === FakeTarget) {
+      this.unsetTarget();
+      this.setState('default');
+      return;
+    }
+
+    if (target && target.isEnemy()) {
+      // attack!
+      this.setState('attack');
+      return;
+    }
+
+    if (this.childUpdate && this.childUpdate(delta)) {
+      return;
+    }
+
+    // idle, nothing to do!
+    if (state !== 'default') {
+      this.setState('default');
+    }
+  };
+
+  this.stepTowardsTarget = function() {
+    if (!target) {
+      return;
+    }
+
+    let targetPosition = this.getTargetPosition();
+    // @todo find path to target
+    let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
+
+    angle = newVs.angle;
+    if (0 < newVs.dist && speed < newVs.dist) {
+      vx = newVs.vx;
+      vy = newVs.vy;
+      this.setState(getMoveStateByAngle());
+    }
+    else {
+      this.x = targetPosition.x;
+      this.y = targetPosition.y;
+      vx = 0;
+      vy = 0;
+      if (target.constructor === FakeTarget) {
+        this.unsetTarget();
+        this.setState('default');
+      }
+    }
     this.x += vx;
     this.y += vy;
 
-    if (footprints) {
+    if (footprints && (0 < vx || 0 < vy)) {
       this.updateFootprints();
     }
   };

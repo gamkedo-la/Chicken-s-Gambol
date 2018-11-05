@@ -85,6 +85,7 @@ const Grid = new (function() {
     let tileType = levelGrid[i];
     let settings = { x: x, y: y };
     switch (tileType) {
+      // Player units/buildings
       case TILE.PLAYER_CHICKEN:
         Game.createUnit(Chicken, settings);
         break;
@@ -94,20 +95,19 @@ const Grid = new (function() {
 //      case TILE.PLAYER_GOBLIN:
 //        Game.createUnit(Goblin, settings);
 //        break;
-//      case TILE.PLAYER_HOUSE:
-//        Game.createUnit(House, settings);
-//        break;
+      case TILE.PLAYER_HOUSE:
+        Game.createUnit(House, settings);
+        break;
 //      case TILE.PLAYER_BARRACKS:
 //        Game.createUnit(Barracks, settings);
 //        break;
 //      case TILE.PLAYER_MUD_PIT:
 //        Game.createUnit(MutPit, settings);
 //        break;
+
+      // Enemy units/buildings
       case TILE.ENEMY_CHICKEN:
         Game.createEnemy(ChickenEnemy, settings);
-        break;
-      case TILE.PLAYER_HOUSE:
-        Game.createEnemy(House, settings);
         break;
 //      case TILE.ENEMY_PIG:
 //        Game.createEnemy(Pig, settings);

@@ -30,6 +30,22 @@ let Sprites = new (function() {
           firstFrameX: 0,
           firstFrameY: 318
         },
+        attack: {
+          frames: 2,
+          frameTime: .2,
+          width: 83,
+          height: 76,
+          firstFrameX: 0,
+          firstFrameY: 318
+        },
+        harvest: {
+          frames: 2,
+          frameTime: .2,
+          width: 83,
+          height: 76,
+          firstFrameX: 0,
+          firstFrameY: 318
+        },
         moveRight: {
           frames: 2,
           frameTime: .2,
@@ -68,6 +84,22 @@ let Sprites = new (function() {
       image: 'chicken',
       frames: {
         default: {
+          frames: 2,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 4
+        },
+        attack: {
+          frames: 2,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 4
+        },
+        harvest: {
           frames: 2,
           frameTime: .2,
           width: 32,

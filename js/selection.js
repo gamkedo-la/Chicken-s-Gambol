@@ -134,10 +134,7 @@ let Selection = new (function() {
 
     if (!hasEnemySelected && Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
       let target = this.getClickedUnit(Game.enemies);
-      if (target) {
-        // @todo make the selection attack the unit!
-      }
-      else {
+      if (!target) {
         // make a fake target that doesn't move
         target = Game.createTarget(Input.getMousePosition());
       }

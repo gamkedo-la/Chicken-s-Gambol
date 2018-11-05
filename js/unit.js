@@ -1,8 +1,8 @@
 const Unit = function(settings) {
 
-  this.sprite = false;
+  let sprite = false;
   if (settings.sprite) {
-    this.sprite = new Sprite(settings.sprite);
+    sprite = new Sprite(settings.sprite);
   }
 
   const clickRadius = settings.clickRadius;
@@ -19,6 +19,28 @@ const Unit = function(settings) {
   let visible = false;
 
   let followers = [];
+
+  let state = 'default';
+
+  this.isEnemy = function() {
+    return unitIsInList(this, Game.enemies);
+  };
+
+  this.getState = function() {
+    return state;
+  };
+
+  this.setState = function (_state) {
+    // @todo verify _state?
+    if (state !== _state) {
+      console.log('switching to ' + _state);
+      state = _state;
+
+      if (sprite) {
+        sprite.setState(state);
+      }
+    }
+  };
 
   this.addFollower = function(unit) {
     followers.push(unit);
@@ -94,8 +116,8 @@ const Unit = function(settings) {
       this._update(delta);
     }
 
-    if (this.sprite) {
-      this.sprite.update(delta);
+    if (sprite) {
+      sprite.update(delta);
     }
 
     let gridBounds = Grid.getBounds();
@@ -115,8 +137,8 @@ const Unit = function(settings) {
       this._draw(interpolationPercentage);
     }
 
-    if (this.sprite) {
-      this.sprite.drawAt(this.getPosition());
+    if (sprite) {
+      sprite.drawAt(this.getPosition());
     }
 
     if (DEBUG) {
