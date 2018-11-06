@@ -4,6 +4,10 @@ window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
   gameContext = gameCanvas.getContext('2d');
 
+  gameContext.webkitImageSmoothingEnabled = false;
+  gameContext.mozImageSmoothingEnabled = false;
+  gameContext.imageSmoothingEnabled = false;
+
   initDrawingCanvas();
 
   MainLoop

@@ -10,6 +10,15 @@ body {
   overflow: hidden;
 }
 
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
 #drawCanvas {
   position: absolute;
   top: 50%;
@@ -20,7 +29,7 @@ body {
 
   border: solid 1px #1b2a0f;
   border-radius: 10px;
-  box-shadow: 0 0 5px 1px rgba(27,42,15,.5);
+  box-shadow: 0 0 5px 1px rgba(27, 42, 15, .5);
 }
 
 #gameDiv {
