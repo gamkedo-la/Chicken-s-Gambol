@@ -25,7 +25,7 @@ canvas {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  cursor: url(../img/mouse-cursor.png), auto;
+  cursor: url(../img/chickenCursor.png), auto;
 
   border: solid 1px #1b2a0f;
   border-radius: 10px;
