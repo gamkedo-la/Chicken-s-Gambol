@@ -90,6 +90,7 @@ const MovingUnit = function(settings) {
     }
 
     if (this.childUpdate && this.childUpdate(delta)) {
+      // Child did something!
       return;
     }
 
@@ -108,6 +109,8 @@ const MovingUnit = function(settings) {
     // @todo find path to target
     let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
 
+    newVs = updateVsForCollisions(newVs, speed, this.getPosition(), this.getCollisionRanges());
+
     angle = newVs.angle;
     if (0 < newVs.dist && speed < newVs.dist) {
       vx = newVs.vx;
@@ -115,15 +118,14 @@ const MovingUnit = function(settings) {
       this.setState(getMoveStateByAngle());
     }
     else {
+      // Prevent over-stepping the target
+      // @todo what is close-enough? should the unit be prevented to endlessly try getting to the target position?
       this.x = targetPosition.x;
       this.y = targetPosition.y;
       vx = 0;
       vy = 0;
-      if (target.constructor === FakeTarget) {
-        this.unsetTarget();
-        this.setState('default');
-      }
     }
+
     this.x += vx;
     this.y += vy;
 
@@ -131,6 +133,110 @@ const MovingUnit = function(settings) {
       this.updateFootprints();
     }
   };
+
+  function updateVsForCollisions(newVs, speed, currentPosition, collisionRanges) {
+    let collision = {
+      type: false,
+      with: false,
+      distance: 1000 // Something bigger than the minimum collision distance
+    };
+
+    findCollisionWith(Game.units, collision, currentPosition, collisionRanges);
+    findCollisionWith(Game.enemies, collision, currentPosition, collisionRanges);
+    // @todo find collision with grid
+
+    if (collision.with) {
+      // find angle between this and other
+      let collisionAngle = angleBetween(currentPosition, collision.with.getPosition());
+      let angleDiff = angleDifference(newVs.angle, collisionAngle);
+
+      let angleDiffAbs = Math.abs(angleDiff);
+
+      if (0 <= angleDiffAbs && angleDiffAbs < ANGLE15) {
+        newVs.angle += (-angleDiff / angleDiffAbs) * ANGLE55;
+      }
+      else if (ANGLE15 <= angleDiffAbs && angleDiffAbs < ANGLE145) {
+        newVs.angle += (-angleDiff / angleDiffAbs) * ANGLE35;
+      }
+      else if (ANGLE145 <= angleDiffAbs && angleDiffAbs < ANGLE180) {
+        newVs.angle += (-angleDiff / angleDiffAbs) * ANGLE15;
+      }
+    }
+
+    newVs.vx = Math.cos(newVs.angle) * speed;
+    newVs.vy = Math.sin(newVs.angle) * speed;
+
+    return newVs;
+  }
+
+  function angleBetween(p1, p2) {
+    let diffX = p2.x - p1.x;
+    let diffY = p2.y - p1.y;
+
+    return Math.atan2(diffY, diffX);
+  }
+
+  function angleDifference(a1, a2) {
+    if (ANGLE180 <= a1) {
+      a1 -= ANGLE360;
+    }
+    if (ANGLE180 <= a2) {
+      a2 -= ANGLE360;
+    }
+
+    let diff = a2 - a1;
+    if (diff < -ANGLE180) {
+      diff += ANGLE360;
+    }
+
+    if (ANGLE180 < diff) {
+      diff -= ANGLE360;
+    }
+
+    return diff;
+  }
+
+  function findCollisionWith(list, collision, currentPosition, collisionRanges) {
+    let l = list.length;
+    for (let i = 0; i < l; i++) {
+      let unit = list[i];
+      let unitPosition = unit.getPosition();
+      if (currentPosition.x === unitPosition.x && currentPosition.y === unitPosition.y) {
+        continue;
+      }
+
+      let dist = distanceBetweenPoints(currentPosition, unitPosition);
+      if (collision.distance < dist) {
+        continue;
+      }
+      let unitRanges = unit.getCollisionRanges();
+
+      // @todo are these needed?
+//      if (dist < (collisionRanges.hard + unitRanges.hard)) {
+//        collision.type = 'hard';
+//        collision.with = unit;
+//        collision.distance = dist;
+//      }
+//      else if (dist < (collisionRanges.soft + unitRanges.hard)) {
+//        collision.type = 'soft-hard';
+//        collision.with = unit;
+//        collision.distance = dist;
+//      }
+//      else if (dist < (collisionRanges.hard + unitRanges.soft)) {
+//        collision.type = 'soft-hard';
+//        collision.with = unit;
+//        collision.distance = dist;
+//      }
+//      else
+      if (dist < (collisionRanges.soft + unitRanges.soft) ) {
+        collision.type = 'soft';
+        collision.with = unit;
+        collision.distance = dist;
+      }
+    }
+
+    return collision;
+  }
 
   function getMoveStateByAngle() {
     if (angle < 0) {

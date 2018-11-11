@@ -32,14 +32,9 @@ function randomInt(min, max) {
 function rotateToTarget(vx, vy, speed, rotationEase, targetPosition, position) {
   let diffX = targetPosition.x - position.x;
   let diffY = targetPosition.y - position.y;
-  let dist = Math.sqrt(diffX * diffX + diffY * diffY);
-  let newVX = (diffX / dist) * speed;
-  let newVY = (diffY / dist) * speed;
 
   return {
-    vx: vx * rotationEase + newVX * (1.0 - rotationEase),
-    vy: vy * rotationEase + newVY * (1.0 - rotationEase),
-    dist: dist,
+    dist: Math.sqrt(diffX * diffX + diffY * diffY),
     angle: Math.atan2(diffY, diffX)
   };
 }

@@ -12,7 +12,7 @@ window.addEventListener('load', function() {
 
   MainLoop
     .stop()
-    .setMaxAllowedFPS(FRAME_RATE)
+    .setMaxAllowedFPS(FRAME_RATE/4) // @todo debug
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 

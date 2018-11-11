@@ -7,8 +7,12 @@ const MINI_MAP_MARGIN = 10;
 const DEC2RAD = (Math.PI / 180);
 const ANGLE360 = Math.PI * 2;
 
+const ANGLE15 = 15 * DEC2RAD;
 const ANGLE35 = 35 * DEC2RAD;
+const ANGLE55 = 55 * DEC2RAD;
+const ANGLE90 = 90 * DEC2RAD;
 const ANGLE145 = 145 * DEC2RAD;
+const ANGLE180 = 180 * DEC2RAD;
 const ANGLE235 = 235 * DEC2RAD;
 const ANGLE305 = 305 * DEC2RAD;
 
