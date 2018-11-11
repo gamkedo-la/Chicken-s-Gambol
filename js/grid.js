@@ -25,6 +25,13 @@ const Grid = new (function() {
     };
   };
 
+  this.getPanAsPercentage = function() {
+    return {
+      x: x/levelCanvas.width,
+      y: y/levelCanvas.height
+    };
+  };
+
   this.getBounds = function() {
     return {
       topLeft: {
@@ -40,6 +47,9 @@ const Grid = new (function() {
 
   this.returnMapRatio = function() {
     return levelCanvas.width / levelCanvas.height;
+  };
+  this.returnWorldWidth = function() {
+    return levelCanvas.width;
   };
 
   this.returnMinimapX = function(worldX, mapW) {
