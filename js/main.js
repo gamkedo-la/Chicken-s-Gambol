@@ -47,7 +47,8 @@ function gameInitialize() {
   MainLoop.start();
 
   Input.bindMouseMove(function(pos) {
-    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy);
+    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy) +
+      '<br>' + Grid.coordsToIndex(pos.x, pos.y);
   });
 }
 
@@ -74,6 +75,15 @@ function gameDraw(interpolationPercentage) {
   Grid.draw();
   Selection.draw();
   Game.draw();
+
+  if (DEBUG) {
+    Grid.drawDebug();
+
+    let pos = Input.getMousePosition();
+    let col = Math.floor(pos.x / TILE_SIZE);
+    let row = Math.floor(pos.y / TILE_SIZE);
+    drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
+  }
   
   gameContext.restore();
   minimap.draw();

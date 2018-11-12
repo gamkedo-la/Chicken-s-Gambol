@@ -1,6 +1,8 @@
 let Game = new (function() {
   this.enemies = [];
+  this.enemyBuildings = [];
   this.units = [];
+  this.buildings = [];
   this.targets = [];
 
   let removeDeadUnits = false;
@@ -13,8 +15,16 @@ let Game = new (function() {
     return create(this.enemies, Constructor, settings);
   };
 
+  this.createEnemyBuilding = function(Constructor, settings) {
+    return create(this.enemyBuildings, Constructor, settings);
+  };
+
   this.createUnit = function(Constructor, settings) {
     return create(this.units, Constructor, settings);
+  };
+
+  this.createBuilding = function(Constructor, settings) {
+    return create(this.buildings, Constructor, settings);
   };
 
   this.createTarget = function(settings) {
@@ -29,20 +39,22 @@ let Game = new (function() {
   }
 
   this.update = function(delta) {
-
     updateGroundDecals(delta);
 
     callbackList(this.units, 'update', [delta]);
+    callbackList(this.buildings, 'update', [delta]);
     callbackList(this.enemies, 'update', [delta]);
+    callbackList(this.enemyBuildings, 'update', [delta]);
     callbackList(this.targets, 'update', [delta]);
 
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
+      removeRemovableUnitsFromList(this.buildings);
       removeRemovableUnitsFromList(this.enemies);
+      removeRemovableUnitsFromList(this.enemyBuildings);
       removeRemovableUnitsFromList(this.targets);
     }
-
   };
 
   function removeRemovableUnitsFromList(list) {
@@ -56,7 +68,9 @@ let Game = new (function() {
   this.draw = function(interpolationPercentage) {
     drawGroundDecals();
     callbackList(this.enemies, 'draw', [interpolationPercentage]);
+    callbackList(this.enemyBuildings, 'draw', [interpolationPercentage]);
     callbackList(this.units, 'draw', [interpolationPercentage]);
+    callbackList(this.buildings, 'draw', [interpolationPercentage]);
   };
 
 })();

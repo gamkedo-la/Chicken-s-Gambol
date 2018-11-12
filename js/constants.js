@@ -31,6 +31,7 @@ const STATE = {
 
 const TILE = {
   GRASS: 0,
+  TREES: 1,
 
   PLAYER_CHICKEN: 30,
   PLAYER_PIG: 31,
@@ -48,6 +49,18 @@ const TILE = {
   ENEMY_MUD_PIT: 55,
   ENEMY_BLOB: 56,
 };
+
+const WALKABLE_TILES = [
+  TILE.GRASS,
+
+  // character tiles need to be walkable during level initializing
+  TILE.PLAYER_CHICKEN,
+  TILE.PLAYER_PIG,
+  TILE.PLAYER_GOBLIN,
+  TILE.ENEMY_CHICKEN,
+  TILE.ENEMY_PIG,
+  TILE.ENEMY_GOBLIN
+];
 
 const KEY = {
   MOUSE_LEFT: 'MOUSE_LEFT',

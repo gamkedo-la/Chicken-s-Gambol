@@ -2,6 +2,7 @@ const Grid = new (function() {
 
   let levelData;
   let levelGrid;
+  let walkableGrid;
 
   const scrollSpeed = 200;
 
@@ -61,6 +62,7 @@ const Grid = new (function() {
   };
 
   this.initialize = function(_levelData) {
+    walkableGrid = [];
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
 
@@ -76,11 +78,21 @@ const Grid = new (function() {
     // draw level-tiles on the canvas
     let tileIndex = 0;
     let tileX = 0, tileY = 0, tileType;
-    for (let row = 0; row < levelData.rows; row++) {
-      for (let col = 0; col < levelData.cols; col++) {
+    let row, col;
+
+    for (row = 0; row < levelData.rows; row++) {
+      for (col = 0; col < levelData.cols; col++) {
+        walkableGrid[tileIndex] = isWalkable(tileIndex);
+        tileIndex++;
+      }
+    }
+
+    tileIndex = 0;
+    for (row = 0; row < levelData.rows; row++) {
+      for (col = 0; col < levelData.cols; col++) {
         tileType = processGridCell(tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, tileIndex);
 
-        drawImage(levelContext, TileImages[tileType], tileX, tileY);
+        drawImage(levelContext, TileImages[tileType], tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE);
 
         tileX += TILE_SIZE;
         tileIndex++;
@@ -89,7 +101,6 @@ const Grid = new (function() {
       tileY += TILE_SIZE;
     }
   };
-
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
@@ -106,13 +117,13 @@ const Grid = new (function() {
 //        Game.createUnit(Goblin, settings);
 //        break;
       case TILE.PLAYER_HOUSE:
-        Game.createUnit(House, settings);
+        Game.createBuilding(House, settings);
         break;
 //      case TILE.PLAYER_BARRACKS:
-//        Game.createUnit(Barracks, settings);
+//        Game.createBuilding(Barracks, settings);
 //        break;
 //      case TILE.PLAYER_MUD_PIT:
-//        Game.createUnit(MutPit, settings);
+//        Game.createBuilding(MutPit, settings);
 //        break;
 
       // Enemy units/buildings
@@ -126,19 +137,35 @@ const Grid = new (function() {
 //        Game.createEnemy(Goblin, settings);
 //        break;
 //      case TILE.ENEMY_HOUSE:
-//        Game.createEnemy(House, settings);
+//        Game.createEnemyBuilding(House, settings);
 //        break;
 //      case TILE.ENEMY_BARRACKS:
-//        Game.createEnemy(Barracks, settings);
+//        Game.createEnemyBuilding(Barracks, settings);
 //        break;
 //      case TILE.ENEMY_MUD_PIT:
-//        Game.createEnemy(MutPit, settings);
+//        Game.createEnemyBuilding(MutPit, settings);
 //        break;
       default:
         return tileType;
     }
 
     return levelGrid[i] = levelData.defaultTile;
+  }
+
+  this.updateWalkableGridForBuilding = function(buildingX, buildingY, unwalkableGrid) {
+    let tileIndex;
+    let index = this.coordsToIndex(buildingX, buildingY);
+
+    for (let r = 0; r < unwalkableGrid[1]; r++) {
+      for (let c = 0; c < unwalkableGrid[0]; c++) {
+        tileIndex = index + c + (r * levelData.cols);
+        walkableGrid[tileIndex] = false;
+      }
+    }
+  };
+
+  function isWalkable(tileIndex) {
+    return WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
 
   function tileToIndex(col, row) {
@@ -173,6 +200,27 @@ const Grid = new (function() {
 
   this.draw = function() {
     gameContext.drawImage(levelCanvas, x, y, gameCanvas.width, gameCanvas.height, x, y, gameCanvas.width, gameCanvas.height);
+  };
+
+  this.drawDebug = function() {
+    if (!DEBUG) {
+      return;
+    }
+
+    let tileIndex = 0;
+    let tileX = 0, tileY = 0;
+    for (let row = 0; row < levelData.rows; row++) {
+      for (let col = 0; col < levelData.cols; col++) {
+        if (!walkableGrid[tileIndex]) {
+          drawFillRect(gameContext, tileX, tileY, TILE_SIZE, TILE_SIZE, 'red', .2);
+          drawStrokeCircle(gameContext, tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, TILE_HALF_SIZE + 2, 100, 'red', 2, .5);
+        }
+        tileX += TILE_SIZE;
+        tileIndex++;
+      }
+      tileX = 0;
+      tileY += TILE_SIZE;
+    }
   };
 
 })();

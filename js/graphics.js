@@ -37,9 +37,15 @@ function drawFillRectRotated(canvasContext, topLeftX, topLeftY, boxWidth, boxHei
   canvasContext.restore()
 }
 
-function drawFillRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fillColor) {
+function drawFillRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, fillColor, alpha) {
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = alpha;
+  }
   canvasContext.fillStyle = fillColor;
   canvasContext.fillRect(topLeftX, topLeftY, boxWidth, boxHeight);
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = 1;
+  }
 }
 
 function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, strokeColor, lineWidth) {
@@ -55,7 +61,10 @@ function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, 
   }
 }
 
-function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth) {
+function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth, alpha) {
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = alpha;
+  }
   let startAngle = Math.PI * -0.5;
   let endAngle = Math.PI * 2 * percentage + startAngle;
   canvasContext.strokeStyle = strokeColor;
@@ -63,6 +72,9 @@ function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, 
   canvasContext.beginPath();
   canvasContext.arc(x, y, radius, startAngle, endAngle, false);
   canvasContext.stroke();
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = 1;
+  }
 }
 
 function drawLines(canvasContext, color, lineWidth, points) {

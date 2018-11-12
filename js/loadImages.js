@@ -11,7 +11,8 @@ const Images = new (function() {
   };
 
   let tileTypeImages = [
-    { type: TILE.GRASS, src: 'img/grass.png' }
+    { type: TILE.GRASS, src: 'img/grass.png' },
+    { type: TILE.TREES, src: 'img/trees.png' }
   ];
 
   this.initialize = function(callback) {
