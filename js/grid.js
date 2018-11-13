@@ -82,7 +82,7 @@ const Grid = new (function() {
 
     for (row = 0; row < levelData.rows; row++) {
       for (col = 0; col < levelData.cols; col++) {
-        walkableGrid[tileIndex] = isWalkable(tileIndex);
+        walkableGrid[tileIndex] = isWalkableTileAtIndex(tileIndex);
         tileIndex++;
       }
     }
@@ -164,9 +164,52 @@ const Grid = new (function() {
     }
   };
 
-  function isWalkable(tileIndex) {
+  function isWalkableTileAtIndex(tileIndex) {
     return WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
+
+  this.findCollisionWith = function(collision, currentPosition, collisionRanges) {
+    let tileIndex = 0;
+    let tilePosition = {x: 0, y:0};
+
+    let numTilesToCheck = Math.ceil((collisionRanges.soft + TILE_COLLISION_SIZE) / TILE_SIZE);
+    let currentTileIndex = this.coordsToIndex(currentPosition.x, currentPosition.y);
+
+    // Start with a tile to the upper left
+    let startRow = Math.max(0, Math.floor(currentTileIndex / levelData.cols) - numTilesToCheck);
+    let startCol = Math.max(0, currentTileIndex- (startRow * levelData.cols) - numTilesToCheck);
+    let startTileIndex = tileToIndex(startCol, startRow);
+
+    // For example: if d = 2, then we check these columns/rows:
+    // 2 before, current and 2 after
+    numTilesToCheck = (numTilesToCheck * 2) + 1;
+
+    for (let r = 0; r < numTilesToCheck; r++) {
+      for (let c = 0; c < numTilesToCheck; c++) {
+        tileIndex = startTileIndex + c + (r * levelData.cols);
+
+        if (walkableGrid[tileIndex]) {
+          continue;
+        }
+
+        let row = Math.floor(tileIndex / levelData.cols);
+        let col = tileIndex - (row * levelData.cols);
+        tilePosition.x = col * TILE_SIZE;
+        tilePosition.y = row * TILE_SIZE;
+
+        let dist = distanceBetweenPoints(currentPosition, tilePosition);
+        if (collision.distance < dist) {
+          continue;
+        }
+
+        if (dist < (collisionRanges.soft + TILE_COLLISION_SIZE) ) {
+          collision.type = 'soft';
+          collision.position = tilePosition;
+          collision.distance = dist;
+        }
+      }
+    }
+  };
 
   function tileToIndex(col, row) {
     return (col + levelData.cols * row);
@@ -213,7 +256,7 @@ const Grid = new (function() {
       for (let col = 0; col < levelData.cols; col++) {
         if (!walkableGrid[tileIndex]) {
           drawFillRect(gameContext, tileX, tileY, TILE_SIZE, TILE_SIZE, 'red', .2);
-          drawStrokeCircle(gameContext, tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, TILE_HALF_SIZE + 2, 100, 'red', 2, .5);
+          drawStrokeCircle(gameContext, tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, TILE_COLLISION_SIZE, 100, 'red', 2, .5);
         }
         tileX += TILE_SIZE;
         tileIndex++;

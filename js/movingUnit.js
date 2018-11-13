@@ -137,17 +137,18 @@ const MovingUnit = function(settings) {
   function updateVsForCollisions(newVs, speed, currentPosition, collisionRanges) {
     let collision = {
       type: false,
-      with: false,
+      position: false,
       distance: 1000 // Something bigger than the minimum collision distance
     };
 
     findCollisionWith(Game.units, collision, currentPosition, collisionRanges);
     findCollisionWith(Game.enemies, collision, currentPosition, collisionRanges);
+    Grid.findCollisionWith(collision, currentPosition, collisionRanges);
     // @todo find collision with grid
 
-    if (collision.with) {
+    if (collision.position) {
       // find angle between this and other
-      let collisionAngle = angleBetween(currentPosition, collision.with.getPosition());
+      let collisionAngle = angleBetween(currentPosition, collision.position);
       let angleDiff = angleDifference(newVs.angle, collisionAngle);
 
       let angleDiffAbs = Math.abs(angleDiff);
@@ -230,7 +231,7 @@ const MovingUnit = function(settings) {
 //      else
       if (dist < (collisionRanges.soft + unitRanges.soft) ) {
         collision.type = 'soft';
-        collision.with = unit;
+        collision.position = unitPosition;
         collision.distance = dist;
       }
     }

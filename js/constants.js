@@ -18,6 +18,7 @@ const ANGLE305 = 305 * DEC2RAD;
 
 const TILE_SIZE = 32;
 const TILE_HALF_SIZE = TILE_SIZE / 2;
+const TILE_COLLISION_SIZE = TILE_HALF_SIZE + 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
