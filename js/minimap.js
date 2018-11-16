@@ -19,6 +19,17 @@ const minimap = new(function () {
             mousePos.sx > MINI_MAP_MARGIN &&
             mousePos.sy < minimapTop+minimapH
             ) {
+                let mapX = mousePos.sx - MINI_MAP_MARGIN;
+                let mapY = mousePos.sy - minimapTop;
+                let mapXPerc = mapX / minimapW;
+                let mapYPerc = mapY /minimapH;
+                console.log('mapX: ' + mapX);
+                console.log('mapY:' + mapY);
+                console.log('mapXP:' + mapXPerc);
+                console.log('mapYP:' + mapYPerc);
+
+                Grid.setPanAsPercentage(mapXPerc, mapYPerc);
+
             console.log("click was intercepted by minimap. TODO: jump main view to this location :)");
             return true;
         }

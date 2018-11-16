@@ -33,6 +33,11 @@ const Grid = new (function() {
     };
   };
 
+  this.setPanAsPercentage = function(xPerc, yPerc) {
+    x = xPerc * levelCanvas.width - (gameCanvas.width / 2); 
+    y = yPerc * levelCanvas.height - (gameCanvas.height / 2);
+  };
+
   this.getBounds = function() {
     return {
       topLeft: {
@@ -227,18 +232,34 @@ const Grid = new (function() {
     let step = scrollSpeed * delta;
 
     if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
-      x = Math.max(0, x - step);
+      x -= step;
     }
     else if (maxRightDistance < mousePosition.sx || Input.isDown(KEY.D) || Input.isDown(KEY.RIGHT)) {
-      x = Math.min(maxX, x + step);
+      x += step;
     }
 
     if (mousePosition.sy < maxTopDistance || Input.isDown(KEY.W) || Input.isDown(KEY.UP)) {
-      y = Math.max(0, y - step);
+      y -= step;
     }
     else if (maxBottomDistance < mousePosition.sy || Input.isDown(KEY.S) || Input.isDown(KEY.DOWN)) {
-      y = Math.min(maxY, y + step);
+      y += step;
     }
+
+    if(x < 0) {
+      x = 0;
+    }
+    if(y < 0) {
+      y = 0;
+    }
+    if(x > maxX) {
+      x = maxX;
+    }
+    if(y > maxY) {
+      y = maxY;
+    }
+
+
+
   };
 
   this.draw = function() {
