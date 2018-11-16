@@ -34,7 +34,7 @@ const Grid = new (function() {
   };
 
   this.setPanAsPercentage = function(xPerc, yPerc) {
-    x = xPerc * levelCanvas.width - (gameCanvas.width / 2); 
+    x = xPerc * levelCanvas.width - (gameCanvas.width / 2);
     y = yPerc * levelCanvas.height - (gameCanvas.height / 2);
   };
 
@@ -183,7 +183,7 @@ const Grid = new (function() {
     // Start with a tile to the upper left
     let startRow = Math.max(0, Math.floor(currentTileIndex / levelData.cols) - numTilesToCheck);
     let startCol = Math.max(0, currentTileIndex- (startRow * levelData.cols) - numTilesToCheck);
-    let startTileIndex = tileToIndex(startCol, startRow);
+    let startTileIndex = this.tileToIndex(startCol, startRow);
 
     // For example: if d = 2, then we check these columns/rows:
     // 2 before, current and 2 after
@@ -216,9 +216,26 @@ const Grid = new (function() {
     }
   };
 
-  function tileToIndex(col, row) {
+  this.findPath = function(start, destination) {
+    start = [Math.round(start.x / TILE_SIZE), Math.round(start.y / TILE_SIZE)];
+    destination = [Math.round(destination.x / TILE_SIZE), Math.round(destination.y / TILE_SIZE)];
+
+    let path = findPath(levelData.cols, levelData.rows, start, destination);
+
+    if (path[0] && path[0][0] === start[0] && path[0][1] === start[1]) {
+      path.shift();
+    }
+
+    return path;
+  };
+
+  this.isWalkable = function(col, row) {
+    return walkableGrid[this.tileToIndex(col, row)];
+  };
+
+  this.tileToIndex = function(col, row) {
     return (col + levelData.cols * row);
-  }
+  };
 
   this.coordsToIndex = function(x, y) {
     let col = Math.floor(x / TILE_SIZE);

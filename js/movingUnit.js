@@ -24,6 +24,8 @@ const MovingUnit = function(settings) {
   let formationIndex = 0;
 
   let target;
+  let nextStepPosition;
+  let distanceTraveled = 0;
 
   this.setTarget = function(unit, _unitsAlongSide, _formationIndex) {
     if (!unit) {
@@ -41,6 +43,7 @@ const MovingUnit = function(settings) {
     target = unit;
     unitsAlongSide = _unitsAlongSide;
     formationIndex = _formationIndex;
+    distanceTraveled = 0;
   };
 
   this.unsetTarget = function() {
@@ -105,11 +108,27 @@ const MovingUnit = function(settings) {
       return;
     }
 
-    let targetPosition = this.getTargetPosition();
-    // @todo find path to target
-    let newVs = rotateToTarget(vx, vy, speed, rotationEase, targetPosition, this.getPosition());
+    if (TILE_SIZE <= distanceTraveled) {
+      distanceTraveled = 0;
+    }
+    if (distanceTraveled === 0) {
+      let path = Grid.findPath(this.getPosition(), this.getTargetPosition());
+      // no path to target
+      if (!path || path[0] === undefined) {
+        return;
+      }
+
+      nextStepPosition = {
+        x: path[0][0] * TILE_SIZE,
+        y: path[0][1] * TILE_SIZE,
+      };
+    }
+
+    let newVs = rotateToTarget(vx, vy, speed, rotationEase, nextStepPosition, this.getPosition());
 
     newVs = updateVsForCollisions(newVs, speed, this.getPosition(), this.getCollisionRanges());
+
+    distanceTraveled += newVs.dist;
 
     angle = newVs.angle;
     if (0 < newVs.dist && speed < newVs.dist) {
@@ -120,10 +139,11 @@ const MovingUnit = function(settings) {
     else {
       // Prevent over-stepping the target
       // @todo what is close-enough? should the unit be prevented to endlessly try getting to the target position?
-      this.x = targetPosition.x;
-      this.y = targetPosition.y;
+      this.x = nextStepPosition.x;
+      this.y = nextStepPosition.y;
       vx = 0;
       vy = 0;
+      distanceTraveled = 0;
     }
 
     this.x += vx;
@@ -144,7 +164,6 @@ const MovingUnit = function(settings) {
     findCollisionWith(Game.units, collision, currentPosition, collisionRanges);
     findCollisionWith(Game.enemies, collision, currentPosition, collisionRanges);
     Grid.findCollisionWith(collision, currentPosition, collisionRanges);
-    // @todo find collision with grid
 
     if (collision.position) {
       // find angle between this and other
@@ -153,7 +172,10 @@ const MovingUnit = function(settings) {
 
       let angleDiffAbs = Math.abs(angleDiff);
 
-      if (0 <= angleDiffAbs && angleDiffAbs < ANGLE15) {
+      if (0 === angleDiffAbs) {
+        newVs.angle += ANGLE55;
+      }
+      else if (0 < angleDiffAbs && angleDiffAbs < ANGLE15) {
         newVs.angle += (-angleDiff / angleDiffAbs) * ANGLE55;
       }
       else if (ANGLE15 <= angleDiffAbs && angleDiffAbs < ANGLE145) {

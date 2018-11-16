@@ -10,8 +10,8 @@ const Unit = function(settings) {
   const softCollisionRange = settings.softCollisionRange || clickRadius * 1.3;
   const hardCollisionRange = settings.hardCollisionRange || clickRadius;
 
-  this.x = settings.x;
-  this.y = settings.y;
+  this.x = Math.round(settings.x);
+  this.y = Math.round(settings.y);
 
   let readyToRemove = false;
   let enabled = true;
@@ -66,8 +66,8 @@ const Unit = function(settings) {
 
   this.getPosition = function() {
     return {
-      x: this.x,
-      y: this.y
+      x: Math.round(this.x),
+      y: Math.round(this.y)
     };
   };
 
