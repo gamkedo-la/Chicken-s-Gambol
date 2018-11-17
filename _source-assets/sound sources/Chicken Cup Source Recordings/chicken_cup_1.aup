@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="chicken_cup_1_data" version="1.3.0" audacityversion="2.2.0" sel0="0.0000000000" sel1="0.0000000000" vpos="0" h="0.0000000000" zoom="86.1328125000" rate="48000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags/>
+	<wavetrack name="chicken_cup_1" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="453068">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000cd8.au" len="239853" min="-1.026798" max="1.02112" rms="0.093179"/>
+				</waveblock>
+				<waveblock start="239853">
+					<simpleblockfile filename="e0000d16.au" len="213215" min="-1.012405" max="1.029694" rms="0.097661"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="chicken_cup_1" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="48000" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="453068">
+				<waveblock start="0">
+					<simpleblockfile filename="e00001d5.au" len="239853" min="-0.884918" max="0.926404" rms="0.060015"/>
+				</waveblock>
+				<waveblock start="239853">
+					<simpleblockfile filename="e00004f6.au" len="213215" min="-0.51265" max="0.602501" rms="0.036914"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
