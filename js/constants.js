@@ -2,6 +2,11 @@ let DEBUG = false;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
 
+const FONT_COLOR = '#7f5333';
+const SHADOW_COLOR = '#351b14';
+const UNITS_FONT = '18px compass';
+const SLIME_FONT = '26px compass';
+
 const MINI_MAP_MARGIN = 10;
 
 const DEC2RAD = (Math.PI / 180);
@@ -41,7 +46,7 @@ const TILE = {
   PLAYER_BARRACKS: 34,
   PLAYER_MUD_PIT: 35,
   PLAYER_BLOB: 36,
-  
+
   ENEMY_CHICKEN: 50,
   ENEMY_PIG: 51,
   ENEMY_GOBLIN: 52,

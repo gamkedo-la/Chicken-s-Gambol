@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'compass';
+  src: url('fonts/CompassPro.eot');
+  src: local('CompassPro'), local('compass'),
+  url('fonts/CompassPro.eot?#iefix') format('embedded-opentype'),
+  url('fonts/CompassPro.woff') format('woff'),
+  url('fonts/CompassPro.ttf') format('truetype');
+  font-weight: normal;
+}
+
 html, body {
   margin: 0;
   padding: 0;

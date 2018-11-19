@@ -7,7 +7,11 @@ const Images = new (function() {
     chickenEnemy: 'img/chicken.png',
     chicken: 'img/chicken2.png',
     house: 'img/house.png',
-    footprints: 'img/footprints.png'
+    footprints: 'img/footprints.png',
+    interfaceTopBg: 'img/interface-top-right-bg.png',
+    interfaceTopContainer: 'img/interface-top-right-container.png',
+    interfaceBottomBg: 'img/interface-bottom-bg.png',
+    interfaceBottomContainer: 'img/interface-bottom-container.png'
   };
 
   let tileTypeImages = [

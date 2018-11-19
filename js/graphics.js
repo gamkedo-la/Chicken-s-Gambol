@@ -1,3 +1,30 @@
+function setShadow(color, blur, offsetX, offsetY) {
+  if (offsetX == undefined) {
+    offsetX = 0;
+  }
+  if (offsetY == undefined) {
+    offsetY = 0;
+  }
+  if (blur == undefined) {
+    blur = 4;
+  }
+  if (color == undefined) {
+    color = '#000';
+  }
+
+  gameContext.shadowOffsetX = offsetX;
+  gameContext.shadowOffsetY = offsetY;
+  gameContext.shadowBlur = blur;
+  gameContext.shadowColor = color;
+}
+
+function resetShadow() {
+  gameContext.shadowBlur =
+    gameContext.shadowColor =
+      gameContext.shadowOffsetX =
+        gameContext.shadowOffsetY = 0;
+}
+
 function drawImage(canvasContext, image, x, y, angle) {
   canvasContext.save();
   canvasContext.translate(x, y);

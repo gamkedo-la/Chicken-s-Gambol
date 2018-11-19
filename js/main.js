@@ -41,6 +41,7 @@ function windowOnFocus() {
 
 function gameInitialize() {
   Input.initialize();
+  Interface.initialize();
 
   Grid.initialize(levels[0]);
 
@@ -61,6 +62,7 @@ function gameUpdate(delta) {
 
   HotKeys.update(delta);
   Input.update(delta);
+  Interface.update(delta);
 }
 
 function gameDraw(interpolationPercentage) {
@@ -84,9 +86,9 @@ function gameDraw(interpolationPercentage) {
     let row = Math.floor(pos.y / TILE_SIZE);
     drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
   }
-  
+
   gameContext.restore();
-  minimap.draw();
+  Interface.draw();
   redrawCanvas();
 }
 
