@@ -15,7 +15,7 @@ House.prototype.constructor = House;
 const HouseEnemy = function(settings) {
 
   settings = extend(settings, {
-    sprite: Sprites.HouseEnemy
+    sprite: Sprites.houseEnemy
   });
 
   House.call(this, settings);

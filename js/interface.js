@@ -22,11 +22,8 @@ const Interface = new (function() {
     numUnits--;
   };
 
-  this.addNumMaxUnits = function(amount) {
-    maxNumUnits += amount;
-  };
-  this.subNumMaxUnits = function(amount) {
-    maxNumUnits -= amount;
+  this.setNumMaxUnits = function(amount) {
+    maxNumUnits = amount;
   };
 
   this.addSlime = function(amount) {

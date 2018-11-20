@@ -80,6 +80,10 @@ const Unit = function(settings) {
     };
   };
 
+  this.remove = function() {
+    readyToRemove = true;
+  };
+
   this.isReadyToRemove = function() {
     return readyToRemove;
   };

@@ -38,6 +38,27 @@ let Game = new (function() {
     return unit;
   }
 
+  this.deleteSelection = function() {
+    let selection = Selection.getSelection();
+
+    if (selection.length === 0) {
+      // We can only delete units or buildings, not enemies or enemy buildings
+      return;
+
+    }
+    if (!unitIsInList(selection[0], this.units) && !unitIsInList(selection[0], this.buildings)) {
+      return;
+
+    }
+
+    let length = selection.length;
+    for (let i = 0; i < length; i++) {
+      selection[i].remove();
+    }
+
+    Selection.clearSelection();
+  };
+
   this.update = function(delta) {
     updateGroundDecals(delta);
 
@@ -58,7 +79,7 @@ let Game = new (function() {
   };
 
   function removeRemovableUnitsFromList(list) {
-    for (let i = list.length - 1; 0 < i; i--) {
+    for (let i = list.length - 1; 0 <= i; i--) {
       if (list[i].isReadyToRemove()) {
         list.splice(i, 1);
       }

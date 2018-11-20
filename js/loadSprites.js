@@ -153,6 +153,19 @@ let Sprites = new (function() {
           firstFrameY: 0
         }
       },
+    },
+    houseEnemy: {
+      image: 'house',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      },
     }
   };
 

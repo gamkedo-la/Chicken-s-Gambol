@@ -53,6 +53,10 @@ let Selection = new (function() {
     return unitIsInList(unit, selection);
   };
 
+  this.getSelection = function() {
+    return selection;
+  };
+
   function handleLassoSelect() {
     if (!Input.isDown(KEY.CTRL)) {
       Selection.clearSelection();
@@ -73,7 +77,17 @@ let Selection = new (function() {
       return;
     }
 
+    if (Selection.clickedOnItem(Game.buildings)) {
+      hasEnemySelected = true;
+      return;
+    }
+
     if (Selection.clickedOnItem(Game.enemies)) {
+      hasEnemySelected = true;
+      return;
+    }
+
+    if (Selection.clickedOnItem(Game.enemyBuildings)) {
       hasEnemySelected = true;
       return;
     }
@@ -82,6 +96,10 @@ let Selection = new (function() {
   }
 
   this.clickedOnItem = function(list, canAppend) {
+    if (canAppend === undefined) {
+      canAppend = false;
+    }
+
     let mousePosition = Input.getMousePosition();
     let length = list.length;
     for (let i = 0; i < length; i++) {
@@ -208,9 +226,15 @@ let Selection = new (function() {
         break;
     }
 
-    let length = hotkeyGroup.length;
-    for (let i = 0; i < length; i++) {
+    for (let i = hotkeyGroup.length - 1; 0 <= i; i--) {
       let target = hotkeyGroup[i];
+
+      // Remove dead units from selection-groups
+      if (target.isReadyToRemove()) {
+        hotkeyGroup.splice(i, 1);
+        continue;
+      }
+
       this.addUnitToSelection(target);
     }
   };
