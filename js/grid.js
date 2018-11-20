@@ -28,8 +28,8 @@ const Grid = new (function() {
 
   this.getPanAsPercentage = function() {
     return {
-      x: x/levelCanvas.width,
-      y: y/levelCanvas.height
+      x: x / levelCanvas.width,
+      y: y / levelCanvas.height
     };
   };
 
@@ -45,25 +45,17 @@ const Grid = new (function() {
         y: y
       },
       bottomRight: {
-        x: x + levelCanvas.width,
-        y: y + levelCanvas.height
+        x: x + gameCanvas.width,
+        y: y + gameCanvas.height
       }
     };
   };
 
-  this.returnMapRatio = function() {
-    return levelCanvas.width / levelCanvas.height;
-  };
-  this.returnWorldWidth = function() {
-    return levelCanvas.width;
-  };
-
-  this.returnMinimapX = function(worldX, mapW) {
-    return (worldX / levelCanvas.width) * mapW + MINI_MAP_MARGIN;
-  };
-
-  this.returnMinimapY = function(worldY, mapH) {
-    return gameCanvas.height - mapH - MINI_MAP_MARGIN + (worldY / levelCanvas.height) * mapH;
+  this.getWorldDimensions = function() {
+    return {
+      width: levelCanvas.width,
+      height: levelCanvas.height
+    }
   };
 
   this.initialize = function(_levelData) {
@@ -175,14 +167,14 @@ const Grid = new (function() {
 
   this.findCollisionWith = function(collision, currentPosition, collisionRanges) {
     let tileIndex = 0;
-    let tilePosition = {x: 0, y:0};
+    let tilePosition = { x: 0, y: 0 };
 
     let numTilesToCheck = Math.ceil((collisionRanges.soft + TILE_COLLISION_SIZE) / TILE_SIZE);
     let currentTileIndex = this.coordsToIndex(currentPosition.x, currentPosition.y);
 
     // Start with a tile to the upper left
     let startRow = Math.max(0, Math.floor(currentTileIndex / levelData.cols) - numTilesToCheck);
-    let startCol = Math.max(0, currentTileIndex- (startRow * levelData.cols) - numTilesToCheck);
+    let startCol = Math.max(0, currentTileIndex - (startRow * levelData.cols) - numTilesToCheck);
     let startTileIndex = this.tileToIndex(startCol, startRow);
 
     // For example: if d = 2, then we check these columns/rows:
@@ -207,7 +199,7 @@ const Grid = new (function() {
           continue;
         }
 
-        if (dist < (collisionRanges.soft + TILE_COLLISION_SIZE) ) {
+        if (dist < (collisionRanges.soft + TILE_COLLISION_SIZE)) {
           collision.type = 'soft';
           collision.position = tilePosition;
           collision.distance = dist;
@@ -218,7 +210,10 @@ const Grid = new (function() {
 
   this.findPath = function(start, destination) {
     start = [Math.round(start.x / TILE_SIZE), Math.round(start.y / TILE_SIZE)];
-    destination = [Math.round(destination.x / TILE_SIZE), Math.round(destination.y / TILE_SIZE)];
+    destination = [
+      Math.round(destination.x / TILE_SIZE),
+      Math.round(destination.y / TILE_SIZE)
+    ];
 
     let path = findPath(levelData.cols, levelData.rows, start, destination);
 
@@ -262,25 +257,26 @@ const Grid = new (function() {
       y += step;
     }
 
-    if(x < 0) {
+    if (x < 0) {
       x = 0;
     }
-    if(y < 0) {
+    else if (y < 0) {
       y = 0;
     }
-    if(x > maxX) {
+    if (maxX < x) {
       x = maxX;
     }
-    if(y > maxY) {
+    else if (maxY < y) {
       y = maxY;
     }
-
-
-
   };
 
   this.draw = function() {
     gameContext.drawImage(levelCanvas, x, y, gameCanvas.width, gameCanvas.height, x, y, gameCanvas.width, gameCanvas.height);
+  };
+
+  this.drawMinimap = function(minimapX, minimapY, minimapW, minimapH) {
+    gameContext.drawImage(levelCanvas, 0, 0, levelCanvas.width, levelCanvas.height, minimapX, minimapY, minimapW, minimapH);
   };
 
   this.drawDebug = function() {

@@ -1,32 +1,36 @@
 const Minimap = new (function() {
-  let minimapH;
-  let minimapW;
+  let minimapX = 654;
+  let minimapY = 36;
+  let minimapH = 106;
+  let minimapW = 106;
   let mainViewRatio;
   let mainViewToMapScale;
 
+  let levelDimensions;
+
   this.initMinimap = function() {
-    minimapH = 100;
-    minimapW = minimapH * Grid.returnMapRatio();
+    levelDimensions = Grid.getWorldDimensions();
+
     mainViewRatio = gameCanvas.height / gameCanvas.width;
-    mainViewToMapScale = gameCanvas.width / Grid.returnWorldWidth();
+    mainViewToMapScale = gameCanvas.width / levelDimensions.width;
   };
 
   this.mouseInputCheckForMinimap = function() {
     let mousePos = Input.getMousePosition();
-    let minimapTop = gameCanvas.height - minimapH - MINI_MAP_MARGIN;
-    if (mousePos.sx < minimapW + MINI_MAP_MARGIN &&
-      mousePos.sy > minimapTop &&
-      mousePos.sx > MINI_MAP_MARGIN &&
-      mousePos.sy < minimapTop + minimapH
-    ) {
-      let mapX = mousePos.sx - MINI_MAP_MARGIN;
-      let mapY = mousePos.sy - minimapTop;
+
+    if (minimapX < mousePos.sx && mousePos.sx < minimapX + minimapW &&
+      minimapY < mousePos.sy && mousePos.sy < minimapY + minimapH) {
+
+      let mapX = mousePos.sx - minimapX;
+      let mapY = mousePos.sy - minimapY;
       let mapXPerc = mapX / minimapW;
       let mapYPerc = mapY / minimapH;
-      console.log('mapX: ' + mapX);
-      console.log('mapY:' + mapY);
-      console.log('mapXP:' + mapXPerc);
-      console.log('mapYP:' + mapYPerc);
+      if (DEBUG) {
+        console.log('mapX: ' + mapX);
+        console.log('mapY:' + mapY);
+        console.log('mapXP:' + mapXPerc);
+        console.log('mapYP:' + mapYPerc);
+      }
 
       Grid.setPanAsPercentage(mapXPerc, mapYPerc);
 
@@ -37,18 +41,46 @@ const Minimap = new (function() {
   };
 
   this.draw = function() {
-    drawFillRect(gameContext, MINI_MAP_MARGIN,
-      gameCanvas.height - minimapH - MINI_MAP_MARGIN,
-      minimapW, minimapH, 'green');
+    Grid.drawMinimap(minimapX, minimapY, minimapW, minimapH);
 
     let camPan = Grid.getPanAsPercentage();
-    drawStrokeRect(gameContext, MINI_MAP_MARGIN + camPan.x * minimapW,
-      gameCanvas.height - minimapH - MINI_MAP_MARGIN + camPan.y * minimapW,
+    drawStrokeRect(gameContext, minimapX + camPan.x * minimapW,
+      minimapY + camPan.y * minimapW,
       mainViewToMapScale * minimapW,
       mainViewToMapScale * minimapW * mainViewRatio, 'white', 1);
 
-    callbackList(Game.units, 'minimapDraw', [minimapW, minimapH, 'yellow']);
-    callbackList(Game.enemies, 'minimapDraw', [minimapW, minimapH, 'red']);
+    callbackList(Game.units, 'minimapDraw', [
+      levelDimensions,
+      minimapX,
+      minimapY,
+      minimapW,
+      minimapH,
+      'yellow'
+    ]);
+    callbackList(Game.buildings, 'minimapDraw', [
+      levelDimensions,
+      minimapX,
+      minimapY,
+      minimapW,
+      minimapH,
+      'white'
+    ]);
+    callbackList(Game.enemies, 'minimapDraw', [
+      levelDimensions,
+      minimapX,
+      minimapY,
+      minimapW,
+      minimapH,
+      'red'
+    ]);
+    callbackList(Game.enemyBuildings, 'minimapDraw', [
+      levelDimensions,
+      minimapX,
+      minimapY,
+      minimapW,
+      minimapH,
+      'red'
+    ]);
   };
 
 })();

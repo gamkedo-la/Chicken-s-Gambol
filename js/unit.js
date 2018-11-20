@@ -30,7 +30,7 @@ const Unit = function(settings) {
     return state;
   };
 
-  this.setState = function (_state) {
+  this.setState = function(_state) {
     // @todo verify _state?
     if (state !== _state) {
       console.log('switching to ' + _state);
@@ -151,10 +151,11 @@ const Unit = function(settings) {
     }
   };
 
-  this.minimapDraw = function(mapW, mapH, color) {
-    let mapX = Grid.returnMinimapX(this.x, mapW);
-    let mapY = Grid.returnMinimapY(this.y, mapH);
-    drawFillRect(gameContext, mapX, mapY, 2, 2, color);
+  this.minimapDraw = function(levelDimensions, mapX, mapY, mapW, mapH, color) {
+    let atX = mapX + (this.x / levelDimensions.width) * mapW;
+    let atY = mapY + (this.y / levelDimensions.height) * mapH;
+
+    drawFillRect(gameContext, atX, atY, 2, 2, color);
   }
 
 };
