@@ -2,28 +2,36 @@
 function pathPreviewer() {
 
   let path = null;
+  let multiPaths = []; // since we might have >1 unit selected
   let elapsedSinceUpdate = 0;
-  const updateInterval = 1; // in seconds (so we don't calculate every single frame)
+  const updateInterval = 0.05; // in seconds (so we don't calculate every single frame)
 
   this.update = function(delta) {
     elapsedSinceUpdate += delta;
     if (elapsedSinceUpdate >= updateInterval) {
-      //console.log("time to update the path previews!");
+      multiPaths = []; // reset
       elapsedSinceUpdate -= updateInterval;
       let pos = Input.getMousePosition();
-      // TODO:
-      // for (unit in Selection.selection)
-      //  path = Grid.findPath([pos.x,pos.y], [unit.x,unit.y]);
+      let selection = Selection.getSelection();
+      let len = selection.length;
+      console.log("time to update " + len + " path previews!");
+      for (let num=0; num<len; num++) {
+        path = Grid.findPath(pos, selection[num]);
+        multiPaths.push(path);
+      }
     }
   }
 
   this.draw = function() {
-    if (path && path.length) {
-      for (let step=0,len=path.length; step<len; step++) {
-        let x = path[step][0];
-        let y = path[step][1];
-        // TODO: render sprites
-        //console.log("pathPreview is drawing!");
+    //if (multiPaths.length) { console.log("pathPreview.drawing " + multiPaths.length); }
+    for (let pathNum=0; pathNum<multiPaths.length; pathNum++) {
+      let path = multiPaths[pathNum];
+      if (path && path.length) {
+        for (let step=0,len=path.length; step<len; step++) {
+          let x = path[step][0];
+          let y = path[step][1];
+          drawImage(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE);
+        }
       }
     }
   }

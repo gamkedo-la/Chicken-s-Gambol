@@ -11,7 +11,8 @@ const Images = new (function() {
     interfaceTopBg: 'img/interface-top-right-bg.png',
     interfaceTopContainer: 'img/interface-top-right-container.png',
     interfaceBottomBg: 'img/interface-bottom-bg.png',
-    interfaceBottomContainer: 'img/interface-bottom-container.png'
+    interfaceBottomContainer: 'img/interface-bottom-container.png',
+    pathPreviewIcon: 'img/pathPreviewIcon.png'
   };
 
   let tileTypeImages = [

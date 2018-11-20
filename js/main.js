@@ -80,7 +80,7 @@ function gameDraw(interpolationPercentage) {
   screenShake.draw(interpolationPercentage);
 
   Grid.draw();
-  if (PREVIEW_PATHS) pathPreview.draw();
+  if (PREVIEW_PATHS) { pathPreview.draw(); }
   Selection.draw();
   Game.draw();
 

@@ -2,7 +2,7 @@ let DEBUG = false;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
 
-const PREVIEW_PATHS = false; // if true, we draw pathfinding previews showing what would happen when you right click
+const PREVIEW_PATHS = true; // if true, we draw pathfinding previews showing what would happen when you right click
 
 const FONT_COLOR = '#7f5333';
 const SHADOW_COLOR = '#351b14';
