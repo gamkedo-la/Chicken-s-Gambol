@@ -33,7 +33,9 @@ const Unit = function(settings) {
   this.setState = function(_state) {
     // @todo verify _state?
     if (state !== _state) {
-      console.log('switching to ' + _state);
+      if (DEBUG) {
+        console.log('switching to ' + _state);
+      }
       state = _state;
 
       if (sprite) {
