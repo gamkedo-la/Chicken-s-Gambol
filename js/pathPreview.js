@@ -14,7 +14,7 @@ function pathPreviewer() {
       let pos = Input.getMousePosition();
       let selection = Selection.getSelection();
       let len = selection.length;
-      console.log("time to update " + len + " path previews!");
+      //console.log("time to update " + len + " path previews!");
       for (let num=0; num<len; num++) {
         path = Grid.findPath(pos, selection[num]);
         multiPaths.push(path);
