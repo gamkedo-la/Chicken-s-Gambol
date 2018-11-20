@@ -126,6 +126,10 @@ const Unit = function(settings) {
       sprite.update(delta);
     }
 
+    // just for testing purposes - we do receive a unit but
+    // FIXME: we don't yet detect TEAM (enemies not yet implemented)
+    // let attackSuggestion = this.closestEnemy(maxrange);
+
     let gridBounds = Grid.getBounds();
     visible = (this.isInBox(gridBounds.topLeft, gridBounds.bottomRight));
 
@@ -162,6 +166,30 @@ const Unit = function(settings) {
     let atY = mapY + (this.y / levelDimensions.height) * mapH;
 
     drawFillRect(gameContext, atX, atY, 2, 2, color);
+  }
+
+  this.closestEnemy = function(maxDistance) {
+    //console.log("searching for the closest enemy...");
+
+    let mindist = 99999999999;
+    if (!maxDistance) maxDistance = 99999999999;
+    let foundit = null;
+
+    for (let num=0,len=Game.units.length; num<len; num++) {
+
+      if (this != Game.units[num] // skip yourself
+          //&& Game.units[num].team != this.team // FIXME - how to detect teams?
+        ) {
+        // Units have a .x and .y property, like Points
+        let dist = distanceBetweenPoints(this, Game.units[num]);
+        //console.log("distance " + num + " is "+dist);
+        if ((dist < maxDistance) && (mindist > dist)) {
+          mindist = dist;
+          foundit = Game.units[num];
+        }
+      }
+    }
+    return foundit;
   }
 
 };
