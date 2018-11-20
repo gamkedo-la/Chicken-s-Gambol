@@ -30,7 +30,15 @@ function pathPreviewer() {
         for (let step=0,len=path.length; step<len; step++) {
           let x = path[step][0];
           let y = path[step][1];
-          drawImage(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE);
+          //drawImage(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE);
+          if (step != len-1) { // point to next step (unless last one)
+            let angle = Math.atan2(y-path[step+1][1],x-path[step+1][0]);
+            drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
+          }
+          else { // point at WHAT exactly? skip last one
+            //let angle = 0;
+            //drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
+          }
         }
       }
     }
