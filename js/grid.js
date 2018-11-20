@@ -260,11 +260,11 @@ const Grid = new (function() {
     if (x < 0) {
       x = 0;
     }
-    else if (y < 0) {
-      y = 0;
-    }
-    if (maxX < x) {
+    else if (maxX < x) {
       x = maxX;
+    }
+    if (y < 0) {
+      y = 0;
     }
     else if (maxY < y) {
       y = maxY;
