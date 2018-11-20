@@ -23,6 +23,9 @@ const Input = new (function() {
 
   let canvasRect;
 
+  // display a preview of what the AI path would be?
+  const PREVIEW_PATH = true;
+
   this.initialize = function() {
     refreshBoundingClientRect();
     const self = this;
