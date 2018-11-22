@@ -66,8 +66,8 @@ function gameUpdate(delta) {
   if (PREVIEW_PATHS) { pathPreview.update(delta); }
 
   HotKeys.update(delta);
-  Input.update(delta);
   Interface.update(delta);
+  Input.update(delta);
 }
 
 function gameDraw(interpolationPercentage) {

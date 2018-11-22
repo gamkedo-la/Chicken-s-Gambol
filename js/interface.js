@@ -9,6 +9,14 @@ const Interface = new (function() {
 
   let numSlime = 0;
 
+  let buttons = [
+    new Button(655, 7, 30, 20, () => console.log('music button')),
+    new Button(695, 7, 30, 20, () => console.log('sound button')),
+    new Button(735, 7, 30, 20, () => console.log('menu button')),
+    new Button(270, 452, 20, 20, () => console.log('delete selection button')),
+    new Button(475, 452, 20, 20, () => console.log('find idle button'))
+  ];
+
   this.initialize = function() {
     topXOffset = (Images.interfaceTopBg.width / 2);
     topYOffset = (Images.interfaceTopBg.height / 2);
@@ -33,7 +41,15 @@ const Interface = new (function() {
     numSlime -= amount;
   };
 
-  this.update = function(delta) {};
+  this.update = function(delta) {
+    if(Input.isPressed(KEY.MOUSE_LEFT)){
+      let mousePos = {
+        x: Input.getMousePosition().sx,
+        y: Input.getMousePosition().sy
+      }
+      callbackList(buttons, 'click', [mousePos]);
+    }
+  };
 
   this.draw = function() {
     // draw background
