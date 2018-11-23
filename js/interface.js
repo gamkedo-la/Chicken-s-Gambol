@@ -9,18 +9,33 @@ const Interface = new (function() {
 
   let numSlime = 0;
 
-  let buttons = [
-    new Button(655, 7, 30, 20, () => console.log('music button')),
-    new Button(695, 7, 30, 20, () => console.log('sound button')),
-    new Button(735, 7, 30, 20, () => console.log('menu button')),
-    new Button(270, 452, 20, 20, Game.deleteSelection.bind(Game)),
-    new Button(475, 452, 20, 20, Game.findIdleChicken.bind(Game))
-  ];
+  let lastSelectionType = '';
+
+  let buttons, buildingBuildButtons, unitBuildButtons;
 
   this.initialize = function() {
     topXOffset = (Images.interfaceTopBg.width / 2);
     topYOffset = (Images.interfaceTopBg.height / 2);
     bottomYOffset = (Images.interfaceBottomBg.height / 2);
+
+    buttons = [
+      new Button(655, 7, 30, 20, () => console.log('music button')),
+      new Button(695, 7, 30, 20, () => console.log('sound button')),
+      new Button(735, 7, 30, 20, () => console.log('menu button')),
+      new Button(270, 452, 20, 20, Game.deleteSelection.bind(Game)),
+      new Button(475, 452, 20, 20, Game.findIdleChicken.bind(Game))
+    ];
+
+    buildingBuildButtons = [
+      new Button(300, 425, 50, 50, () => console.log('set build house'), Sprites.buildButtonHouse)
+    ];
+
+    unitBuildButtons = [
+      new Button(300, 425, 50, 50, () => console.log('set build chicken'), Sprites.buildButtonChicken)
+    ];
+
+    callbackList(unitBuildButtons, 'disable', []);
+    callbackList(buildingBuildButtons, 'disable', []);
   };
 
   this.addUnit = function() {
@@ -41,15 +56,62 @@ const Interface = new (function() {
     numSlime -= amount;
   };
 
-  this.update = function(delta) {
-    if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      let mousePosition = Input.getMousePosition();
-      let clickPosition = {
-        x: mousePosition.sx,
-        y: mousePosition.sy
-      };
-      callbackList(buttons, 'click', [clickPosition]);
+  this.selectionChanged = function(selection) {
+    let length = selection.length;
+    if (length === 0) {
+      setSelectionType('');
+
+      return;
     }
+
+    if (length === 1 && selection[0].constructor === House) {
+      setSelectionType('units');
+
+      return;
+    }
+
+    for (let i = 0; i < length; i++) {
+      if (selection[i].constructor !== Chicken) {
+        setSelectionType('');
+
+        return;
+      }
+    }
+
+    setSelectionType('buildings');
+  };
+
+  function setSelectionType(selectionType) {
+    if (lastSelectionType === selectionType) {
+      return;
+    }
+
+    if (selectionType === 'buildings') {
+      callbackList(buildingBuildButtons, 'enable', []);
+      if (lastSelectionType === 'units') {
+        callbackList(unitBuildButtons, 'disable', []);
+      }
+    }
+    else if (selectionType === 'units') {
+      callbackList(unitBuildButtons, 'enable', []);
+      if (lastSelectionType === 'buildings') {
+        callbackList(buildingBuildButtons, 'disable', []);
+      }
+    }
+    else if (selectionType === '') {
+      callbackList(buildingBuildButtons, 'disable', []);
+      callbackList(unitBuildButtons, 'disable', []);
+    }
+
+    lastSelectionType = selectionType;
+  }
+
+  this.update = function(delta) {
+    let args = [delta, Input.getMousePosition()];
+
+    callbackList(buttons, 'update', args);
+    callbackList(buildingBuildButtons, 'update', args);
+    callbackList(unitBuildButtons, 'update', args);
   };
 
   this.draw = function() {
@@ -59,6 +121,10 @@ const Interface = new (function() {
 
     // draw Minimap
     Minimap.draw();
+
+    // draw buttons
+    callbackList(buildingBuildButtons, 'draw', []);
+    callbackList(unitBuildButtons, 'draw', []);
 
     // draw containers
     drawImage(gameContext, Images.interfaceTopContainer, 705, 93);

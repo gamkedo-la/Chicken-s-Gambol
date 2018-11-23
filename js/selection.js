@@ -23,9 +23,14 @@ let Selection = new (function() {
     selection = [];
   };
 
+  function selectionChanged() {
+    Interface.selectionChanged(selection);
+  }
+
   this.setUnitSelection = function(unit) {
     this.clearSelection();
     this.addUnitToSelection(unit);
+    selectionChanged();
   };
 
   this.addUnitToSelection = function(unit) {
@@ -36,6 +41,7 @@ let Selection = new (function() {
     }
     selection.push(unit);
     unit.select();
+    selectionChanged();
   };
 
   this.removeUnitFromSelection = function(unit) {
@@ -44,6 +50,7 @@ let Selection = new (function() {
       if (selection[i] === unit) {
         unit.deselect();
         selection.splice(i, 1);
+        selectionChanged();
         return;
       }
     }
@@ -93,6 +100,7 @@ let Selection = new (function() {
     }
 
     Selection.clearSelection();
+    selectionChanged();
   }
 
   this.clickedOnItem = function(list, canAppend) {
@@ -232,11 +240,11 @@ let Selection = new (function() {
       // Remove dead units from selection-groups
       if (target.isReadyToRemove()) {
         hotkeyGroup.splice(i, 1);
-        continue;
       }
-
-      this.addUnitToSelection(target);
     }
+
+    selection = hotkeyGroup.slice();
+    selectionChanged();
   };
 
 })();

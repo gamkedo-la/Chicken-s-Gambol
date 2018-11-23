@@ -154,6 +154,48 @@ let Sprites = new (function() {
         }
       },
     },
+    buildButtonHouse: {
+      image: 'buildButtonHouse',
+      frames: {
+        default: {
+          frames: 2,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
+    buildButtonChicken: {
+      image: 'buildButtonChicken',
+      frames: {
+        default: {
+          frames: 2,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
     houseEnemy: {
       image: 'house',
       frames: {
