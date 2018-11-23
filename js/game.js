@@ -59,6 +59,34 @@ let Game = new (function() {
     Selection.clearSelection();
   };
 
+  this.findIdleChicken = function() {
+    let idleChickens = [];
+
+    let length = this.units.length;
+
+    for (let i = 0; i < length; i++) {
+      let unit = this.units[i];
+
+      if (unit.constructor !== Chicken) {
+        continue;
+      }
+
+      if (unit.getState() !== 'default') {
+        continue;
+      }
+
+      idleChickens.push(unit);
+    }
+
+    if (idleChickens.length === 0) {
+      return;
+    }
+
+    Selection.clearSelection();
+    let randomIndex = randomInt(0, idleChickens.length - 1);
+    Selection.addUnitToSelection(idleChickens[randomIndex]);
+  };
+
   this.update = function(delta) {
     updateGroundDecals(delta);
 

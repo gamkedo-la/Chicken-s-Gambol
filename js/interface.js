@@ -13,8 +13,8 @@ const Interface = new (function() {
     new Button(655, 7, 30, 20, () => console.log('music button')),
     new Button(695, 7, 30, 20, () => console.log('sound button')),
     new Button(735, 7, 30, 20, () => console.log('menu button')),
-    new Button(270, 452, 20, 20, () => console.log('delete selection button')),
-    new Button(475, 452, 20, 20, () => console.log('find idle button'))
+    new Button(270, 452, 20, 20, Game.deleteSelection.bind(Game)),
+    new Button(475, 452, 20, 20, Game.findIdleChicken.bind(Game))
   ];
 
   this.initialize = function() {
@@ -42,12 +42,13 @@ const Interface = new (function() {
   };
 
   this.update = function(delta) {
-    if(Input.isPressed(KEY.MOUSE_LEFT)){
-      let mousePos = {
-        x: Input.getMousePosition().sx,
-        y: Input.getMousePosition().sy
-      }
-      callbackList(buttons, 'click', [mousePos]);
+    if (Input.isPressed(KEY.MOUSE_LEFT)) {
+      let mousePosition = Input.getMousePosition();
+      let clickPosition = {
+        x: mousePosition.sx,
+        y: mousePosition.sy
+      };
+      callbackList(buttons, 'click', [clickPosition]);
     }
   };
 
@@ -66,7 +67,7 @@ const Interface = new (function() {
     // draw  text
     setShadow(SHADOW_COLOR, 2, 2, 2);
     drawText(gameContext, 658, 160, FONT_COLOR, UNITS_FONT, 'left', 'middle', 'Units');
-    drawText(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', numUnits+'/'+maxNumUnits);
+    drawText(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', numUnits + '/' + maxNumUnits);
     drawText(gameContext, 315, 403, FONT_COLOR, SLIME_FONT, 'left', 'middle', 'Slime');
     drawText(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', numSlime);
     resetShadow();

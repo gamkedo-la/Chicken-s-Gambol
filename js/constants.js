@@ -9,8 +9,6 @@ const SHADOW_COLOR = '#351b14';
 const UNITS_FONT = '18px compass';
 const SLIME_FONT = '26px compass';
 
-const MINI_MAP_MARGIN = 10;
-
 const DEC2RAD = (Math.PI / 180);
 const ANGLE360 = Math.PI * 2;
 
@@ -86,6 +84,8 @@ const KEY = {
   UP: 38,
   RIGHT: 39,
   DOWN: 40,
+
+  PERIOD: 190,
 
   A: 65,
   B: 66,
