@@ -9,6 +9,10 @@ const HotKeys = new (function() {
       Game.findIdleChicken();
     }
 
+    if (Input.isPressed(KEY.DELETE)) {
+      Game.deleteSelection();
+    }
+
     if (Input.isDown(KEY.SHIFT) && Input.isPressed(KEY.ONE)) {
       Selection.addSelectionToHotkeyGroup(1);
     }

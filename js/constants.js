@@ -85,6 +85,7 @@ const KEY = {
   RIGHT: 39,
   DOWN: 40,
 
+  DELETE: 46,
   PERIOD: 190,
 
   A: 65,

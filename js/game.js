@@ -83,6 +83,7 @@ let Game = new (function() {
     }
 
     Selection.clearSelection();
+    // @todo instead of totally random, cycle through the idle chickens? do they have to register themselves perhaps? (a FIFO?)
     let randomIndex = randomInt(0, idleChickens.length - 1);
     Selection.addUnitToSelection(idleChickens[randomIndex]);
   };
