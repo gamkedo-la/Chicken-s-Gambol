@@ -6,7 +6,7 @@ const Images = new (function() {
     // key: 'img/image_name.png'
     chickenEnemy: 'img/chicken.png',
     chicken: 'img/chicken2.png',
-    house: 'img/house.png',
+    house: 'img/houseSprite2.png',
     footprints: 'img/footprints.png',
     interfaceTopBg: 'img/interface-top-right-bg.png',
     interfaceTopContainer: 'img/interface-top-right-container.png',

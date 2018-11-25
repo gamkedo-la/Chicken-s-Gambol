@@ -23,22 +23,19 @@ function pathPreviewer() {
   };
 
   this.draw = function() {
+    if (Interface.hasMouseOver(Input.getMousePosition())) {
+      return;
+    }
+
     //if (multiPaths.length) { console.log("pathPreview.drawing " + multiPaths.length); }
     for (let pathNum=0; pathNum<multiPaths.length; pathNum++) {
       let path = multiPaths[pathNum];
       if (path && path.length) {
-        for (let step=0,len=path.length; step<len; step++) {
+        for (let step=0,len=path.length-1; step<len; step++) {
           let x = path[step][0];
           let y = path[step][1];
-          //drawImage(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE);
-          if (step !== len-1) { // point to next step (unless last one)
-            let angle = Math.atan2(y-path[step+1][1],x-path[step+1][0]);
-            drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
-          }
-          else { // point at WHAT exactly? skip last one
-            //let angle = 0;
-            //drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
-          }
+          let angle = Math.atan2(y-path[step+1][1],x-path[step+1][0]);
+          drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
         }
       }
     }

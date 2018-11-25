@@ -102,6 +102,7 @@ const Grid = new (function() {
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
     let settings = { x: x, y: y };
+    let unit;
     switch (tileType) {
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:
@@ -114,13 +115,16 @@ const Grid = new (function() {
 //        Game.createUnit(Goblin, settings);
 //        break;
       case TILE.PLAYER_HOUSE:
-        Game.createBuilding(House, settings);
+        unit = Game.createBuilding(House, settings);
+        unit.setComplete();
         break;
 //      case TILE.PLAYER_BARRACKS:
-//        Game.createBuilding(Barracks, settings);
+//        unit = Game.createBuilding(Barracks, settings);
+//        unit.setComplete();
 //        break;
 //      case TILE.PLAYER_MUD_PIT:
-//        Game.createBuilding(MutPit, settings);
+//        unit = Game.createBuilding(MutPit, settings);
+//        unit.setComplete();
 //        break;
 
       // Enemy units/buildings
@@ -134,13 +138,16 @@ const Grid = new (function() {
 //        Game.createEnemy(Goblin, settings);
 //        break;
 //      case TILE.ENEMY_HOUSE:
-//        Game.createEnemyBuilding(House, settings);
+//        unit = Game.createEnemyBuilding(House, settings);
+//        unit.setComplete();
 //        break;
 //      case TILE.ENEMY_BARRACKS:
-//        Game.createEnemyBuilding(Barracks, settings);
+//        unit = Game.createEnemyBuilding(Barracks, settings);
+//        unit.setComplete();
 //        break;
 //      case TILE.ENEMY_MUD_PIT:
-//        Game.createEnemyBuilding(MutPit, settings);
+//        unit = Game.createEnemyBuilding(MutPit, settings);
+//        unit.setComplete();
 //        break;
       default:
         return tileType;

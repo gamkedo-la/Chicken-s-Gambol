@@ -20,7 +20,7 @@ const Unit = function(settings) {
 
   let followers = [];
 
-  let state = 'default';
+  let state;
 
   this.isEnemy = function() {
     return unitIsInList(this, Game.enemies);
@@ -43,6 +43,7 @@ const Unit = function(settings) {
       }
     }
   };
+  this.setState(settings.state || 'default');
 
   this.addFollower = function(unit) {
     followers.push(unit);
@@ -166,7 +167,7 @@ const Unit = function(settings) {
     let atY = mapY + (this.y / levelDimensions.height) * mapH;
 
     drawFillRect(gameContext, atX, atY, 2, 2, color);
-  }
+  };
 
   this.closestEnemy = function(maxDistance) {
     //console.log("searching for the closest enemy...");

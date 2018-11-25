@@ -99,6 +99,14 @@ let Sprites = new (function() {
           firstFrameX: 0,
           firstFrameY: 4
         },
+        build: {
+          frames: 2,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 4
+        },
         harvest: {
           frames: 2,
           frameTime: .2,
@@ -149,7 +157,47 @@ let Sprites = new (function() {
           frameTime: .2,
           width: 64,
           height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
           firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
           firstFrameY: 0
         }
       },

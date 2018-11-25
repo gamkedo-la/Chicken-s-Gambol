@@ -15,29 +15,30 @@ const Minimap = new (function() {
     mainViewToMapScale = gameCanvas.width / levelDimensions.width;
   };
 
-  this.mouseInputCheckForMinimap = function() {
-    let mousePos = Input.getMousePosition();
+  this.hasMouseOver = function(mousePos) {
+    return (minimapX < mousePos.sx && mousePos.sx < minimapX + minimapW &&
+      minimapY < mousePos.sy && mousePos.sy < minimapY + minimapH);
+  };
 
-    if (minimapX < mousePos.sx && mousePos.sx < minimapX + minimapW &&
-      minimapY < mousePos.sy && mousePos.sy < minimapY + minimapH) {
+  this.update = function(delta) {
+    if (Input.isPressed(KEY.MOUSE_LEFT)) {
+      let mousePos = Input.getMousePosition();
 
-      let mapX = mousePos.sx - minimapX;
-      let mapY = mousePos.sy - minimapY;
-      let mapXPerc = mapX / minimapW;
-      let mapYPerc = mapY / minimapH;
-      if (DEBUG) {
-        console.log('mapX: ' + mapX);
-        console.log('mapY:' + mapY);
-        console.log('mapXP:' + mapXPerc);
-        console.log('mapYP:' + mapYPerc);
+      if (this.hasMouseOver(mousePos)) {
+        let mapX = mousePos.sx - minimapX;
+        let mapY = mousePos.sy - minimapY;
+        let mapXPerc = mapX / minimapW;
+        let mapYPerc = mapY / minimapH;
+        if (DEBUG) {
+          console.log('mapX: ' + mapX);
+          console.log('mapY:' + mapY);
+          console.log('mapXP:' + mapXPerc);
+          console.log('mapYP:' + mapYPerc);
+        }
+
+        Grid.setPanAsPercentage(mapXPerc, mapYPerc);
       }
-
-      Grid.setPanAsPercentage(mapXPerc, mapYPerc);
-
-      return true;
     }
-
-    return false;
   };
 
   this.draw = function() {

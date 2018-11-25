@@ -144,7 +144,8 @@ let Selection = new (function() {
 
   this.update = function(delta) {
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      if(Minimap.mouseInputCheckForMinimap() === false) { // is the mouse over the Minimap? if so don't drag select
+      let mousePos = Input.getMousePosition();
+      if (!Minimap.hasMouseOver(mousePos) && !Interface.hasMouseOver(mousePos)) {
         mouseLassoing = true;
         mouseLassoPosition1 = Input.getMousePosition();
       }

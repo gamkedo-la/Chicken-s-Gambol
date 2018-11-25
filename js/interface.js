@@ -1,8 +1,23 @@
 const Interface = new (function() {
+  let topWidth = 121;
+  let topHeight = 178;
 
-  let topXOffset = 0;
-  let topYOffset = 0;
-  let bottomYOffset = 0;
+  let bottomWidth = 242;
+  let bottomHeight = 98;
+
+  let topBounds = {
+    x: gameCanvas.width - topWidth,
+    y: 0,
+    w: topWidth,
+    h: topHeight
+  };
+
+  let bottomBounds = {
+    x: (gameCanvas.width / 2) - (bottomWidth / 2),
+    y: gameCanvas.height - bottomHeight,
+    w: bottomWidth,
+    h: bottomHeight
+  };
 
   let numUnits = 3;
   let maxNumUnits = 5;
@@ -14,10 +29,6 @@ const Interface = new (function() {
   let buttons, buildingBuildButtons, unitBuildButtons;
 
   this.initialize = function() {
-    topXOffset = (Images.interfaceTopBg.width / 2);
-    topYOffset = (Images.interfaceTopBg.height / 2);
-    bottomYOffset = (Images.interfaceBottomBg.height / 2);
-
     buttons = [
       new Button(655, 7, 30, 20, () => console.log('music button')),
       new Button(695, 7, 30, 20, () => console.log('sound button')),
@@ -54,6 +65,14 @@ const Interface = new (function() {
   };
   this.subSlime = function(amount) {
     numSlime -= amount;
+  };
+
+  this.hasMouseOver = function(mousePos) {
+    return (topBounds.x < mousePos.sx && mousePos.sx < topBounds.x + topBounds.w &&
+      topBounds.y < mousePos.sy && mousePos.sy < topBounds.y + topBounds.h)
+      ||
+      (bottomBounds.x < mousePos.sx && mousePos.sx < bottomBounds.x + bottomBounds.w &&
+        bottomBounds.y < mousePos.sy && mousePos.sy < bottomBounds.y + bottomBounds.h);
   };
 
   this.selectionChanged = function(selection) {
@@ -112,6 +131,8 @@ const Interface = new (function() {
     callbackList(buttons, 'update', args);
     callbackList(buildingBuildButtons, 'update', args);
     callbackList(unitBuildButtons, 'update', args);
+
+    Minimap.update(delta);
   };
 
   this.draw = function() {
