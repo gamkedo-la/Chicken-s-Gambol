@@ -1,6 +1,6 @@
 const Button = function(x, y, w, h, callback, sprite) {
 
-  let enabled = false;
+  let enabled = true;
   let position = {
     x: x + w / 2,
     y: y + h / 2
