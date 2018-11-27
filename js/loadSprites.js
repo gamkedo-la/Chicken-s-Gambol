@@ -149,6 +149,59 @@ let Sprites = new (function() {
         }
       }
     },
+	 goblin: {
+      image: 'goblin',
+      frames: {
+        default: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        attack: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 32
+        },
+        moveLeft: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 64
+        },
+        moveUp: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 128
+        },
+        moveDown: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 96
+        }
+      }
+    },
     house: {
       image: 'house',
       frames: {

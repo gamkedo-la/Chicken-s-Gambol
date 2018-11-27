@@ -6,6 +6,9 @@ const Images = new (function() {
     // key: 'img/image_name.png'
     chickenEnemy: 'img/chicken.png',
     chicken: 'img/chicken2.png',
+	goblin: 'img/gobo.png',
+	goblinThrow: 'img/Gobo_throw.png',
+	goblinIdle: 'img/Gobo_Idle.png',
     house: 'img/houseSprite2.png',
     footprints: 'img/footprints.png',
     interfaceTopBg: 'img/interface-top-right-bg.png',

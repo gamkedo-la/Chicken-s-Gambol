@@ -134,9 +134,9 @@ const Grid = new (function() {
 //      case TILE.ENEMY_PIG:
 //        Game.createEnemy(Pig, settings);
 //        break;
-//      case TILE.ENEMY_GOBLIN:
-//        Game.createEnemy(Goblin, settings);
-//        break;
+		case TILE.ENEMY_GOBLIN:
+		  Game.createEnemy(Goblin, settings);
+          break;
 //      case TILE.ENEMY_HOUSE:
 //        unit = Game.createEnemyBuilding(House, settings);
 //        unit.setComplete();
