@@ -7,8 +7,7 @@ const Unit = function(settings) {
 
   const clickRadius = settings.clickRadius;
   const clickRadiusSquared = clickRadius * clickRadius;
-  const softCollisionRange = settings.softCollisionRange || clickRadius * 1.3;
-  const hardCollisionRange = settings.hardCollisionRange || clickRadius;
+  const collisionRange = settings.collisionRange || clickRadius * 1.3;
 
   this.x = Math.round(settings.x);
   this.y = Math.round(settings.y);
@@ -74,11 +73,8 @@ const Unit = function(settings) {
     };
   };
 
-  this.getCollisionRanges = function() {
-    return {
-      soft: softCollisionRange,
-      hard: hardCollisionRange
-    };
+  this.getCollisionRange = function() {
+    return collisionRange;
   };
 
   this.remove = function() {
@@ -154,8 +150,7 @@ const Unit = function(settings) {
 
     if (DEBUG) {
       drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, 'green', 1);
-      drawStrokeCircle(gameContext, this.x, this.y, softCollisionRange, 100, 'red', 1);
-      drawStrokeCircle(gameContext, this.x, this.y, hardCollisionRange, 100, 'red', 1);
+      drawStrokeCircle(gameContext, this.x, this.y, collisionRange, 100, 'red', 1);
     }
     if (isSelected) {
       drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, SELECTED_COLOR, 2);

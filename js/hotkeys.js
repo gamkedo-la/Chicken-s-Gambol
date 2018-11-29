@@ -13,6 +13,10 @@ const HotKeys = new (function() {
       Game.deleteSelection();
     }
 
+    if (Input.isPressed(KEY.ESC) && Game.hasActiveBuildButton()) {
+      Game.cancelBuildButton();
+    }
+
     if (Input.isDown(KEY.SHIFT) && Input.isPressed(KEY.ONE)) {
       Selection.addSelectionToHotkeyGroup(1);
     }

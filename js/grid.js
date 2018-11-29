@@ -111,9 +111,9 @@ const Grid = new (function() {
 //      case TILE.PLAYER_PIG:
 //        Game.createUnit(Pig, settings);
 //        break;
-//      case TILE.PLAYER_GOBLIN:
-//        Game.createUnit(Goblin, settings);
-//        break;
+      case TILE.PLAYER_GOBLIN:
+        Game.createUnit(Goblin, settings);
+        break;
       case TILE.PLAYER_HOUSE:
         unit = Game.createBuilding(House, settings);
         unit.setComplete();
@@ -134,9 +134,9 @@ const Grid = new (function() {
 //      case TILE.ENEMY_PIG:
 //        Game.createEnemy(Pig, settings);
 //        break;
-		case TILE.ENEMY_GOBLIN:
-		  Game.createEnemy(Goblin, settings);
-          break;
+//      case TILE.ENEMY_GOBLIN:
+//        Game.createEnemy(GoblinEnemy, settings);
+//        break;
 //      case TILE.ENEMY_HOUSE:
 //        unit = Game.createEnemyBuilding(House, settings);
 //        unit.setComplete();
@@ -172,11 +172,11 @@ const Grid = new (function() {
     return WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
 
-  this.findCollisionWith = function(collision, currentPosition, collisionRanges) {
+  this.findCollisionWith = function(collision, currentPosition, collisionRange) {
     let tileIndex = 0;
     let tilePosition = { x: 0, y: 0 };
 
-    let numTilesToCheck = Math.ceil((collisionRanges.soft + TILE_COLLISION_SIZE) / TILE_SIZE);
+    let numTilesToCheck = Math.ceil((collisionRange + TILE_COLLISION_SIZE) / TILE_SIZE);
     let currentTileIndex = this.coordsToIndex(currentPosition.x, currentPosition.y);
 
     // Start with a tile to the upper left
@@ -206,7 +206,7 @@ const Grid = new (function() {
           continue;
         }
 
-        if (dist < (collisionRanges.soft + TILE_COLLISION_SIZE)) {
+        if (dist < (collisionRange + TILE_COLLISION_SIZE)) {
           collision.type = 'soft';
           collision.position = tilePosition;
           collision.distance = dist;
@@ -216,10 +216,14 @@ const Grid = new (function() {
   };
 
   this.findPath = function(start, destination) {
-    start = [Math.round(start.x / TILE_SIZE), Math.round(start.y / TILE_SIZE)];
+    start = [
+      Math.floor(start.x / TILE_SIZE),
+      Math.floor(start.y / TILE_SIZE)
+    ];
+
     destination = [
-      Math.round(destination.x / TILE_SIZE),
-      Math.round(destination.y / TILE_SIZE)
+      Math.floor((destination.x) / TILE_SIZE),
+      Math.floor((destination.y) / TILE_SIZE)
     ];
 
     let path = findPath(levelData.cols, levelData.rows, start, destination);
@@ -244,6 +248,14 @@ const Grid = new (function() {
     let row = Math.floor(y / TILE_SIZE);
 
     return (col + levelData.cols * row);
+  };
+
+  this.normalizeCoords = function(coords) {
+    let col = Math.floor(coords.x / TILE_SIZE);
+    let row = Math.floor(coords.y / TILE_SIZE);
+
+    coords.x = col * TILE_SIZE + TILE_HALF_SIZE;
+    coords.y = row * TILE_SIZE + TILE_HALF_SIZE;
   };
 
   this.update = function(delta) {

@@ -131,18 +131,11 @@ let Selection = new (function() {
     return false;
   };
 
-  this.getClickedUnit = function(list) {
-    let mousePosition = Input.getMousePosition();
-    let length = list.length;
-    for (let i = 0; i < length; i++) {
-      let target = list[i];
-      if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
-        return target;
-      }
-    }
-  };
-
   this.update = function(delta) {
+    if (Game.hasActiveBuildButton()) {
+      return;
+    }
+
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
       let mousePos = Input.getMousePosition();
       if (!Minimap.hasMouseOver(mousePos) && !Interface.hasMouseOver(mousePos)) {
@@ -162,7 +155,7 @@ let Selection = new (function() {
     }
 
     if (!hasEnemySelected && Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
-      let target = this.getClickedUnit(Game.enemies);
+      let target = Game.findUnitAtMousePosition();
       if (!target) {
         // make a fake target that doesn't move
         target = Game.createTarget(Input.getMousePosition());

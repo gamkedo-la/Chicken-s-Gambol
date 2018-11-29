@@ -19,7 +19,7 @@ const Interface = new (function() {
     h: bottomHeight
   };
 
-  let numUnits = 3;
+  let numUnits = 0;
   let maxNumUnits = 5;
 
   let numSlime = 0;
@@ -38,7 +38,7 @@ const Interface = new (function() {
     ];
 
     buildingBuildButtons = [
-      new Button(300, 425, 50, 50, () => console.log('set build house'), Sprites.buildButtonHouse)
+      new Button(300, 425, 50, 50, Game.buildButton.bind(Game, House), Sprites.buildButtonHouse)
     ];
 
     unitBuildButtons = [
@@ -83,7 +83,7 @@ const Interface = new (function() {
       return;
     }
 
-    if (length === 1 && selection[0].constructor === House) {
+    if (length === 1 && selection[0].constructor === House && selection[0].isComplete()) {
       setSelectionType('units');
 
       return;

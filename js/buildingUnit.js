@@ -22,6 +22,10 @@ const BuildingUnit = function(settings) {
     this.setState('default');
   };
 
+  this.isComplete = function() {
+    return buildCompletePercentage === 100;
+  };
+
   this.addBuildPercentage = function(percentage) {
     buildCompletePercentage = Math.min(100, buildCompletePercentage + percentage);
 

@@ -4,6 +4,8 @@ let Game = new (function() {
   this.units = [];
   this.buildings = [];
   this.targets = [];
+  this.buildActionConstructor = false;
+  let placedBuilding = false;
 
   let removeDeadUnits = false;
 
@@ -20,6 +22,7 @@ let Game = new (function() {
   };
 
   this.createUnit = function(Constructor, settings) {
+    Interface.addUnit();
     return create(this.units, Constructor, settings);
   };
 
@@ -38,22 +41,40 @@ let Game = new (function() {
     return unit;
   }
 
+  this.buildButton = function(Constructor) {
+    this.buildActionConstructor = Constructor;
+    placedBuilding = false;
+  };
+
+  this.cancelBuildButton = function(Constructor) {
+    this.buildActionConstructor = false;
+    placedBuilding = false;
+  };
+
+  this.hasActiveBuildButton = function() {
+    return this.buildActionConstructor !== false;
+  };
+
   this.deleteSelection = function() {
     let selection = Selection.getSelection();
 
     if (selection.length === 0) {
       // We can only delete units or buildings, not enemies or enemy buildings
       return;
-
     }
+
     if (!unitIsInList(selection[0], this.units) && !unitIsInList(selection[0], this.buildings)) {
       return;
-
     }
 
     let length = selection.length;
     for (let i = 0; i < length; i++) {
       selection[i].remove();
+
+      let c = selection[i].constructor;
+      if (c === Chicken || c === Goblin/* || c === Pig*/) {
+        Interface.subUnit();
+      }
     }
 
     Selection.clearSelection();
@@ -87,6 +108,33 @@ let Game = new (function() {
     Selection.setUnitSelection(idleChickens[randomIndex]);
   };
 
+  function getUnitAtPosition(mousePosition, list) {
+    let length = list.length;
+    for (let i = 0; i < length; i++) {
+      let target = list[i];
+      if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
+        return target;
+      }
+    }
+  }
+
+  this.findUnitAtMousePosition = function() {
+    let mousePosition = Input.getMousePosition();
+
+    let target = getUnitAtPosition(mousePosition, this.units);
+    if (!target) {
+      target = getUnitAtPosition(mousePosition, this.buildings);
+    }
+    if (!target) {
+      target = getUnitAtPosition(mousePosition, this.enemies);
+    }
+    if (!target) {
+      target = getUnitAtPosition(mousePosition, this.enemyBuildings);
+    }
+
+    return target;
+  };
+
   this.update = function(delta) {
     updateGroundDecals(delta);
 
@@ -104,6 +152,22 @@ let Game = new (function() {
       removeRemovableUnitsFromList(this.enemyBuildings);
       removeRemovableUnitsFromList(this.targets);
     }
+
+    if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
+      let mousePos = Input.getMousePosition();
+      let settings = {
+        x: mousePos.x,
+        y: mousePos.y
+      };
+
+      Grid.normalizeCoords(settings);
+      let building = this.createBuilding(this.buildActionConstructor, settings);
+      callbackList(Selection.getSelection(), 'setTarget', [building]);
+      placedBuilding = true;
+    }
+    else if (placedBuilding) {
+      this.cancelBuildButton();
+    }
   };
 
   function removeRemovableUnitsFromList(list) {
@@ -120,6 +184,10 @@ let Game = new (function() {
     callbackList(this.enemyBuildings, 'draw', [interpolationPercentage]);
     callbackList(this.units, 'draw', [interpolationPercentage]);
     callbackList(this.buildings, 'draw', [interpolationPercentage]);
+
+    if (this.hasActiveBuildButton()) {
+      // @todo draw new building-placeholder
+    }
   };
 
 })();

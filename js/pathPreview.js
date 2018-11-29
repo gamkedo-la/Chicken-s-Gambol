@@ -1,4 +1,3 @@
-
 function pathPreviewer() {
 
   let path = null;
@@ -8,16 +7,18 @@ function pathPreviewer() {
 
   this.update = function(delta) {
     elapsedSinceUpdate += delta;
-    if (elapsedSinceUpdate >= updateInterval) {
+    if (updateInterval <= elapsedSinceUpdate) {
       multiPaths = []; // reset
       elapsedSinceUpdate -= updateInterval;
       let pos = Input.getMousePosition();
       let selection = Selection.getSelection();
       let len = selection.length;
       //console.log("time to update " + len + " path previews!");
-      for (let num=0; num<len; num++) {
+      for (let num = 0; num < len; num++) {
         path = Grid.findPath(pos, selection[num]);
-        multiPaths.push(path);
+        if (path && path.length) {
+          multiPaths.push(path);
+        }
       }
     }
   };
@@ -28,15 +29,15 @@ function pathPreviewer() {
     }
 
     //if (multiPaths.length) { console.log("pathPreview.drawing " + multiPaths.length); }
-    for (let pathNum=0; pathNum<multiPaths.length; pathNum++) {
+    for (let pathNum = 0; pathNum < multiPaths.length; pathNum++) {
       let path = multiPaths[pathNum];
-      if (path && path.length) {
-        for (let step=0,len=path.length-1; step<len; step++) {
-          let x = path[step][0];
-          let y = path[step][1];
-          let angle = Math.atan2(y-path[step+1][1],x-path[step+1][0]);
-          drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x*TILE_SIZE, y*TILE_SIZE, angle);
-        }
+      for (let step = 0, len = path.length - 1; step < len; step++) {
+        let x = path[step][0];
+        let y = path[step][1];
+        let nx = path[step + 1][0];
+        let ny = path[step + 1][1];
+        let angle = Math.atan2(y - ny, x - nx);
+        drawImageRotatedAlpha(gameContext, Images.pathPreviewIcon, x * TILE_SIZE + TILE_HALF_SIZE, y * TILE_SIZE + TILE_HALF_SIZE, angle);
       }
     }
   };

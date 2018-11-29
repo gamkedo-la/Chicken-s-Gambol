@@ -8,6 +8,8 @@ const FakeTarget = function(settings) {
   };
 
   Unit.call(this, settings);
+
+  this.getCollisionRange = false;
 };
 
 FakeTarget.prototype = Object.create(Unit.prototype);

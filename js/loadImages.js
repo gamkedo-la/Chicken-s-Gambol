@@ -53,7 +53,9 @@ const Images = new (function() {
   };
 
   this.loadImage = function(src, callback) {
-    console.log("Loading image: " + src);
+    if (DEBUG) {
+      console.log('Loading image: ' + src);
+    }
     let img = document.createElement('img');
     img.src = src;
     img.onload = callback;

@@ -6,9 +6,8 @@ const Goblin = function(settings) {
     clickRadius: 16,
     unitRanksSpacing: 36,
     footprints: Images.footprints,
-    softCollisionRange: 26,
-    hardCollisionRange: 13,
-    speed: 1.4
+    collisionRange: 26,
+    speed: 1.75
   });
 
   this.childUpdate = function() {

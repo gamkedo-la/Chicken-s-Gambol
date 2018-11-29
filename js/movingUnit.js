@@ -27,6 +27,10 @@ const MovingUnit = function(settings) {
   let nextStepPosition;
   let distanceTraveled = 0;
 
+  this.getTarget = function() {
+    return target;
+  };
+
   this.setTarget = function(unit, _unitsAlongSide, _formationIndex) {
     if (!unit) {
       return;
@@ -56,6 +60,20 @@ const MovingUnit = function(settings) {
   this.getTargetPosition = function() {
     // @todo figure out how to position the formation relative to the approach-angle
     let targetPosition = target.getPosition();
+
+    if (target.getCollisionRange) {
+      let range = target.getCollisionRange();
+      let pos = this.getPosition();
+      let ang = Math.atan2(targetPosition.y - pos.y, targetPosition.x - pos.x);
+
+      targetPosition.x -= Math.cos(ang) * range;
+      targetPosition.y -= Math.sin(ang) * range;
+    }
+
+    if (!formationIndex || !unitsAlongSide) {
+      return targetPosition;
+    }
+
     let rowNum = formationIndex % unitsAlongSide;
     let colNum = Math.floor(formationIndex / unitsAlongSide);
     targetPosition.x = targetPosition.x + colNum * unitRanksSpacing;
@@ -76,8 +94,9 @@ const MovingUnit = function(settings) {
     }
 
     if (target && !this.isWithinActionRange(target)) {
-      this.stepTowardsTarget();
-      return;
+      if (this.stepTowardsTarget()) {
+        return;
+      }
     }
 
     if (target && target.constructor === FakeTarget) {
@@ -105,7 +124,7 @@ const MovingUnit = function(settings) {
 
   this.stepTowardsTarget = function() {
     if (!target) {
-      return;
+      return false;
     }
 
     if (TILE_SIZE <= distanceTraveled) {
@@ -115,18 +134,19 @@ const MovingUnit = function(settings) {
       let path = Grid.findPath(this.getPosition(), this.getTargetPosition());
       // no path to target
       if (!path || path[0] === undefined) {
-        return;
+        // no step to take
+        return false;
       }
 
       nextStepPosition = {
-        x: path[0][0] * TILE_SIZE,
-        y: path[0][1] * TILE_SIZE,
+        x: path[0][0] * TILE_SIZE + TILE_HALF_SIZE,
+        y: path[0][1] * TILE_SIZE + TILE_HALF_SIZE,
       };
     }
 
     let newVs = rotateToTarget(vx, vy, speed, rotationEase, nextStepPosition, this.getPosition());
 
-    newVs = updateVsForCollisions(newVs, speed, this.getPosition(), this.getCollisionRanges());
+    newVs = updateVsForCollisions(newVs, speed, this.getPosition(), this.getCollisionRange());
 
     distanceTraveled += newVs.dist;
 
@@ -152,18 +172,21 @@ const MovingUnit = function(settings) {
     if (footprints && (0 < vx || 0 < vy)) {
       this.updateFootprints();
     }
+
+    // we took a step!
+    return true;
   };
 
-  function updateVsForCollisions(newVs, speed, currentPosition, collisionRanges) {
+  function updateVsForCollisions(newVs, speed, currentPosition, collisionRange) {
     let collision = {
       type: false,
       position: false,
       distance: 1000 // Something bigger than the minimum collision distance
     };
 
-    findCollisionWith(Game.units, collision, currentPosition, collisionRanges);
-    findCollisionWith(Game.enemies, collision, currentPosition, collisionRanges);
-    Grid.findCollisionWith(collision, currentPosition, collisionRanges);
+    findCollisionWith(Game.units, collision, currentPosition, collisionRange);
+    findCollisionWith(Game.enemies, collision, currentPosition, collisionRange);
+    Grid.findCollisionWith(collision, currentPosition, collisionRange);
 
     if (collision.position) {
       // find angle between this and other
@@ -219,7 +242,7 @@ const MovingUnit = function(settings) {
     return diff;
   }
 
-  function findCollisionWith(list, collision, currentPosition, collisionRanges) {
+  function findCollisionWith(list, collision, currentPosition, collisionRange) {
     let l = list.length;
     for (let i = 0; i < l; i++) {
       let unit = list[i];
@@ -232,26 +255,9 @@ const MovingUnit = function(settings) {
       if (collision.distance < dist) {
         continue;
       }
-      let unitRanges = unit.getCollisionRanges();
+      let unitRange = unit.getCollisionRange();
 
-      // @todo are these needed?
-//      if (dist < (collisionRanges.hard + unitRanges.hard)) {
-//        collision.type = 'hard';
-//        collision.with = unit;
-//        collision.distance = dist;
-//      }
-//      else if (dist < (collisionRanges.soft + unitRanges.hard)) {
-//        collision.type = 'soft-hard';
-//        collision.with = unit;
-//        collision.distance = dist;
-//      }
-//      else if (dist < (collisionRanges.hard + unitRanges.soft)) {
-//        collision.type = 'soft-hard';
-//        collision.with = unit;
-//        collision.distance = dist;
-//      }
-//      else
-      if (dist < (collisionRanges.soft + unitRanges.soft) ) {
+      if (dist < (collisionRange + unitRange) ) {
         collision.type = 'soft';
         collision.position = unitPosition;
         collision.distance = dist;
