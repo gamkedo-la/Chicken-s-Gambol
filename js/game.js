@@ -5,6 +5,7 @@ let Game = new (function() {
   this.buildings = [];
   this.targets = [];
   this.buildActionConstructor = false;
+  let buildButton = false;
   let placedBuilding = false;
 
   let removeDeadUnits = false;
@@ -41,12 +42,14 @@ let Game = new (function() {
     return unit;
   }
 
-  this.buildButton = function(Constructor) {
+  this.buildButton = function(Constructor, button) {
+    buildButton = button;
     this.buildActionConstructor = Constructor;
     placedBuilding = false;
   };
 
   this.cancelBuildButton = function(Constructor) {
+    buildButton.deactivate();
     this.buildActionConstructor = false;
     placedBuilding = false;
   };

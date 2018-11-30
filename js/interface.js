@@ -30,19 +30,19 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(655, 7, 30, 20, () => console.log('music button')),
-      new Button(695, 7, 30, 20, () => console.log('sound button')),
-      new Button(735, 7, 30, 20, () => console.log('menu button')),
-      new Button(270, 452, 20, 20, Game.deleteSelection.bind(Game)),
-      new Button(475, 452, 20, 20, Game.findIdleChicken.bind(Game))
+      new Button(654, 7, 30, 20, () => console.log('music button'), Images.topButtonBg),
+      new Button(692, 7, 30, 20, () => console.log('sound button'), Images.topButtonBg),
+      new Button(730, 7, 30, 20, () => console.log('menu button'), Images.topButtonBg),
+      new Button(271, 451, 20, 20, Game.deleteSelection.bind(Game), Images.bottomButtonBg),
+      new Button(475, 451, 20, 20, Game.findIdleChicken.bind(Game), Images.bottomButtonBg)
     ];
 
     buildingBuildButtons = [
-      new Button(300, 425, 50, 50, Game.buildButton.bind(Game, House), Sprites.buildButtonHouse)
+      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House), Images.buildButtonBg, Sprites.buildButtonHouse)
     ];
 
     unitBuildButtons = [
-      new Button(300, 425, 50, 50, () => console.log('set build chicken'), Sprites.buildButtonChicken)
+      new Button(300, 422, 50, 50, () => console.log('build chicken'), Images.buildButtonBg, Sprites.buildButtonChicken)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
@@ -144,6 +144,7 @@ const Interface = new (function() {
     Minimap.draw();
 
     // draw buttons
+    callbackList(buttons, 'draw', []);
     callbackList(buildingBuildButtons, 'draw', []);
     callbackList(unitBuildButtons, 'draw', []);
 

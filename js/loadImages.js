@@ -6,7 +6,7 @@ const Images = new (function() {
     // key: 'img/image_name.png'
     chickenEnemy: 'img/chicken.png',
     chicken: 'img/chicken2.png',
-	goblin: 'img/gobo.png',
+    goblin: 'img/gobo.png',
     house: 'img/houseSprite2.png',
     footprints: 'img/footprints.png',
     interfaceTopBg: 'img/interface-top-right-bg.png',
@@ -15,7 +15,10 @@ const Images = new (function() {
     interfaceBottomContainer: 'img/interface-bottom-container.png',
     pathPreviewIcon: 'img/pathPreviewIcon.png',
     buildButtonHouse: 'img/build-button-house.png',
-    buildButtonChicken: 'img/build-button-chicken.png'
+    buildButtonChicken: 'img/build-button-chicken.png',
+    buildButtonBg: 'img/build-button-active-bg.png',
+    bottomButtonBg: 'img/bottom-button-active-bg.png',
+    topButtonBg: 'img/top-button-active-bg.png'
   };
 
   let tileTypeImages = [
