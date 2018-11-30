@@ -10,11 +10,6 @@ const Goblin = function(settings) {
     speed: 1.75
   });
 
-  this.childUpdate = function() {
-
-    return false;
-  };
-
   MovingUnit.call(this, settings);
 };
 
