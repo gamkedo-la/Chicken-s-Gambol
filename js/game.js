@@ -6,6 +6,7 @@ let Game = new (function() {
   this.targets = [];
   this.buildActionConstructor = false;
   let buildButton = false;
+  let buildPreviewImage = false;
   let placedBuilding = false;
 
   let removeDeadUnits = false;
@@ -42,7 +43,8 @@ let Game = new (function() {
     return unit;
   }
 
-  this.buildButton = function(Constructor, button) {
+  this.buildButton = function(Constructor, previewImage, button) {
+    buildPreviewImage = previewImage;
     buildButton = button;
     this.buildActionConstructor = Constructor;
     placedBuilding = false;
@@ -52,6 +54,8 @@ let Game = new (function() {
     buildButton.deactivate();
     this.buildActionConstructor = false;
     placedBuilding = false;
+    buildPreviewImage = false;
+    buildButton = false;
   };
 
   this.hasActiveBuildButton = function() {
@@ -188,8 +192,10 @@ let Game = new (function() {
     callbackList(this.units, 'draw', [interpolationPercentage]);
     callbackList(this.buildings, 'draw', [interpolationPercentage]);
 
-    if (this.hasActiveBuildButton()) {
-      // @todo draw new building-placeholder
+    if (this.hasActiveBuildButton() && buildPreviewImage) {
+      let position = Input.getMousePosition();
+      Grid.normalizeCoords(position);
+      drawImage(gameContext, buildPreviewImage, position.x + TILE_HALF_SIZE, position.y + TILE_HALF_SIZE);
     }
   };
 
