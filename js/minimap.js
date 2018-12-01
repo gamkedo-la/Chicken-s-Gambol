@@ -21,8 +21,8 @@ const Minimap = new (function() {
   };
 
   this.update = function(delta) {
+    let mousePos = Input.getMousePosition();
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      let mousePos = Input.getMousePosition();
 
       if (this.hasMouseOver(mousePos)) {
         let mapX = mousePos.sx - minimapX;
@@ -38,6 +38,12 @@ const Minimap = new (function() {
 
         Grid.setPanAsPercentage(mapXPerc, mapYPerc);
       }
+    }
+    if (Interface.hasMouseOver(mousePos)) {
+      mapX = minimapX;
+      mapY = minimapY;
+      mapXPerc = minimapW;
+      mapYPerc = minimapH;
     }
   };
 
