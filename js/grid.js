@@ -18,7 +18,7 @@ const Grid = new (function() {
 
   const levelCanvas = document.createElement('canvas');
   const levelContext = levelCanvas.getContext('2d');
-
+  
   this.getPanPosition = function() {
     return {
       x: x,
@@ -260,6 +260,9 @@ const Grid = new (function() {
 
   this.update = function(delta) {
     let mousePosition = Input.getMousePosition();
+    if (Interface.hasMouseOver(mousePosition)) {
+      return;
+    }
     let step = scrollSpeed * delta;
 
     if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {

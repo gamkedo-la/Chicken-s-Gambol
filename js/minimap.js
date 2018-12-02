@@ -39,12 +39,6 @@ const Minimap = new (function() {
         Grid.setPanAsPercentage(mapXPerc, mapYPerc);
       }
     }
-    if (Interface.hasMouseOver(mousePos)) {
-      mapX = minimapX;
-      mapY = minimapY;
-      mapXPerc = minimapW;
-      mapYPerc = minimapH;
-    }
   };
 
   this.draw = function() {
