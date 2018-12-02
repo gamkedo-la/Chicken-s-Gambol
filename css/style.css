@@ -18,6 +18,7 @@ html, body {
 body {
   background: #8cc137;
   overflow: hidden;
+  cursor: url(../img/chickenCursor.png), auto;
 }
 
 canvas {
@@ -34,8 +35,6 @@ canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  cursor: url(../img/chickenCursor.png), auto;
 
   border: solid 1px #1b2a0f;
   border-radius: 10px;

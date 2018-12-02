@@ -6,15 +6,19 @@ const Interface = new (function() {
   let bottomHeight = 98;
 
   let topBounds = {
-    x: gameCanvas.width - topWidth + 1,
-    y: -1,
+    x: gameCanvas.width - topWidth,
+    y: 0,
+    x2: gameCanvas.width + 1,
+    y2: topHeight,
     w: topWidth,
     h: topHeight
   };
 
   let bottomBounds = {
     x: (gameCanvas.width / 2) - (bottomWidth / 2),
-    y: gameCanvas.height - bottomHeight + 1,
+    y: gameCanvas.height - bottomHeight,
+    x2: (gameCanvas.width / 2) + (bottomWidth / 2),
+    y2: gameCanvas.height + 1,
     w: bottomWidth,
     h: bottomHeight
   };
@@ -68,11 +72,11 @@ const Interface = new (function() {
   };
 
   this.hasMouseOver = function(mousePos) {
-    return (topBounds.x < mousePos.sx && mousePos.sx < topBounds.x + topBounds.w &&
-      topBounds.y < mousePos.sy && mousePos.sy < topBounds.y + topBounds.h)
+    return (topBounds.x < mousePos.sx && mousePos.sx <= topBounds.x2 &&
+      topBounds.y <= mousePos.sy && mousePos.sy < topBounds.y2)
       ||
-      (bottomBounds.x < mousePos.sx && mousePos.sx < bottomBounds.x + bottomBounds.w &&
-        bottomBounds.y < mousePos.sy && mousePos.sy < bottomBounds.y + bottomBounds.h);
+      (bottomBounds.x < mousePos.sx && mousePos.sx < bottomBounds.x2 &&
+        bottomBounds.y < mousePos.sy && mousePos.sy <= bottomBounds.y2);
   };
 
   this.selectionChanged = function(selection) {
