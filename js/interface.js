@@ -7,7 +7,7 @@ const Interface = new (function() {
 
   let topBounds = {
     x: gameCanvas.width - topWidth + 1,
-    y: 1,
+    y: -1,
     w: topWidth,
     h: topHeight
   };
