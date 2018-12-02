@@ -21,24 +21,27 @@ const Minimap = new (function() {
   };
 
   this.update = function(delta) {
-    let mousePos = Input.getMousePosition();
-    if (Input.isPressed(KEY.MOUSE_LEFT)) {
-
-      if (this.hasMouseOver(mousePos)) {
-        let mapX = mousePos.sx - minimapX;
-        let mapY = mousePos.sy - minimapY;
-        let mapXPerc = mapX / minimapW;
-        let mapYPerc = mapY / minimapH;
-        if (DEBUG) {
-          console.log('mapX: ' + mapX);
-          console.log('mapY:' + mapY);
-          console.log('mapXP:' + mapXPerc);
-          console.log('mapYP:' + mapYPerc);
-        }
-
-        Grid.setPanAsPercentage(mapXPerc, mapYPerc);
-      }
+    if (!Input.isPressed(KEY.MOUSE_LEFT)) {
+      return;
     }
+
+    let mousePos = Input.getMousePosition();
+    if (!this.hasMouseOver(mousePos)) {
+      return;
+    }
+
+    let mapX = mousePos.sx - minimapX;
+    let mapY = mousePos.sy - minimapY;
+    let mapXPerc = mapX / minimapW;
+    let mapYPerc = mapY / minimapH;
+    if (DEBUG) {
+      console.log('mapX: ' + mapX);
+      console.log('mapY:' + mapY);
+      console.log('mapXP:' + mapXPerc);
+      console.log('mapYP:' + mapYPerc);
+    }
+
+    Grid.setPanAsPercentage(mapXPerc, mapYPerc);
   };
 
   this.draw = function() {
