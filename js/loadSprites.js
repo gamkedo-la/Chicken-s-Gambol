@@ -309,6 +309,32 @@ let Sprites = new (function() {
           firstFrameY: 0
         }
       },
+    },
+    slime: {
+      image: 'slime',
+      frames: {
+        default: {
+          frames: 12,
+          frameTime: .2,
+          width: 93,
+          height: 62,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      },
+    },
+    slimeEnemy: {
+      image: 'slime',
+      frames: {
+        default: {
+          frames: 12,
+          frameTime: .2,
+          width: 93,
+          height: 62,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      },
     }
   };
 

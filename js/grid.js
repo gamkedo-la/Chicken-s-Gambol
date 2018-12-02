@@ -114,6 +114,9 @@ const Grid = new (function() {
       case TILE.PLAYER_GOBLIN:
         Game.createUnit(Goblin, settings);
         break;
+      case TILE.PLAYER_SLIME:
+        unit = Game.createBuilding(Slime, settings);
+        break;
       case TILE.PLAYER_HOUSE:
         unit = Game.createBuilding(House, settings);
         unit.setComplete();
@@ -136,6 +139,9 @@ const Grid = new (function() {
 //        break;
 //      case TILE.ENEMY_GOBLIN:
 //        Game.createEnemy(GoblinEnemy, settings);
+//        break;
+//      case TILE.ENEMY_SLIME:
+//        Game.createEnemy(SlimeEnemy, settings);
 //        break;
 //      case TILE.ENEMY_HOUSE:
 //        unit = Game.createEnemyBuilding(House, settings);
