@@ -6,15 +6,15 @@ const Interface = new (function() {
   let bottomHeight = 98;
 
   let topBounds = {
-    x: gameCanvas.width - topWidth,
-    y: 0,
+    x: gameCanvas.width - topWidth + 1,
+    y: 1,
     w: topWidth,
     h: topHeight
   };
 
   let bottomBounds = {
     x: (gameCanvas.width / 2) - (bottomWidth / 2),
-    y: gameCanvas.height - bottomHeight,
+    y: gameCanvas.height - bottomHeight + 1,
     w: bottomWidth,
     h: bottomHeight
   };
