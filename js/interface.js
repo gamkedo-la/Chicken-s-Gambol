@@ -34,11 +34,11 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 20, () => console.log('music button'), Images.topButtonBg),
-      new Button(692, 7, 30, 20, () => console.log('sound button'), Images.topButtonBg),
-      new Button(730, 7, 30, 20, () => console.log('menu button'), Images.topButtonBg),
-      new Button(271, 451, 20, 20, Game.deleteSelection.bind(Game), Images.bottomButtonBg),
-      new Button(475, 451, 20, 20, Game.findIdleChicken.bind(Game), Images.bottomButtonBg)
+      new Button(654, 7, 30, 22, () => console.log('music button'), Images.topButtonBg),
+      new Button(692, 7, 30, 22, () => console.log('sound button'), Images.topButtonBg),
+      new Button(730, 7, 30, 22, () => console.log('menu button'), Images.topButtonBg),
+      new Button(271, 451, 20, 22, Game.deleteSelection.bind(Game), Images.bottomButtonBg),
+      new Button(475, 451, 20, 22, Game.findIdleChicken.bind(Game), Images.bottomButtonBg)
     ];
 
     buildingBuildButtons = [

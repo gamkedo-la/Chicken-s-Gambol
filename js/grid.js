@@ -16,9 +16,12 @@ const Grid = new (function() {
   let maxX = 0;
   let maxY = 0;
 
+  const canvasHalfWidth = gameCanvas.width / 2;
+  const canvasHalfHeight = gameCanvas.height / 2;
+
   const levelCanvas = document.createElement('canvas');
   const levelContext = levelCanvas.getContext('2d');
-  
+
   this.getPanPosition = function() {
     return {
       x: x,
@@ -34,8 +37,10 @@ const Grid = new (function() {
   };
 
   this.setPanAsPercentage = function(xPerc, yPerc) {
-    x = xPerc * levelCanvas.width - (gameCanvas.width / 2);
-    y = yPerc * levelCanvas.height - (gameCanvas.height / 2);
+    x = Math.round(xPerc * levelCanvas.width - canvasHalfWidth);
+    y = Math.round(yPerc * levelCanvas.height - canvasHalfHeight);
+
+    fixXY();
   };
 
   this.getBounds = function() {
@@ -285,6 +290,10 @@ const Grid = new (function() {
       y += step;
     }
 
+    fixXY();
+  };
+
+  function fixXY() {
     if (x < 0) {
       x = 0;
     }
@@ -297,7 +306,7 @@ const Grid = new (function() {
     else if (maxY < y) {
       y = maxY;
     }
-  };
+  }
 
   this.draw = function() {
     gameContext.drawImage(levelCanvas, x, y, gameCanvas.width, gameCanvas.height, x, y, gameCanvas.width, gameCanvas.height);
