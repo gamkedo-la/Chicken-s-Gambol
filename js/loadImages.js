@@ -20,7 +20,9 @@ const Images = new (function() {
     buildButtonChicken: 'img/build-button-chicken.png',
     buildButtonBg: 'img/build-button-active-bg.png',
     bottomButtonBg: 'img/bottom-button-active-bg.png',
-    topButtonBg: 'img/top-button-active-bg.png'
+    topButtonBg: 'img/top-button-active-bg.png',
+    scrollingArrows: 'img/scrolling-arrows.png',
+    noScrollingArrows: 'img/no-scrolling-arrows.png',
   };
 
   let tileTypeImages = [
