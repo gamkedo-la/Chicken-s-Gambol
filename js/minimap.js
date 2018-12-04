@@ -28,6 +28,8 @@ const Minimap = new (function() {
     let mousePos = Input.getMousePosition();
     if (!this.hasMouseOver(mousePos)) {
       return;
+    } else {
+      document.body.style.cursor = "url('img/chickenCursor.png'), auto";
     }
 
     let mapX = mousePos.sx - minimapX;

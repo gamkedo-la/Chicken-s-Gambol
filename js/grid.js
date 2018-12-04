@@ -270,24 +270,36 @@ const Grid = new (function() {
   };
 
   this.update = function(delta) {
+  	let oldX = x;
+  	let oldY = y;
     let mousePosition = Input.getMousePosition();
     if (Interface.hasMouseOver(mousePosition)) {
+      document.body.style.cursor = "url('img/chickenCursor.png'), auto";
       return;
     }
+
     let step = scrollSpeed * delta;
 
     if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
       x -= step;
+      document.body.style.cursor = "url('img/arrowLeft.png'), auto";
     }
     else if (maxRightDistance < mousePosition.sx || Input.isDown(KEY.D) || Input.isDown(KEY.RIGHT)) {
       x += step;
+      document.body.style.cursor = "url('img/arrowRight.png'), auto";
     }
 
     if (mousePosition.sy < maxTopDistance || Input.isDown(KEY.W) || Input.isDown(KEY.UP)) {
       y -= step;
+      document.body.style.cursor = "url('img/arrowUp.png'), auto";
     }
     else if (maxBottomDistance < mousePosition.sy || Input.isDown(KEY.S) || Input.isDown(KEY.DOWN)) {
       y += step;
+      document.body.style.cursor = "url('img/arrowDown.png'), auto";
+    }
+
+    if (oldX == x && oldY == y) {
+      document.body.style.cursor = "url('img/chickenCursor.png'), auto";
     }
 
     fixXY();
@@ -296,16 +308,21 @@ const Grid = new (function() {
   function fixXY() {
     if (x < 0) {
       x = 0;
+      document.body.style.cursor = "url('img/noArrowLeft.png'), auto";
     }
     else if (maxX < x) {
       x = maxX;
+      document.body.style.cursor = "url('img/noArrowRight.png'), auto";
     }
     if (y < 0) {
       y = 0;
+      document.body.style.cursor = "url('img/noArrowUp.png'), auto";
     }
     else if (maxY < y) {
       y = maxY;
+      document.body.style.cursor = "url('img/noArrowDown.png'), auto";
     }
+
   }
 
   this.draw = function() {
