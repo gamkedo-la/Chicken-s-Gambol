@@ -59,7 +59,9 @@ const Grid = new (function() {
   this.getWorldDimensions = function() {
     return {
       width: levelCanvas.width,
-      height: levelCanvas.height
+      height: levelCanvas.height,
+      cols: levelData.cols,
+      rows: levelData.rows
     }
   };
 
@@ -246,8 +248,16 @@ const Grid = new (function() {
     return path;
   };
 
+  this.isWalkableCoords = function(x, y) {
+    return this.isWalkableIndex(this.coordsToIndex(x, y));
+  };
+
   this.isWalkable = function(col, row) {
-    return walkableGrid[this.tileToIndex(col, row)];
+    return this.isWalkableIndex(this.tileToIndex(col, row));
+  };
+
+  this.isWalkableIndex = function(index) {
+    return walkableGrid[index];
   };
 
   this.tileToIndex = function(col, row) {

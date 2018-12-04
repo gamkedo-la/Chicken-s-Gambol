@@ -53,7 +53,8 @@ function gameInitialize() {
 
   Input.bindMouseMove(function(pos) {
     document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy) +
-      '<br>' + Grid.coordsToIndex(pos.x, pos.y);
+      '<br>' + Grid.coordsToIndex(pos.x, pos.y) +
+      '<br>' + Math.floor(pos.x / TILE_SIZE) +','+ Math.floor(pos.y / TILE_SIZE);
   });
 }
 

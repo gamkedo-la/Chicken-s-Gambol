@@ -140,17 +140,17 @@ const Unit = function(settings) {
       return;
     }
 
-    if (this._draw) {
-      this._draw(interpolationPercentage);
-    }
-
     if (sprite) {
       sprite.drawAt(this.getPosition());
     }
 
+    if (this._draw) {
+      this._draw(interpolationPercentage);
+    }
+
     if (DEBUG) {
-      drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, 'green', 1);
-      drawStrokeCircle(gameContext, this.x, this.y, collisionRange, 100, 'red', 1);
+//      drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, 'green', 1);
+//      drawStrokeCircle(gameContext, this.x, this.y, collisionRange, 100, 'red', 1);
     }
     if (isSelected) {
       drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, SELECTED_COLOR, 2);

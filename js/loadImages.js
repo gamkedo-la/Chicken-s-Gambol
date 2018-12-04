@@ -8,6 +8,7 @@ const Images = new (function() {
     chicken: 'img/chicken2.png',
     goblin: 'img/gobo.png',
     slime: 'img/Slime.png',
+    slimePatch: 'img/SlimePatch.png',
     house: 'img/houseSprite2.png',
     housePreview: 'img/house-preview.png',
     footprints: 'img/footprints.png',
