@@ -42,7 +42,8 @@ const Interface = new (function() {
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), Images.buildButtonBg, Sprites.buildButtonHouse)
+      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), Images.buildButtonBg, Sprites.buildButtonHouse),
+      new Button(360, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), Images.buildButtonBg, Sprites.buildButtonMudPit)
     ];
 
     unitBuildButtons = [

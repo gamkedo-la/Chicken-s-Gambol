@@ -276,6 +276,80 @@ let Sprites = new (function() {
         }
       },
     },
+    mudPit: {
+      image: 'mudPit',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 0
+        }
+      },
+    },
+    buildButtonMudPit: {
+      image: 'buildButtonMudPit',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
     buildButtonChicken: {
       image: 'buildButtonChicken',
       frames: {
@@ -299,6 +373,19 @@ let Sprites = new (function() {
     },
     houseEnemy: {
       image: 'house',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      },
+    },
+    mudPitEnemy: {
+      image: 'mudPit',
       frames: {
         default: {
           frames: 1,

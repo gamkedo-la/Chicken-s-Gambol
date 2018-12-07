@@ -132,10 +132,10 @@ const Grid = new (function() {
 //        unit = Game.createBuilding(Barracks, settings);
 //        unit.setComplete();
 //        break;
-//      case TILE.PLAYER_MUD_PIT:
-//        unit = Game.createBuilding(MutPit, settings);
-//        unit.setComplete();
-//        break;
+      case TILE.PLAYER_MUD_PIT:
+        unit = Game.createBuilding(MudPit, settings);
+        unit.setComplete();
+        break;
 
       // Enemy units/buildings
       case TILE.ENEMY_CHICKEN:
@@ -150,18 +150,18 @@ const Grid = new (function() {
 //      case TILE.ENEMY_SLIME:
 //        Game.createEnemy(SlimeEnemy, settings);
 //        break;
-//      case TILE.ENEMY_HOUSE:
-//        unit = Game.createEnemyBuilding(House, settings);
-//        unit.setComplete();
-//        break;
+      case TILE.ENEMY_HOUSE:
+        unit = Game.createEnemyBuilding(House, settings);
+        unit.setComplete();
+        break;
 //      case TILE.ENEMY_BARRACKS:
 //        unit = Game.createEnemyBuilding(Barracks, settings);
 //        unit.setComplete();
 //        break;
-//      case TILE.ENEMY_MUD_PIT:
-//        unit = Game.createEnemyBuilding(MutPit, settings);
-//        unit.setComplete();
-//        break;
+      case TILE.ENEMY_MUD_PIT:
+        unit = Game.createEnemyBuilding(MudPit, settings);
+        unit.setComplete();
+        break;
       default:
         return tileType;
     }

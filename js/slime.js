@@ -8,7 +8,7 @@ const Slime = function(settings) {
   settings = extend(settings, {
     sprite: Sprites.slime,
     collisionRange: 46,
-    patchGrowTimeoutSeconds: 2,//10,
+    patchGrowTimeoutSeconds: 10,
     maxGrowDistance: 8
   });
 
@@ -16,7 +16,7 @@ const Slime = function(settings) {
 
   let growablePatches = [];
   let unwalkableGrid = settings.unwalkableGrid || [2, 2];
-  let patchGrowTimeoutRemaining = settings.patchGrowTimeoutSeconds;
+  let patchGrowTimeoutRemaining = 1;
 
   // We use the oldX,oldY because the half-tile shift (for the image) uses the
   // wrong tile-index and we need the upper-left tile + unwalkableGrid
