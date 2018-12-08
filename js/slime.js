@@ -48,6 +48,10 @@ const Slime = function(settings) {
     growablePatches = shuffle(growablePatches);
   }
 
+  this.addPatchPosition = function(x, y) {
+    growablePatches.push({x: x, y: y});
+  };
+
   this._update = function(delta) {
     patchGrowTimeoutRemaining -= delta;
     if (patchGrowTimeoutRemaining <= 0) {
@@ -69,6 +73,8 @@ const Slime = function(settings) {
     if (!Grid.isWalkableCoords(patch.x, patch.y)) {
       return growPatch();
     }
+
+    patch.slime = this;
 
     Game.createUnit(SlimePatch, patch);
   }

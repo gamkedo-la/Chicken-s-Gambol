@@ -5,6 +5,7 @@ const SlimePatch = function(settings) {
     clickRadius: 13,
     collisionRange: 19,
     slimeAmount: 30,
+    slime: undefined
   });
 
   let slimeAmount = settings.slimeAmount || 30;
@@ -19,6 +20,10 @@ const SlimePatch = function(settings) {
     slimeAmount -= amount;
     if (slimeAmount <= 0) {
       amount += slimeAmount;
+
+      if (settings.slime && settings.slime.addPatchPosition) {
+        settings.slime.addPatchPosition(settings.x, settings.y);
+      }
 
       this.remove();
     }

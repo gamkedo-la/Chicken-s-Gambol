@@ -16,44 +16,41 @@ const Chicken = function(settings) {
   let harvested = 0;
   let lastHarvestedPosition;
 
+  this.finishedBuilding = function() {
+    this.unsetTarget();
+  };
+
   this.childUpdate = function(delta) {
     let target = this.getTarget();
     if (target) {
       if (canBuildBuilding(target)) {
-        if (!target.isComplete()) {
-          target.addBuildPercentage(settings.buildSpeed * delta);
-        }
-        else {
-          this.unsetTarget();
-        }
+        target.addBuildPercentage(settings.buildSpeed * delta);
 
         return true;
       }
 
       if (target.constructor === SlimePatch) {
         harvested += target.collectSlime(settings.harvestSpeed * delta);
-        console.log('harvested:', harvested);
 
         if (target.isReadyToRemove() && harvested < settings.harvestMax) {
-          console.log('depleted slime patch, find a new slime patch!');
-          // @todo find a new slime patch nearby
-          this.unsetTarget();
+          this.setTarget(findSlimePatch(this.getPosition()));
         }
 
         if (settings.harvestMax <= harvested) {
           lastHarvestedPosition = this.getPosition();
-
-          console.log('find a mudPit building nearby');
-          // @todo find a mudPit building nearby
-          this.unsetTarget();
+          this.setTarget(findMudPit(this.getPosition()));
         }
 
         return true;
       }
 
       if (target.constructor === MudPit) {
-        // dump harvest, then return to patch (nearby)
-        // find a slime-patch at or near lastHarvestedPosition
+        Interface.addSlime(Math.round(harvested));
+
+        harvested = 0;
+
+        this.setTarget(findSlimePatch(lastHarvestedPosition));
+
         return true;
       }
     }
@@ -74,7 +71,52 @@ const Chicken = function(settings) {
       return false;
     }
 
+    if (target.isComplete()) {
+      return false;
+    }
+
     return (target.constructor === House || target.constructor === MudPit);// || target.constructor === Barracks);
+  }
+
+  function findMudPit(position) {
+    return findNearbyitemInList(Game.buildings, position, MudPit);
+  }
+
+  function findSlimePatch(position) {
+    return findNearbyitemInList(Game.units, position, SlimePatch, 90000);
+  }
+
+  function findNearbyitemInList(list, position, type, maxDistanceSquared) {
+    let item, distance;
+
+    let l = list.length;
+
+    for (let i = 0; i < l; i++) {
+      let listItem = list[i];
+
+      if (listItem.constructor !== type) {
+        continue;
+      }
+
+      if (item === undefined) {
+        distance = distanceBetweenPointsSquared(position, listItem.getPosition());
+        if (maxDistanceSquared && maxDistanceSquared < distance) {
+          continue;
+        }
+
+        item = listItem;
+        continue;
+      }
+
+      let distance2 = distanceBetweenPointsSquared(position, listItem.getPosition());
+
+      if (maxDistanceSquared && maxDistanceSquared < distance && distance2 < distance) {
+        item = listItem;
+        distance = distance2;
+      }
+    }
+
+    return item;
   }
 
   MovingUnit.call(this, settings);

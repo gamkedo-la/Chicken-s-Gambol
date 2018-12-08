@@ -32,16 +32,16 @@ const MovingUnit = function(settings) {
   };
 
   this.setTarget = function(unit, _unitsAlongSide, _formationIndex) {
+    if (target) {
+      this.unsetTarget();
+    }
+
     if (!unit) {
       return;
     }
 
     if (unit.addFollower) {
       unit.addFollower(this);
-    }
-
-    if (target) {
-      this.unsetTarget();
     }
 
     target = unit;

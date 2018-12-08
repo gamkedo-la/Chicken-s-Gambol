@@ -48,6 +48,10 @@ const Unit = function(settings) {
     followers.push(unit);
   };
 
+  this.getFollowers = function() {
+    return followers;
+  };
+
   this.removeFollower = function(unit) {
     let l = followers.length;
     for (let i = 0; i < l; i++) {
