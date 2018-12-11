@@ -34,23 +34,23 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 22, () => console.log('music button'), Images.topButtonBg),
-      new Button(692, 7, 30, 22, () => console.log('sound button'), Images.topButtonBg),
-      new Button(730, 7, 30, 22, () => console.log('menu button'), Images.topButtonBg),
-      new Button(271, 451, 20, 22, Game.deleteSelection.bind(Game), Images.bottomButtonBg),
-      new Button(475, 451, 20, 22, Game.findIdleChicken.bind(Game), Images.bottomButtonBg)
+      new Button(654, 7, 30, 22, () => console.log('music button'), false, Images.topButtonBg),
+      new Button(692, 7, 30, 22, () => console.log('sound button'), false, Images.topButtonBg),
+      new Button(730, 7, 30, 22, () => console.log('menu button'), false, Images.topButtonBg),
+      new Button(271, 451, 20, 22, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg),
+      new Button(475, 451, 20, 22, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg)
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(358, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), Images.buildButtonBg, Sprites.buildButtonMudPit),
-      new Button(416, 422, 50, 50, Game.buildButton.bind(Game, Barracks, Images.barracksPreview), Images.buildButtonBg, Sprites.buildButtonBarracks)
+      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), false, Images.buildButtonBg, Sprites.buildButtonHouse),
+      new Button(358, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
+      new Button(416, 422, 50, 50, Game.buildButton.bind(Game, Barracks, Images.barracksPreview), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, () => console.log('build chicken'), Images.buildButtonBg, Sprites.buildButtonChicken),
-      new Button(358, 422, 50, 50, () => console.log('build goblin'), Images.buildButtonBg, Sprites.buildButtonGoblin),
-      new Button(416, 422, 50, 50, () => console.log('build pig'), Images.buildButtonBg, Sprites.buildButtonPig)
+      new Button(300, 422, 50, 50, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
+      new Button(358, 422, 50, 50, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
+//      new Button(416, 422, 50, 50, Barracks.queueUnit.bind(false, Pig), Barracks.showButtonBuildProgress.bind(false, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
@@ -73,6 +73,18 @@ const Interface = new (function() {
   };
   this.subSlime = function(amount) {
     numSlime -= amount;
+  };
+
+  this.queueUnit = function(constructor, button) {
+    let selection = Selection.getSelection();
+
+    selection[0].queueUnit(constructor, button);
+  };
+
+  this.showButtonBuildProgress = function(constructor, button) {
+    let selection = Selection.getSelection();
+
+    selection[0].showButtonBuildProgress(constructor, button);
   };
 
   this.hasMouseOver = function(mousePos) {

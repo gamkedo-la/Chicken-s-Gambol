@@ -1,4 +1,4 @@
-const Button = function(x, y, w, h, callback, activeBg, sprite) {
+const Button = function(x, y, w, h, callback, drawCallback, activeBg, sprite) {
 
   let hover = false;
   let active = false;
@@ -72,6 +72,10 @@ const Button = function(x, y, w, h, callback, activeBg, sprite) {
 
     if (sprite) {
       sprite.drawAt(position);
+    }
+
+    if (drawCallback) {
+      drawCallback.apply(this);
     }
   };
 
