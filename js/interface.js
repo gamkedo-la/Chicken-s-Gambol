@@ -43,11 +43,14 @@ const Interface = new (function() {
 
     buildingBuildButtons = [
       new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(360, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), Images.buildButtonBg, Sprites.buildButtonMudPit)
+      new Button(358, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), Images.buildButtonBg, Sprites.buildButtonMudPit),
+      new Button(416, 422, 50, 50, Game.buildButton.bind(Game, Barracks, Images.barracksPreview), Images.buildButtonBg, Sprites.buildButtonBarracks)
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, () => console.log('build chicken'), Images.buildButtonBg, Sprites.buildButtonChicken)
+      new Button(300, 422, 50, 50, () => console.log('build chicken'), Images.buildButtonBg, Sprites.buildButtonChicken),
+      new Button(358, 422, 50, 50, () => console.log('build goblin'), Images.buildButtonBg, Sprites.buildButtonGoblin),
+      new Button(416, 422, 50, 50, () => console.log('build pig'), Images.buildButtonBg, Sprites.buildButtonPig)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
@@ -88,7 +91,7 @@ const Interface = new (function() {
       return;
     }
 
-    if (length === 1 && selection[0].constructor === House && selection[0].isComplete()) {
+    if (length === 1 && selection[0].constructor === Barracks && selection[0].isComplete()) {
       setSelectionType('units');
 
       return;

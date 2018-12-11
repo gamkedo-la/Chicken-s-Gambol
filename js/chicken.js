@@ -75,7 +75,7 @@ const Chicken = function(settings) {
       return false;
     }
 
-    return (target.constructor === House || target.constructor === MudPit);// || target.constructor === Barracks);
+    return (target.constructor === House || target.constructor === MudPit || target.constructor === Barracks);
   }
 
   function findMudPit(position) {

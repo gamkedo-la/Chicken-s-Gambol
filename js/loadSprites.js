@@ -350,11 +350,127 @@ let Sprites = new (function() {
         }
       },
     },
+    barracks: {
+      image: 'barracks',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 0
+        }
+      },
+    },
+    buildButtonBarracks: {
+      image: 'buildButtonBarracks',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
     buildButtonChicken: {
       image: 'buildButtonChicken',
       frames: {
         default: {
           frames: 2,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
+    buildButtonGoblin: {
+      image: 'buildButtonGoblin',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        hover: {
+          frames: 1,
+          frameTime: .8,
+          width: 50,
+          height: 50,
+          firstFrameX: 0,
+          firstFrameY: 50
+        }
+      },
+    },
+    buildButtonPig: {
+      image: 'buildButtonPig',
+      frames: {
+        default: {
+          frames: 1,
           frameTime: .8,
           width: 50,
           height: 50,
@@ -386,6 +502,19 @@ let Sprites = new (function() {
     },
     mudPitEnemy: {
       image: 'mudPit',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      },
+    },
+    barracksEnemy: {
+      image: 'barracks',
       frames: {
         default: {
           frames: 1,

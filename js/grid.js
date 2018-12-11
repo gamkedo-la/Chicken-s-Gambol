@@ -128,10 +128,10 @@ const Grid = new (function() {
         unit = Game.createBuilding(House, settings);
         unit.setComplete();
         break;
-//      case TILE.PLAYER_BARRACKS:
-//        unit = Game.createBuilding(Barracks, settings);
-//        unit.setComplete();
-//        break;
+      case TILE.PLAYER_BARRACKS:
+        unit = Game.createBuilding(Barracks, settings);
+        unit.setComplete();
+        break;
       case TILE.PLAYER_MUD_PIT:
         unit = Game.createBuilding(MudPit, settings);
         unit.setComplete();
@@ -154,10 +154,10 @@ const Grid = new (function() {
         unit = Game.createEnemyBuilding(House, settings);
         unit.setComplete();
         break;
-//      case TILE.ENEMY_BARRACKS:
-//        unit = Game.createEnemyBuilding(Barracks, settings);
-//        unit.setComplete();
-//        break;
+      case TILE.ENEMY_BARRACKS:
+        unit = Game.createEnemyBuilding(Barracks, settings);
+        unit.setComplete();
+        break;
       case TILE.ENEMY_MUD_PIT:
         unit = Game.createEnemyBuilding(MudPit, settings);
         unit.setComplete();
