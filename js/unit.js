@@ -132,6 +132,11 @@ const Unit = function(settings) {
     let attackSuggestion = this.closestEnemy(AI_ENEMY_DETECT_RANGE);
 
     let gridBounds = Grid.getBounds();
+    // expand so that sprites straddling the edge don't pop in or out
+    gridBounds.topLeft.x -= TILE_SIZE; // maybe this.sprite.width would be better?
+    gridBounds.topLeft.y -= TILE_SIZE;
+    gridBounds.bottomRight.x += TILE_SIZE;
+    gridBounds.bottomRight.y += TILE_SIZE;
     visible = (this.isInBox(gridBounds.topLeft, gridBounds.bottomRight));
 
     if (readyToRemove) {
