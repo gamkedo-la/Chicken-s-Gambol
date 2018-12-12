@@ -76,7 +76,7 @@ const Slime = function(settings) {
 
     patch.slime = this;
 
-    Game.createUnit(SlimePatch, patch);
+    Game.createBuilding(SlimePatch, patch);
   }
 
   this._draw = function() {
