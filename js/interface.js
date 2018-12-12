@@ -23,11 +23,6 @@ const Interface = new (function() {
     h: bottomHeight
   };
 
-  let numUnits = 0;
-  let maxNumUnits = 5;
-
-  let numSlime = 0;
-
   let lastSelectionType = '';
 
   let buttons, buildingBuildButtons, unitBuildButtons;
@@ -57,32 +52,22 @@ const Interface = new (function() {
     callbackList(buildingBuildButtons, 'disable', []);
   };
 
-  this.addUnit = function() {
-    numUnits++;
-  };
-  this.subUnit = function() {
-    numUnits--;
-  };
-
-  this.setNumMaxUnits = function(amount) {
-    maxNumUnits = amount;
-  };
-
-  this.addSlime = function(amount) {
-    numSlime += amount;
-  };
-  this.subSlime = function(amount) {
-    numSlime -= amount;
-  };
-
   this.queueUnit = function(constructor, button) {
     let selection = Selection.getSelection();
+
+    if (!selection[0]) {
+      return;
+    }
 
     selection[0].queueUnit(constructor, button);
   };
 
   this.showButtonBuildProgress = function(constructor, button) {
     let selection = Selection.getSelection();
+
+    if (!selection[0]) {
+      return;
+    }
 
     selection[0].showButtonBuildProgress(constructor, button);
   };
@@ -175,9 +160,9 @@ const Interface = new (function() {
     // draw  text
     setShadow(SHADOW_COLOR, 2, 2, 2);
     drawText(gameContext, 658, 160, FONT_COLOR, UNITS_FONT, 'left', 'middle', 'Units');
-    drawText(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', numUnits + '/' + maxNumUnits);
+    drawText(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', Game.getNumUnits() + '/' + Game.getMaxNumUnits());
     drawText(gameContext, 315, 403, FONT_COLOR, SLIME_FONT, 'left', 'middle', 'Slime');
-    drawText(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', numSlime);
+    drawText(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime());
     resetShadow();
   };
 

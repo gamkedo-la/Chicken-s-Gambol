@@ -11,6 +11,11 @@ let Game = new (function() {
 
   let removeDeadUnits = false;
 
+  let numUnits = 0;
+  let maxNumUnits = 5;
+
+  let numSlime = 0;
+
   this.scheduleRemoveDeadUnits = function() {
     removeDeadUnits = true;
   };
@@ -24,7 +29,7 @@ let Game = new (function() {
   };
 
   this.createUnit = function(Constructor, settings) {
-    Interface.addUnit();
+    this.addUnit();
     return create(this.units, Constructor, settings);
   };
 
@@ -42,6 +47,41 @@ let Game = new (function() {
 
     return unit;
   }
+
+  this.addUnit = function() {
+    numUnits++;
+  };
+  this.subUnit = function() {
+    numUnits--;
+  };
+  this.getNumUnits = function() {
+    return numUnits;
+  };
+
+  this.addMaxNumUnits = function(amount) {
+    maxNumUnits = amount;
+  };
+  this.getMaxNumUnits = function() {
+    return maxNumUnits;
+  };
+
+  this.addSlime = function(amount) {
+    numSlime += amount;
+  };
+  this.subSlime = function(amount) {
+    numSlime -= amount;
+  };
+  this.getNumSlime = function(amount) {
+    return numSlime;
+  };
+
+  this.canCreateUnit = function() {
+    return numUnits < maxNumUnits;
+  };
+
+  this.hasAmountOfSlimeAvailable = function(amount) {
+    return amount <= numSlime;
+  };
 
   this.buildButton = function(Constructor, previewImage, button) {
     buildPreviewImage = previewImage;
@@ -80,7 +120,7 @@ let Game = new (function() {
 
       let c = selection[i].constructor;
       if (c === Chicken || c === Goblin/* || c === Pig*/) {
-        Interface.subUnit();
+        Game.subUnit();
       }
     }
 

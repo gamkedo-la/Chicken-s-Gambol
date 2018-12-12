@@ -20,6 +20,8 @@ const Barracks = function(settings) {
       return;
     }
 
+    // @todo check for available slime with Game.hasAmountOfSlimeAvailable
+
     if (queue.length === 0) {
       buildTimeoutRemaining = settings.buildTimeout;
     }
@@ -36,9 +38,13 @@ const Barracks = function(settings) {
       return;
     }
 
-    buildTimeoutRemaining -= delta;
-
     if (0 < buildTimeoutRemaining) {
+      buildTimeoutRemaining -= delta;
+
+      return;
+    }
+
+    if (!Game.canCreateUnit()) {
       return;
     }
 
