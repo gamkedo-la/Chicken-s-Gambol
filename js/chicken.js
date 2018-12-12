@@ -25,6 +25,7 @@ const Chicken = function(settings) {
     if (target) {
       if (canBuildBuilding(target)) {
         target.addBuildPercentage(settings.buildSpeed * delta);
+        lastHarvestedPosition = undefined;
 
         return true;
       }
@@ -44,7 +45,7 @@ const Chicken = function(settings) {
         return true;
       }
 
-      if (target.constructor === MudPit) {
+      if (target.constructor === MudPit && lastHarvestedPosition) {
         Interface.addSlime(Math.round(harvested));
 
         harvested = 0;

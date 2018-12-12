@@ -68,7 +68,7 @@ function unitIsInList(unit, list) {
 function callbackList(items, callback, arguments) {
   let length = items.length;
   for (let index = 0; index < length; index++) {
-    if (items[index][callback] === undefined) {
+    if (items[index] === undefined || items[index][callback] === undefined) {
       continue;
     }
 

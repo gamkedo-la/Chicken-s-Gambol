@@ -135,9 +135,9 @@ let Selection = new (function() {
     if (Game.hasActiveBuildButton()) {
       return;
     }
+    let mousePos = Input.getMousePosition();
 
     if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      let mousePos = Input.getMousePosition();
       if (!Minimap.hasMouseOver(mousePos) && !Interface.hasMouseOver(mousePos)) {
         mouseLassoing = true;
         mouseLassoPosition1 = Input.getMousePosition();
@@ -145,8 +145,7 @@ let Selection = new (function() {
     }
     if (mouseLassoing && !Input.isDown(KEY.MOUSE_LEFT)) {
       mouseLassoing = false;
-      mouseLassoPosition2 = Input.getMousePosition();
-      if (minLassoDistanceSquared < distanceBetweenPointsSquared(mouseLassoPosition1, mouseLassoPosition2)) {
+      if (minLassoDistanceSquared < distanceBetweenPointsSquared(mouseLassoPosition1, mousePos)) {
         handleLassoSelect.call(this);
       }
       else {
@@ -155,10 +154,10 @@ let Selection = new (function() {
     }
 
     if (!hasEnemySelected && Input.isPressed(KEY.MOUSE_RIGHT) && selection.length) {
-      let target = Game.findUnitAtMousePosition();
+      let target = Game.findUnitAtPosition(mousePos);
       if (!target) {
         // make a fake target that doesn't move
-        target = Game.createTarget(Input.getMousePosition());
+        target = Game.createTarget(mousePos);
       }
       let unitsAlongSide = Math.floor(Math.sqrt(selection.length + 2));
       callbackList(selection, 'setTarget', [target, unitsAlongSide]);

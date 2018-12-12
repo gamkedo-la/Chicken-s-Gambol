@@ -44,13 +44,7 @@ const Barracks = function(settings) {
 
     let constructor = queue.shift();
 
-    // @todo which location?
-    let unitSettings = {
-      x: 100,
-      y: 100
-    };
-//    Game.createUnit(constructor, unitSettings);
-    console.log('create ', constructor);
+    Game.createUnit(constructor, getSpawnPosition());
     counts[constructor.name]--;
 
     if (queue.length === 0) {
@@ -59,6 +53,27 @@ const Barracks = function(settings) {
     }
 
     buildTimeoutRemaining += settings.buildTimeout;
+  };
+
+  function getSpawnPosition() {
+    let spawnPosition = {
+      x: settings.x + 48,
+      y: settings.y + 48
+    };
+
+    let unit = Game.findUnitAtPosition(spawnPosition);
+    if (unit) {
+      // move unit away or pick a different spot?
+    }
+
+    return spawnPosition;
+  }
+
+  this._draw = function() {
+    if (DEBUG) {
+      let p = getSpawnPosition();
+      drawFillRect(gameContext, p.x - 2, p.y - 2, 4, 4, 'red');
+    }
   };
 
   this.showButtonBuildProgress = function(constructor, button) {

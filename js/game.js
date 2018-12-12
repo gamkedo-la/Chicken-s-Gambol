@@ -125,18 +125,16 @@ let Game = new (function() {
     }
   }
 
-  this.findUnitAtMousePosition = function() {
-    let mousePosition = Input.getMousePosition();
-
-    let target = getUnitAtPosition(mousePosition, this.units);
+  this.findUnitAtPosition = function(position) {
+    let target = getUnitAtPosition(position, this.units);
     if (!target) {
-      target = getUnitAtPosition(mousePosition, this.buildings);
+      target = getUnitAtPosition(position, this.buildings);
     }
     if (!target) {
-      target = getUnitAtPosition(mousePosition, this.enemies);
+      target = getUnitAtPosition(position, this.enemies);
     }
     if (!target) {
-      target = getUnitAtPosition(mousePosition, this.enemyBuildings);
+      target = getUnitAtPosition(position, this.enemyBuildings);
     }
 
     return target;
