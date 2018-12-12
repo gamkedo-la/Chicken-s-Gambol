@@ -8,6 +8,7 @@ const Unit = function(settings) {
   const clickRadius = settings.clickRadius;
   const clickRadiusSquared = clickRadius * clickRadius;
   const collisionRange = settings.collisionRange || clickRadius * 1.3;
+  const AI_ENEMY_DETECT_RANGE = 100;
 
   this.x = Math.round(settings.x);
   this.y = Math.round(settings.y);
@@ -127,9 +128,8 @@ const Unit = function(settings) {
       sprite.update(delta);
     }
 
-    // just for testing purposes - we do receive a unit but
-    // FIXME: we don't yet detect TEAM (enemies not yet implemented)
-    // let attackSuggestion = this.closestEnemy(maxrange);
+    // just for testing purposes - we do receive a unit!
+    let attackSuggestion = this.closestEnemy(AI_ENEMY_DETECT_RANGE);
 
     let gridBounds = Grid.getBounds();
     visible = (this.isInBox(gridBounds.topLeft, gridBounds.bottomRight));
@@ -175,20 +175,25 @@ const Unit = function(settings) {
     if (!maxDistance) maxDistance = 99999999999;
     let foundit = null;
 
-    for (let num=0,len=Game.units.length; num<len; num++) {
+    // search the correct list of units
+    let searchList = Game.enemies;
+    if (this.isEnemy()) {
+      searchList = Game.units;
+    }
 
-      if (this != Game.units[num] // skip yourself
-          //&& Game.units[num].team != this.team // FIXME - how to detect teams?
-        ) {
+    for (let num=0,len=searchList.length; num<len; num++) {
+
+      if (this != searchList[num]) { // skip yourself
         // Units have a .x and .y property, like Points
-        let dist = distanceBetweenPoints(this, Game.units[num]);
+        let dist = distanceBetweenPoints(this, searchList[num]);
         //console.log("distance " + num + " is "+dist);
         if ((dist < maxDistance) && (mindist > dist)) {
           mindist = dist;
-          foundit = Game.units[num];
+          foundit = searchList[num];
         }
       }
     }
+    if (foundit) console.log("Nearest enemy is: ", foundit);
     return foundit;
   }
 
