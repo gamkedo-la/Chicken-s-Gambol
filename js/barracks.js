@@ -4,18 +4,31 @@ const Barracks = function(settings) {
     sprite: Sprites.barracks,
     clickRadius: 40,
     unwalkableGrid: [2,2],
+    maxQueue: 10,
     buildTimeout: 2 // 10
   });
 
   let queue = [];
+  let counts = [];
   let buildTimeoutRemaining = 0;
 
   this.queueUnit = function(constructor, button) {
+    // Immediately deactivate button, because it's not a toggle
+    button.deactivate();
+
+    if (settings.maxQueue <= queue.length) {
+      return;
+    }
+
     if (queue.length === 0) {
       buildTimeoutRemaining = settings.buildTimeout;
     }
     queue.push(constructor);
-    button.deactivate();
+
+    if (!counts[constructor.name]) {
+      counts[constructor.name] = 0;
+    }
+    counts[constructor.name]++;
   };
 
   this._update = function (delta) {
@@ -38,6 +51,7 @@ const Barracks = function(settings) {
     };
 //    Game.createUnit(constructor, unitSettings);
     console.log('create ', constructor);
+    counts[constructor.name]--;
 
     if (queue.length === 0) {
       buildTimeoutRemaining = 0;
@@ -52,12 +66,19 @@ const Barracks = function(settings) {
       return;
     }
 
-    if (0 < buildTimeoutRemaining) {
-//      console.log('time remaining', Math.round(buildTimeoutRemaining / settings.buildTimeout * 100));
+    let count = counts[constructor.name] || 0;
+    if (count <= 0) {
+      return;
     }
 
-    // @todo show build-percentags
-    // @todo show remaining count
+    let bounds = button.getBounds();
+
+    drawText(gameContext, bounds.x + bounds.w - 2, bounds.y + bounds.h - 2, FONT_COLOR, BUTTON_COUNT_FONT, 'right', 'bottom', count);
+
+    if (queue[0] === constructor) {
+      let percentage = buildTimeoutRemaining / settings.buildTimeout;
+      drawFillRect(gameContext, bounds.x, bounds.y + bounds.h - 4, bounds.w * percentage, 4, FONT_COLOR);
+    }
   };
 
   BuildingUnit.call(this, settings);

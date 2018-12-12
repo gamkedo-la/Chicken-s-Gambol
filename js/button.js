@@ -3,7 +3,7 @@ const Button = function(x, y, w, h, callback, drawCallback, activeBg, sprite) {
   let hover = false;
   let active = false;
   let enabled = true;
-  let position = {
+  let spritePosition = {
     x: Math.floor(x + w / 2),
     y: Math.floor(y + h / 2)
   };
@@ -26,6 +26,15 @@ const Button = function(x, y, w, h, callback, drawCallback, activeBg, sprite) {
 
   this.deactivate = function() {
     active = false;
+  };
+
+  this.getBounds = function() {
+    return {
+      x: x,
+      y: y,
+      w: w,
+      h: h
+    };
   };
 
   this.isPositionOverButton = function(mousePosition) {
@@ -67,15 +76,15 @@ const Button = function(x, y, w, h, callback, drawCallback, activeBg, sprite) {
     }
 
     if ((active || hover) && activeBg) {
-      drawImage(gameContext, activeBg, position.x, position.y);
+      drawImage(gameContext, activeBg, spritePosition.x, spritePosition.y);
     }
 
     if (sprite) {
-      sprite.drawAt(position);
+      sprite.drawAt(spritePosition);
     }
 
     if (drawCallback) {
-      drawCallback.apply(this);
+      drawCallback(this);
     }
   };
 

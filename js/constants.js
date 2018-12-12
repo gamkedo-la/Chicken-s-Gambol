@@ -6,6 +6,7 @@ const PREVIEW_PATHS = true; // if true, we draw pathfinding previews showing wha
 
 const FONT_COLOR = '#7f5333';
 const SHADOW_COLOR = '#351b14';
+const BUTTON_COUNT_FONT = '16px compass';
 const UNITS_FONT = '18px compass';
 const SLIME_FONT = '26px compass';
 
