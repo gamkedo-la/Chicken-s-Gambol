@@ -31,13 +31,17 @@ const Chicken = function(settings) {
       }
 
       if (target.constructor === SlimePatch) {
+        let returnSlime = false;
         harvested += target.collectSlime(settings.harvestSpeed * delta);
 
         if (target.isReadyToRemove() && harvested < settings.harvestMax) {
           this.setTarget(findSlimePatch(this.getPosition()));
+          if (!this.getTarget()) {
+            returnSlime = true;
+          }
         }
 
-        if (settings.harvestMax <= harvested) {
+        if (returnSlime || settings.harvestMax <= harvested) {
           lastHarvestedPosition = this.getPosition();
           this.setTarget(findMudPit(this.getPosition()));
         }
@@ -51,6 +55,8 @@ const Chicken = function(settings) {
         harvested = 0;
 
         this.setTarget(findSlimePatch(lastHarvestedPosition));
+
+        lastHarvestedPosition = undefined;
 
         return true;
       }
@@ -76,7 +82,7 @@ const Chicken = function(settings) {
   }
 
   function findSlimePatch(position) {
-    return findNearbyitemInList(Game.units, position, SlimePatch, 90000);
+    return findNearbyitemInList(Game.buildings, position, SlimePatch, 90000);
   }
 
   function findNearbyitemInList(list, position, type, maxDistanceSquared) {
