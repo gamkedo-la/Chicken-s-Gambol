@@ -1,5 +1,9 @@
 const Unit = function(settings) {
 
+  settings = extend(settings, {
+    selectionY: TILE_HALF_SIZE
+  });
+
   let sprite = false;
   if (settings.sprite) {
     sprite = new Sprite(settings.sprite);
@@ -149,6 +153,10 @@ const Unit = function(settings) {
       return;
     }
 
+    if (isSelected) {
+      drawStrokeEllipse(gameContext, this.x, this.y + settings.selectionY, clickRadius, clickRadius / 1.7, SELECTED_COLOR, 2);
+    }
+
     if (sprite) {
       sprite.drawAt(this.getPosition());
     }
@@ -160,9 +168,7 @@ const Unit = function(settings) {
     if (DEBUG) {
       drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, 'green', 1);
       drawStrokeCircle(gameContext, this.x, this.y, collisionRange, 100, 'red', 1);
-    }
-    if (isSelected) {
-      drawStrokeCircle(gameContext, this.x, this.y, clickRadius, 100, SELECTED_COLOR, 2);
+      drawStrokeCircle(gameContext, this.x, this.y, 2, 100, 'red', 2);
     }
   };
 

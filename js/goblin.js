@@ -7,7 +7,8 @@ const Goblin = function(settings) {
     unitRanksSpacing: 36,
     footprints: Images.footprints,
     collisionRange: 26,
-    speed: 1.75
+    speed: 1.75,
+    selectionY: TILE_HALF_SIZE / 2
   });
 
   MovingUnit.call(this, settings);

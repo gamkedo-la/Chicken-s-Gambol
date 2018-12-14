@@ -2,10 +2,11 @@ const SlimePatch = function(settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimePatch,
-    clickRadius: 13,
+    clickRadius: 18,
     collisionRange: 19,
     slimeAmount: 30,
-    slime: undefined
+    slime: undefined,
+    selectionY: TILE_HALF_SIZE / 2
   });
 
   let slimeAmount = settings.slimeAmount || 30;

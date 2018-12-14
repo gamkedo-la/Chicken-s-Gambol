@@ -88,6 +88,20 @@ function drawStrokeRect(canvasContext, topLeftX, topLeftY, boxWidth, boxHeight, 
   }
 }
 
+function drawStrokeEllipse(canvasContext, x, y, radiusX, radiusY, strokeColor, lineWidth, alpha) {
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = alpha;
+  }
+  canvasContext.strokeStyle = strokeColor;
+  canvasContext.lineWidth = lineWidth;
+  canvasContext.beginPath();
+  canvasContext.ellipse(x, y, radiusX, radiusY, 0, 0, ANGLE360);
+  canvasContext.stroke();
+  if (alpha !== undefined) {
+    canvasContext.globalAlpha = 1;
+  }
+}
+
 function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth, alpha) {
   if (alpha !== undefined) {
     canvasContext.globalAlpha = alpha;

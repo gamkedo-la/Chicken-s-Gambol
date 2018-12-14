@@ -10,7 +10,8 @@ const Chicken = function(settings) {
     harvestSpeed: 5,
     harvestMax: 25,
     buildSpeed: 5,
-    speed: 1.4
+    speed: 1.4,
+    selectionY: TILE_HALF_SIZE / 2
   });
 
   let harvested = 0;
