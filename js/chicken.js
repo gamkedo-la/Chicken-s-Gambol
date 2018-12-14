@@ -46,7 +46,7 @@ const Chicken = function(settings) {
       }
 
       if (target.constructor === MudPit && lastHarvestedPosition) {
-        Interface.addSlime(Math.round(harvested));
+        Game.addSlime(Math.round(harvested));
 
         harvested = 0;
 
@@ -55,14 +55,6 @@ const Chicken = function(settings) {
         return true;
       }
     }
-    // if target, then we're already within action range
-//    if target is new building: build, return true
-//    if target == slime: harvest, return true
-
-//    if has harvest-target (is separate 'target' property, because we need to continue harvesting, even after emptying the container)
-//    if target === house; empty container, set target to closest slime patch near the harvest-target, return true
-//    if harvest full; set target to home, return true
-//    if target === slime patch; harvest, return true
 
     return false;
   };
