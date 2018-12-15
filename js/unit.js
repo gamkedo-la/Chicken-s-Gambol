@@ -1,7 +1,10 @@
 const Unit = function(settings) {
 
   settings = extend(settings, {
-    selectionY: TILE_HALF_SIZE
+    selectionY: TILE_HALF_SIZE,
+    healthbarY: TILE_HALF_SIZE * 1.1,
+    showHealthbar: true,
+    maxHealth: 13
   });
 
   let sprite = false;
@@ -25,6 +28,8 @@ const Unit = function(settings) {
   let followers = [];
 
   let state;
+
+  let health = settings.maxHealth;
 
   this.isEnemy = function() {
     return unitIsInList(this, Game.enemies);
@@ -167,6 +172,11 @@ const Unit = function(settings) {
 
     if (this._draw) {
       this._draw(interpolationPercentage);
+    }
+
+    if (settings.showHealthbar && 0 < health) {
+      let barWidth = HEALTH_BAR_WIDTH * (health / settings.maxHealth);
+      drawFillRect(gameContext, this.x - (barWidth / 2), this.y - settings.healthbarY, barWidth, 3, HEALTH_BAR_COLOR);
     }
 
     if (DEBUG) {

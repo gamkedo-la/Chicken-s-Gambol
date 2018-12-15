@@ -8,6 +8,7 @@ const Slime = function(settings) {
   settings = extend(settings, {
     sprite: Sprites.slime,
     collisionRange: 46,
+    showHealthbar: false,
     patchGrowTimeoutSeconds: 10,
     maxGrowDistance: 8
   });

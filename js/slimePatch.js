@@ -2,6 +2,7 @@ const SlimePatch = function(settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimePatch,
+    showHealthbar: false,
     clickRadius: 18,
     collisionRange: 19,
     slimeAmount: 30,

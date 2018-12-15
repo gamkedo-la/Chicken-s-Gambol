@@ -28,6 +28,9 @@ const TILE_COLLISION_SIZE = TILE_HALF_SIZE + 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
+const HEALTH_BAR_COLOR = '#ffe6ad';
+const HEALTH_BAR_WIDTH = TILE_SIZE - 4;
+const HEALTH_BAR_HALF_WIDTH = HEALTH_BAR_WIDTH / 2;
 
 const STATE = {
   IDLE: 'idle',

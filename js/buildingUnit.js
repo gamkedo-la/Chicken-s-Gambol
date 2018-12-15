@@ -8,7 +8,8 @@ const BuildingUnit = function(settings) {
   let buildCompletePercentage = 0;
 
   settings = extend(settings, {
-    state: 'step0'
+    state: 'step0',
+    healthbarY: TILE_SIZE * 1.2
   });
 
   let unwalkableGrid = settings.unwalkableGrid || [2, 2];
