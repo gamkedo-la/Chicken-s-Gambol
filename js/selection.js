@@ -64,6 +64,21 @@ let Selection = new (function() {
     return selection;
   };
 
+  this.hasOnlySelected = function(constructor) {
+    let length = selection.length;
+    if (length <= 0) {
+      return false;
+    }
+
+    for (let i = 0; i < length; i++) {
+      if (selection[i].constructor !== constructor) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   function handleLassoSelect() {
     if (!Input.isDown(KEY.CTRL)) {
       Selection.clearSelection();

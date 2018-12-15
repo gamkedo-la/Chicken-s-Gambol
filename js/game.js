@@ -96,7 +96,9 @@ let Game = new (function() {
   };
 
   this.cancelBuildButton = function(Constructor) {
-    buildButton.deactivate();
+    if (buildButton) {
+      buildButton.deactivate();
+    }
     this.buildActionConstructor = false;
     placedBuilding = false;
     buildPreviewImage = false;
@@ -105,6 +107,18 @@ let Game = new (function() {
 
   this.hasActiveBuildButton = function() {
     return this.buildActionConstructor !== false;
+  };
+
+  this.buildHouse = function() {
+    this.buildButton(House, Images.housePreview);
+  };
+
+  this.buildMudPit = function() {
+    this.buildButton(MudPit, Images.mudPitPreview);
+  };
+
+  this.buildBarracks = function() {
+    this.buildButton(Barracks, Images.barracksPreview);
   };
 
   this.deleteSelection = function() {

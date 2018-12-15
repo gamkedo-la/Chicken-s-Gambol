@@ -37,15 +37,15 @@ const Interface = new (function() {
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, Game.buildButton.bind(Game, House, Images.housePreview), false, Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(358, 422, 50, 50, Game.buildButton.bind(Game, MudPit, Images.mudPitPreview), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
-      new Button(416, 422, 50, 50, Game.buildButton.bind(Game, Barracks, Images.barracksPreview), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
+      new Button(300, 422, 50, 50, Game.buildHouse.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonHouse),
+      new Button(358, 422, 50, 50, Game.buildMudPit.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
+      new Button(416, 422, 50, 50, Game.buildBarracks.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
     ];
 
     unitBuildButtons = [
       new Button(300, 422, 50, 50, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
       new Button(358, 422, 50, 50, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
-//      new Button(416, 422, 50, 50, Barracks.queueUnit.bind(false, Pig), Barracks.showButtonBuildProgress.bind(false, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
+//      new Button(416, 422, 50, 50, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);

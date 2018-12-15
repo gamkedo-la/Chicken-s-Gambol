@@ -13,8 +13,10 @@ const Barracks = function(settings) {
   let buildTimeoutRemaining = 0;
 
   this.queueUnit = function(constructor, button) {
-    // Immediately deactivate button, because it's not a toggle
-    button.deactivate();
+    if (button) {
+      // Immediately deactivate button, because it's not a toggle
+      button.deactivate();
+    }
 
     if (settings.maxQueue <= queue.length) {
       return;
