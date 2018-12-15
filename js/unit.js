@@ -88,6 +88,10 @@ const Unit = function(settings) {
 
   this.remove = function() {
     readyToRemove = true;
+
+    if (this._remove) {
+      this._remove();
+    }
   };
 
   this.isReadyToRemove = function() {

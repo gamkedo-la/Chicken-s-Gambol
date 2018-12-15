@@ -13,6 +13,8 @@ let Game = new (function() {
 
   let numUnits = 0;
   let maxNumUnits = 5;
+  let absoluteMinNumUnits = 5;
+  let absoluteMaxNumUnits = 50;
 
   let numSlime = 0;
 
@@ -59,7 +61,10 @@ let Game = new (function() {
   };
 
   this.addMaxNumUnits = function(amount) {
-    maxNumUnits = amount;
+    maxNumUnits = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
+  };
+  this.subMaxNumUnits = function(amount) {
+    maxNumUnits = Math.max(absoluteMinNumUnits, maxNumUnits - amount);
   };
   this.getMaxNumUnits = function() {
     return maxNumUnits;

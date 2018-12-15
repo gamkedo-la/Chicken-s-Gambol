@@ -21,6 +21,10 @@ const BuildingUnit = function(settings) {
     buildCompletePercentage = 100;
     this.setState('default');
     callbackList(this.getFollowers(), 'finishedBuilding', [this]);
+
+    if (this._setComplete) {
+      this._setComplete();
+    }
   };
 
   this.isComplete = function() {

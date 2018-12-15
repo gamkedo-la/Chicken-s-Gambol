@@ -3,8 +3,17 @@ const House = function(settings) {
   settings = extend(settings, {
     sprite: Sprites.house,
     clickRadius: 40,
-    unwalkableGrid: [2,2]
+    unwalkableGrid: [2,2],
+    providesNumUnits: 5
   });
+
+  this._setComplete = function() {
+    Game.addMaxNumUnits(settings.providesNumUnits);
+  };
+
+  this._remove = function() {
+    Game.subMaxNumUnits(settings.providesNumUnits);
+  };
 
   BuildingUnit.call(this, settings);
 };
