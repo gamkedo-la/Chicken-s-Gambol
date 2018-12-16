@@ -26,7 +26,7 @@ const HotKeys = new (function() {
         selection[0].queueUnit(Goblin);
       }
       else if (Input.isPressed(KEY.P)) {
-//        selection[0].queueUnit(Pig);
+        selection[0].queueUnit(Pig);
       }
     }
     else if (Selection.hasOnlySelected(Chicken)) {

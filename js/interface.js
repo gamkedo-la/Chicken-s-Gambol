@@ -45,7 +45,7 @@ const Interface = new (function() {
     unitBuildButtons = [
       new Button(300, 422, 50, 50, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
       new Button(358, 422, 50, 50, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
-//      new Button(416, 422, 50, 50, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
+      new Button(416, 422, 50, 50, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);

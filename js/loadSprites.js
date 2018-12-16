@@ -124,7 +124,7 @@ let Sprites = new (function() {
           firstFrameY: 4
         },
         moveLeft: {
-          frames: 6 ,
+          frames: 6,
           frameTime: .2,
           width: 32,
           height: 32,
@@ -149,7 +149,7 @@ let Sprites = new (function() {
         }
       }
     },
-	 goblin: {
+    goblin: {
       image: 'goblin',
       frames: {
         default: {
@@ -199,6 +199,165 @@ let Sprites = new (function() {
           height: 32,
           firstFrameX: 0,
           firstFrameY: 96
+        }
+      }
+    },
+    goblinEnemy: {
+      image: 'goblinEnemy',
+      frames: {
+        default: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        attack: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 32
+        },
+        moveLeft: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 64
+        },
+        moveUp: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 128
+        },
+        moveDown: {
+          frames: 6,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 96
+        }
+      }
+    },
+    pig: {
+      image: 'pig',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        attack: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveLeft: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveUp: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveDown: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        }
+      }
+    },
+    pigEnemy: {
+      image: 'pigEnemy',
+      frames: {
+        default: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        attack: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveRight: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveLeft: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveUp: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
+        },
+        moveDown: {
+          frames: 1,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 0
         }
       }
     },

@@ -138,7 +138,7 @@ let Game = new (function() {
       selection[i].remove();
 
       let c = selection[i].constructor;
-      if (c === Chicken || c === Goblin/* || c === Pig*/) {
+      if (c === Chicken || c === Goblin || c === Pig) {
         Game.subUnit();
       }
     }

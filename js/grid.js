@@ -115,9 +115,9 @@ const Grid = new (function() {
       case TILE.PLAYER_CHICKEN:
         Game.createUnit(Chicken, settings);
         break;
-//      case TILE.PLAYER_PIG:
-//        Game.createUnit(Pig, settings);
-//        break;
+      case TILE.PLAYER_PIG:
+        Game.createUnit(Pig, settings);
+        break;
       case TILE.PLAYER_GOBLIN:
         Game.createUnit(Goblin, settings);
         break;
@@ -141,12 +141,12 @@ const Grid = new (function() {
       case TILE.ENEMY_CHICKEN:
         Game.createEnemy(ChickenEnemy, settings);
         break;
-//      case TILE.ENEMY_PIG:
-//        Game.createEnemy(Pig, settings);
-//        break;
-//      case TILE.ENEMY_GOBLIN:
-//        Game.createEnemy(GoblinEnemy, settings);
-//        break;
+      case TILE.ENEMY_PIG:
+        Game.createEnemy(Pig, settings);
+        break;
+      case TILE.ENEMY_GOBLIN:
+        Game.createEnemy(GoblinEnemy, settings);
+        break;
 //      case TILE.ENEMY_SLIME:
 //        Game.createEnemy(SlimeEnemy, settings);
 //        break;
