@@ -96,7 +96,7 @@ const Barracks = function(settings) {
 
     let bounds = button.getBounds();
 
-    drawText(gameContext, bounds.x + bounds.w - 2, bounds.y + bounds.h - 2, FONT_COLOR, BUTTON_COUNT_FONT, 'right', 'bottom', count);
+    drawTextWithShadow(gameContext, bounds.x + bounds.w - 2, bounds.y + bounds.h - 2, FONT_COLOR, BUTTON_COUNT_FONT, 'right', 'bottom', count);
 
     if (queue[0] === constructor) {
       let percentage = buildTimeoutRemaining / settings.buildTimeout;

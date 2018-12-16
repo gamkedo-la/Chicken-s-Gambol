@@ -158,12 +158,10 @@ const Interface = new (function() {
     drawImage(gameContext, Images.interfaceBottomContainer, 384, 428);
 
     // draw  text
-    setShadow(SHADOW_COLOR, 2, 2, 2);
-    drawText(gameContext, 658, 160, FONT_COLOR, UNITS_FONT, 'left', 'middle', 'Units');
-    drawText(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', Game.getNumUnits() + '/' + Game.getMaxNumUnits());
-    drawText(gameContext, 315, 403, FONT_COLOR, SLIME_FONT, 'left', 'middle', 'Slime');
-    drawText(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime());
-    resetShadow();
+    drawTextWithShadow(gameContext, 658, 160, FONT_COLOR, UNITS_FONT, 'left', 'middle', 'Units');
+    drawTextWithShadow(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', Game.getNumUnits() + '/' + Game.getMaxNumUnits());
+    drawTextWithShadow(gameContext, 315, 403, FONT_COLOR, SLIME_FONT, 'left', 'middle', 'Slime');
+    drawTextWithShadow(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime());
   };
 
 })();

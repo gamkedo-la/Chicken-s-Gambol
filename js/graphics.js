@@ -130,6 +130,12 @@ function drawLines(canvasContext, color, lineWidth, points) {
   canvasContext.stroke();
 }
 
+function drawTextWithShadow(canvasContext, x, y, color, font, align, baseline, text, alpha) {
+  setShadow(SHADOW_COLOR, 2, 2, 2);
+  drawText(canvasContext, x, y, color, font, align, baseline, text, alpha);
+  resetShadow();
+}
+
 function drawText(canvasContext, x, y, color, font, align, baseline, text, alpha) {
   if (alpha !== undefined) {
     canvasContext.save();
