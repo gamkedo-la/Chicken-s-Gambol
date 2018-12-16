@@ -12,11 +12,11 @@ let Game = new (function() {
   let removeDeadUnits = false;
 
   let numUnits = 0;
-  let maxNumUnits = 5;
-  let absoluteMinNumUnits = 5;
-  let absoluteMaxNumUnits = 50;
+  let maxNumUnits = MIN_NUM_UNITS;
+  let absoluteMinNumUnits = MIN_NUM_UNITS;
+  let absoluteMaxNumUnits = ABS_MIN_NUM_UNITS;
 
-  let numSlime = 0;
+  let numSlime = STARTING_AMOUNT_SLIME;
 
   this.scheduleRemoveDeadUnits = function() {
     removeDeadUnits = true;
