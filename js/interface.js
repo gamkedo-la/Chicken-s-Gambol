@@ -29,23 +29,23 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 22, () => console.log('music button'), false, Images.topButtonBg),
-      new Button(692, 7, 30, 22, () => console.log('sound button'), false, Images.topButtonBg),
-      new Button(730, 7, 30, 22, () => console.log('menu button'), false, Images.topButtonBg),
-      new Button(271, 451, 20, 22, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg),
-      new Button(475, 451, 20, 22, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg)
+      new Button(654, 7, 30, 22, true, () => console.log('music button'), false, Images.topButtonBg),
+      new Button(692, 7, 30, 22, true, () => console.log('sound button'), false, Images.topButtonBg),
+      new Button(730, 7, 30, 22, false, () => console.log('menu button'), false, Images.topButtonBg),
+      new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg),
+      new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg)
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, Game.buildHouse.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(358, 422, 50, 50, Game.buildMudPit.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
-      new Button(416, 422, 50, 50, Game.buildBarracks.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
+      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonHouse),
+      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
+      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
-      new Button(358, 422, 50, 50, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
-      new Button(416, 422, 50, 50, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
+      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
+      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
+      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
@@ -83,30 +83,39 @@ const Interface = new (function() {
   this.selectionChanged = function(selection) {
     let length = selection.length;
     if (length === 0) {
-      setSelectionType('');
+      setSelectionType('', false);
 
       return;
     }
 
     if (length === 1 && selection[0].constructor === Barracks && selection[0].isComplete()) {
-      setSelectionType('units');
+      setSelectionType('units', selection[0].isPlayer());
 
       return;
     }
 
     for (let i = 0; i < length; i++) {
       if (selection[i].constructor !== Chicken) {
-        setSelectionType('');
+        setSelectionType('', false);
 
         return;
       }
     }
 
-    setSelectionType('buildings');
+    setSelectionType('buildings', selection[0].isPlayer());
   };
 
-  function setSelectionType(selectionType) {
-    if (lastSelectionType === selectionType) {
+  function setSelectionType(selectionType, isPlayer) {
+    if (lastSelectionType === selectionType && isPlayer) {
+      return;
+    }
+
+    if (!isPlayer || selectionType === '') {
+      callbackList(buildingBuildButtons, 'disable', []);
+      callbackList(unitBuildButtons, 'disable', []);
+
+      lastSelectionType = '';
+
       return;
     }
 
@@ -121,10 +130,6 @@ const Interface = new (function() {
       if (lastSelectionType === 'buildings') {
         callbackList(buildingBuildButtons, 'disable', []);
       }
-    }
-    else if (selectionType === '') {
-      callbackList(buildingBuildButtons, 'disable', []);
-      callbackList(unitBuildButtons, 'disable', []);
     }
 
     lastSelectionType = selectionType;

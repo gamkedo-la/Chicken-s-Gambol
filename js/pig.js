@@ -1,4 +1,4 @@
-const Pig = function(settings) {
+const Pig = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.pig,
@@ -11,19 +11,19 @@ const Pig = function(settings) {
     selectionY: TILE_HALF_SIZE / 2
   });
 
-  MovingUnit.call(this, settings);
+  MovingUnit.call(this, team, settings);
 };
 
 Pig.prototype = Object.create(MovingUnit.prototype);
 Pig.prototype.constructor = Pig;
 
-const PigEnemy = function(settings) {
+const PigEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.pigEnemy
   });
 
-  Pig.call(this, settings);
+  Pig.call(this, team, settings);
 };
 
 PigEnemy.prototype = Object.create(Pig.prototype);

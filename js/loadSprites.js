@@ -19,69 +19,77 @@ let Sprites = new (function() {
    * }
    */
   const sprites = {
-    chickenEnemy: {
-      image: 'chickenEnemy',
+    chicken: {
+      image: 'chicken',
       frames: {
         default: {
           frames: 2,
           frameTime: .2,
-          width: 83,
-          height: 76,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 318
+          firstFrameY: 4
         },
         attack: {
           frames: 2,
           frameTime: .2,
-          width: 83,
-          height: 76,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 318
+          firstFrameY: 4
+        },
+        build: {
+          frames: 2,
+          frameTime: .2,
+          width: 32,
+          height: 32,
+          firstFrameX: 0,
+          firstFrameY: 4
         },
         harvest: {
           frames: 2,
           frameTime: .2,
-          width: 83,
-          height: 76,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 318
+          firstFrameY: 4
         },
         moveRight: {
-          frames: 2,
+          frames: 6,
           frameTime: .2,
-          width: 83,
-          height: 76,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 4
         },
         moveLeft: {
-          frames: 2,
+          frames: 6,
           frameTime: .2,
-          width: 83,
-          height: 76,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 76
+          firstFrameY: 36
         },
         moveUp: {
           frames: 2,
           frameTime: .2,
-          width: 76,
-          height: 83,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 152
+          firstFrameY: 100
         },
         moveDown: {
-          frames: 2,
+          frames: 3,
           frameTime: .2,
-          width: 76,
-          height: 83,
+          width: 32,
+          height: 32,
           firstFrameX: 0,
-          firstFrameY: 235
+          firstFrameY: 68
         }
       }
     },
-    chicken: {
-      image: 'chicken',
+    chickenEnemy: {
+      image: 'chickenEnemy',
       frames: {
         default: {
           frames: 2,
@@ -660,7 +668,7 @@ let Sprites = new (function() {
       },
     },
     mudPitEnemy: {
-      image: 'mudPit',
+      image: 'mudPitEnemy',
       frames: {
         default: {
           frames: 1,
@@ -673,7 +681,7 @@ let Sprites = new (function() {
       },
     },
     barracksEnemy: {
-      image: 'barracks',
+      image: 'barracksEnemy',
       frames: {
         default: {
           frames: 1,
@@ -699,7 +707,7 @@ let Sprites = new (function() {
       },
     },
     slimeEnemy: {
-      image: 'slime',
+      image: 'slimeEnemy',
       frames: {
         default: {
           frames: 12,
@@ -725,7 +733,7 @@ let Sprites = new (function() {
       },
     },
     slimePatchEnemy: {
-      image: 'slimePatch',
+      image: 'slimePatchEnemy',
       frames: {
         default: {
           frames: 4,

@@ -113,53 +113,53 @@ const Grid = new (function() {
     switch (tileType) {
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:
-        Game.createUnit(Chicken, settings);
+        Game.create(Chicken, TEAM_PLAYER, settings);
         break;
       case TILE.PLAYER_PIG:
-        Game.createUnit(Pig, settings);
+        Game.create(Pig, TEAM_PLAYER, settings);
         break;
       case TILE.PLAYER_GOBLIN:
-        Game.createUnit(Goblin, settings);
+        Game.create(Goblin, TEAM_PLAYER, settings);
         break;
       case TILE.PLAYER_SLIME:
-        unit = Game.createBuilding(Slime, settings);
+        unit = Game.create(Slime, TEAM_PLAYER, settings);
         break;
       case TILE.PLAYER_HOUSE:
-        unit = Game.createBuilding(House, settings);
+        unit = Game.create(House, TEAM_PLAYER, settings);
         unit.setComplete();
         break;
       case TILE.PLAYER_BARRACKS:
-        unit = Game.createBuilding(Barracks, settings);
+        unit = Game.create(Barracks, TEAM_PLAYER, settings);
         unit.setComplete();
         break;
       case TILE.PLAYER_MUD_PIT:
-        unit = Game.createBuilding(MudPit, settings);
+        unit = Game.create(MudPit, TEAM_PLAYER, settings);
         unit.setComplete();
         break;
 
       // Enemy units/buildings
       case TILE.ENEMY_CHICKEN:
-        Game.createEnemy(ChickenEnemy, settings);
+        Game.create(ChickenEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_PIG:
-        Game.createEnemy(Pig, settings);
+        Game.create(Pig, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_GOBLIN:
-        Game.createEnemy(GoblinEnemy, settings);
+        Game.create(GoblinEnemy, TEAM_ENEMY, settings);
         break;
-//      case TILE.ENEMY_SLIME:
-//        Game.createEnemy(SlimeEnemy, settings);
-//        break;
+      case TILE.ENEMY_SLIME:
+        Game.create(SlimeEnemy, TEAM_ENEMY, settings);
+        break;
       case TILE.ENEMY_HOUSE:
-        unit = Game.createEnemyBuilding(House, settings);
+        unit = Game.create(House, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_BARRACKS:
-        unit = Game.createEnemyBuilding(Barracks, settings);
+        unit = Game.create(Barracks, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_MUD_PIT:
-        unit = Game.createEnemyBuilding(MudPit, settings);
+        unit = Game.create(MudPit, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       default:

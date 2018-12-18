@@ -1,4 +1,4 @@
-const SlimePatch = function(settings) {
+const SlimePatch = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimePatch,
@@ -33,19 +33,19 @@ const SlimePatch = function(settings) {
     return amount;
   };
 
-  Unit.call(this, settings);
+  Unit.call(this, team, settings);
 };
 
-SlimePatch.prototype = Object.create(Unit.prototype);
+SlimePatch.prototype = Object.create(BuildingUnit.prototype);
 SlimePatch.prototype.constructor = SlimePatch;
 
-const SlimePatchEnemy = function(settings) {
+const SlimePatchEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimePatchEnemy
   });
 
-  SlimePatch.call(this, settings);
+  SlimePatch.call(this, team, settings);
 };
 
 SlimePatchEnemy.prototype = Object.create(SlimePatch.prototype);

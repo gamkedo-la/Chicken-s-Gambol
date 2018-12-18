@@ -1,4 +1,4 @@
-const Goblin = function(settings) {
+const Goblin = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.goblin,
@@ -11,19 +11,19 @@ const Goblin = function(settings) {
     selectionY: TILE_HALF_SIZE / 2
   });
 
-  MovingUnit.call(this, settings);
+  MovingUnit.call(this, team, settings);
 };
 
 Goblin.prototype = Object.create(MovingUnit.prototype);
 Goblin.prototype.constructor = Goblin;
 
-const GoblinEnemy = function(settings) {
+const GoblinEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.goblinEnemy
   });
 
-  Goblin.call(this, settings);
+  Goblin.call(this, team, settings);
 };
 
 GoblinEnemy.prototype = Object.create(Goblin.prototype);

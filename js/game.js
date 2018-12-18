@@ -5,7 +5,6 @@ let Game = new (function() {
   this.buildings = [];
   this.targets = [];
   this.buildActionConstructor = false;
-  let buildButton = false;
   let buildPreviewImage = false;
   let placedBuilding = false;
 
@@ -22,33 +21,16 @@ let Game = new (function() {
     removeDeadUnits = true;
   };
 
-  this.createEnemy = function(Constructor, settings) {
-    return create(this.enemies, Constructor, settings);
-  };
-
-  this.createEnemyBuilding = function(Constructor, settings) {
-    return create(this.enemyBuildings, Constructor, settings);
-  };
-
-  this.createUnit = function(Constructor, settings) {
-    this.addUnit();
-    return create(this.units, Constructor, settings);
-  };
-
-  this.createBuilding = function(Constructor, settings) {
-    return create(this.buildings, Constructor, settings);
-  };
-
   this.createTarget = function(settings) {
-    return create(this.targets, FakeTarget, settings);
+    return this.create(FakeTarget, TEAM_NONE, settings);
   };
 
-  function create(collection, Constructor, settings) {
-    let unit = new Constructor(settings);
-    collection.push(unit);
+  this.create = function(Constructor, team, settings) {
+    let unit = new Constructor(team, settings);
+    this.units.push(unit);
 
     return unit;
-  }
+  };
 
   this.addUnit = function() {
     numUnits++;
@@ -88,21 +70,16 @@ let Game = new (function() {
     return amount <= numSlime;
   };
 
-  this.buildButton = function(Constructor, previewImage, button) {
+  this.buildButton = function(Constructor, previewImage) {
     buildPreviewImage = previewImage;
-    buildButton = button;
     this.buildActionConstructor = Constructor;
     placedBuilding = false;
   };
 
   this.cancelBuildButton = function(Constructor) {
-    if (buildButton) {
-      buildButton.deactivate();
-    }
     this.buildActionConstructor = false;
     placedBuilding = false;
     buildPreviewImage = false;
-    buildButton = false;
   };
 
   this.hasActiveBuildButton = function() {
@@ -185,36 +162,37 @@ let Game = new (function() {
   }
 
   this.findUnitAtPosition = function(position) {
-    let target = getUnitAtPosition(position, this.units);
-    if (!target) {
-      target = getUnitAtPosition(position, this.buildings);
-    }
-    if (!target) {
-      target = getUnitAtPosition(position, this.enemies);
-    }
-    if (!target) {
-      target = getUnitAtPosition(position, this.enemyBuildings);
-    }
-
-    return target;
+    return getUnitAtPosition(position, this.units);
+//    let target = getUnitAtPosition(position, this.units);
+//    if (!target) {
+//      target = getUnitAtPosition(position, this.buildings);
+//    }
+//    if (!target) {
+//      target = getUnitAtPosition(position, this.enemies);
+//    }
+//    if (!target) {
+//      target = getUnitAtPosition(position, this.enemyBuildings);
+//    }
+//
+//    return target;
   };
 
   this.update = function(delta) {
     updateGroundDecals(delta);
 
     callbackList(this.units, 'update', [delta]);
-    callbackList(this.buildings, 'update', [delta]);
-    callbackList(this.enemies, 'update', [delta]);
-    callbackList(this.enemyBuildings, 'update', [delta]);
-    callbackList(this.targets, 'update', [delta]);
+//    callbackList(this.buildings, 'update', [delta]);
+//    callbackList(this.enemies, 'update', [delta]);
+//    callbackList(this.enemyBuildings, 'update', [delta]);
+//    callbackList(this.targets, 'update', [delta]);
 
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
-      removeRemovableUnitsFromList(this.buildings);
-      removeRemovableUnitsFromList(this.enemies);
-      removeRemovableUnitsFromList(this.enemyBuildings);
-      removeRemovableUnitsFromList(this.targets);
+//      removeRemovableUnitsFromList(this.buildings);
+//      removeRemovableUnitsFromList(this.enemies);
+//      removeRemovableUnitsFromList(this.enemyBuildings);
+//      removeRemovableUnitsFromList(this.targets);
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
@@ -225,7 +203,7 @@ let Game = new (function() {
       };
 
       Grid.normalizeCoords(settings);
-      let building = this.createBuilding(this.buildActionConstructor, settings);
+      let building = this.create(this.buildActionConstructor, TEAM_PLAYER, settings);
       callbackList(Selection.getSelection(), 'setTarget', [building]);
       placedBuilding = true;
     }
@@ -244,10 +222,10 @@ let Game = new (function() {
 
   this.draw = function(interpolationPercentage) {
     drawGroundDecals();
-    callbackList(this.enemies, 'draw', [interpolationPercentage]);
-    callbackList(this.enemyBuildings, 'draw', [interpolationPercentage]);
+//    callbackList(this.enemies, 'draw', [interpolationPercentage]);
+//    callbackList(this.enemyBuildings, 'draw', [interpolationPercentage]);
     callbackList(this.units, 'draw', [interpolationPercentage]);
-    callbackList(this.buildings, 'draw', [interpolationPercentage]);
+//    callbackList(this.buildings, 'draw', [interpolationPercentage]);
 
     if (this.hasActiveBuildButton() && buildPreviewImage) {
       let position = Input.getMousePosition();

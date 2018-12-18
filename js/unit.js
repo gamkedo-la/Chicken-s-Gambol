@@ -1,4 +1,4 @@
-const Unit = function(settings) {
+const Unit = function(team, settings) {
 
   settings = extend(settings, {
     selectionY: TILE_HALF_SIZE,
@@ -14,7 +14,7 @@ const Unit = function(settings) {
 
   const clickRadius = settings.clickRadius;
   const clickRadiusSquared = clickRadius * clickRadius;
-  const collisionRange = settings.collisionRange || clickRadius * 1.3;
+  const collisionRange = settings.collisionRange !== undefined ? settings.collisionRange : clickRadius * 1.3;
   const AI_ENEMY_DETECT_RANGE = 100;
 
   this.x = Math.round(settings.x);
@@ -31,8 +31,20 @@ const Unit = function(settings) {
 
   let health = settings.maxHealth;
 
+  this.getTeam = function() {
+    return team;
+  };
+
   this.isEnemy = function() {
-    return unitIsInList(this, Game.enemies);
+    return this.getTeam() === TEAM_ENEMY;
+  };
+
+  this.isPlayer = function() {
+    return this.getTeam() === TEAM_PLAYER;
+  };
+
+  this.isBuilding = function() {
+    return false;
   };
 
   this.getState = function() {
@@ -42,8 +54,8 @@ const Unit = function(settings) {
   this.setState = function(_state) {
     // @todo verify _state?
     if (state !== _state) {
-      if (DEBUG) {
-        console.log('switching to ' + _state);
+      if (DEBUG && state) {
+        console.log('switching (' + this.constructor.name + ') from ' + state + ' to ' + _state);
       }
       state = _state;
 
@@ -93,6 +105,7 @@ const Unit = function(settings) {
 
   this.remove = function() {
     readyToRemove = true;
+    Game.scheduleRemoveDeadUnits();
 
     if (this._remove) {
       this._remove();
@@ -142,7 +155,7 @@ const Unit = function(settings) {
     }
 
     // just for testing purposes - we do receive a unit!
-    let attackSuggestion = this.closestEnemy(AI_ENEMY_DETECT_RANGE);
+    //let attackSuggestion = this.closestEnemy(AI_ENEMY_DETECT_RANGE);
 
     let gridBounds = Grid.getBounds();
     // expand so that sprites straddling the edge don't pop in or out
@@ -186,7 +199,8 @@ const Unit = function(settings) {
     }
   };
 
-  this.minimapDraw = function(levelDimensions, mapX, mapY, mapW, mapH, color) {
+  this.minimapDraw = function(levelDimensions, mapX, mapY, mapW, mapH) {
+    let color = this.isPlayer() ? MINIMAP_UNIT_COLOR : MINIMAP_UNIT_COLOR_ENEMY;
     let atX = mapX + (this.x / levelDimensions.width) * mapW;
     let atY = mapY + (this.y / levelDimensions.height) * mapH;
 
@@ -194,31 +208,31 @@ const Unit = function(settings) {
   };
 
   this.closestEnemy = function(maxDistance) {
-    //console.log("searching for the closest enemy...");
+    //console.log('searching for the closest enemy...');
 
     let mindist = 99999999999;
     if (!maxDistance) maxDistance = 99999999999;
     let foundit = null;
 
-    // search the correct list of units
-    let searchList = Game.enemies;
-    if (this.isEnemy()) {
-      searchList = Game.units;
-    }
+    let searchList = Game.units;
 
     for (let num=0,len=searchList.length; num<len; num++) {
 
       if (this != searchList[num]) { // skip yourself
         // Units have a .x and .y property, like Points
         let dist = distanceBetweenPoints(this, searchList[num]);
-        //console.log("distance " + num + " is "+dist);
-        if ((dist < maxDistance) && (mindist > dist)) {
+//        console.log('distance ' + num + ' is ' + dist);
+        if ((dist < maxDistance) && (dist < mindist)) {
           mindist = dist;
           foundit = searchList[num];
         }
       }
     }
-    if (foundit) console.log("Nearest enemy is: ", foundit);
+
+    if (DEBUG && foundit) {
+      console.log('Nearest enemy is: ', foundit);
+    }
+
     return foundit;
   }
 

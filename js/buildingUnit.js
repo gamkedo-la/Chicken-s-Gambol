@@ -1,4 +1,4 @@
-const BuildingUnit = function(settings) {
+const BuildingUnit = function(team, settings) {
 
   let oldX = settings.x;
   let oldY = settings.y;
@@ -44,7 +44,11 @@ const BuildingUnit = function(settings) {
     this.setState('step' + step);
   };
 
-  Unit.call(this, settings);
+  Unit.call(this, team, settings);
+
+  this.isBuilding = function() {
+    return true;
+  };
 };
 
 BuildingUnit.prototype = Object.create(Unit.prototype);

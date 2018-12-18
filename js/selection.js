@@ -87,7 +87,7 @@ let Selection = new (function() {
     let length = Game.units.length;
     for (let i = 0; i < length; i++) {
       let target = Game.units[i];
-      if (target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
+      if (target.isPlayer() && !target.isBuilding() && target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
         Selection.addUnitToSelection(target);
       }
     }
@@ -95,22 +95,7 @@ let Selection = new (function() {
 
   function handleLeftClick() {
     hasEnemySelected = false;
-    if (Selection.clickedOnItem(Game.units, Input.isDown(KEY.CTRL))) {
-      return;
-    }
-
-    if (Selection.clickedOnItem(Game.buildings)) {
-      hasEnemySelected = true;
-      return;
-    }
-
-    if (Selection.clickedOnItem(Game.enemies)) {
-      hasEnemySelected = true;
-      return;
-    }
-
-    if (Selection.clickedOnItem(Game.enemyBuildings)) {
-      hasEnemySelected = true;
+    if (this.clickedOnItem(Input.isDown(KEY.CTRL))) {
       return;
     }
 
@@ -118,17 +103,19 @@ let Selection = new (function() {
     selectionChanged();
   }
 
-  this.clickedOnItem = function(list, canAppend) {
+  this.clickedOnItem = function(canAppend) {
     if (canAppend === undefined) {
       canAppend = false;
     }
 
     let mousePosition = Input.getMousePosition();
-    let length = list.length;
+    let length = Game.units.length;
     for (let i = 0; i < length; i++) {
-      let target = list[i];
+      let target = Game.units[i];
       if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
-        if (canAppend) {
+        hasEnemySelected = hasEnemySelected || target.isEnemy();
+        if (canAppend && !target.isBuilding() && !hasEnemySelected) {
+          // @todo remove enemies and buildings from selection
           if (this.unitIsInSelection(target)) {
             this.removeUnitFromSelection(target);
           }

@@ -1,4 +1,4 @@
-const Slime = function(settings) {
+const Slime = function(team, settings) {
 
   let oldX = settings.x;
   let oldY = settings.y;
@@ -77,7 +77,7 @@ const Slime = function(settings) {
 
     patch.slime = this;
 
-    Game.createBuilding(SlimePatch, patch);
+    Game.create(SlimePatch, team, patch);
   }
 
   this._draw = function() {
@@ -91,19 +91,19 @@ const Slime = function(settings) {
     }
   };
 
-  Unit.call(this, settings);
+  Unit.call(this, team, settings);
 };
 
-Slime.prototype = Object.create(Unit.prototype);
+Slime.prototype = Object.create(BuildingUnit.prototype);
 Slime.prototype.constructor = Slime;
 
-const SlimeEnemy = function(settings) {
+const SlimeEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimeEnemy
   });
 
-  Slime.call(this, settings);
+  Slime.call(this, team, settings);
 };
 
 SlimeEnemy.prototype = Object.create(Slime.prototype);

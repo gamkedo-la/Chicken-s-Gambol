@@ -1,4 +1,4 @@
-const Chicken = function(settings) {
+const Chicken = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.chicken,
@@ -79,11 +79,11 @@ const Chicken = function(settings) {
   }
 
   function findMudPit(position) {
-    return findNearbyitemInList(Game.buildings, position, MudPit);
+    return findNearbyitemInList(Game.units, position, MudPit);
   }
 
   function findSlimePatch(position) {
-    return findNearbyitemInList(Game.buildings, position, SlimePatch, 90000);
+    return findNearbyitemInList(Game.units, position, SlimePatch, 90000);
   }
 
   function findNearbyitemInList(list, position, type, maxDistanceSquared) {
@@ -95,6 +95,10 @@ const Chicken = function(settings) {
       let listItem = list[i];
 
       if (listItem.constructor !== type) {
+        continue;
+      }
+
+      if (listItem.getTeam() !== team) {
         continue;
       }
 
@@ -119,19 +123,19 @@ const Chicken = function(settings) {
     return item;
   }
 
-  MovingUnit.call(this, settings);
+  MovingUnit.call(this, team, settings);
 };
 
 Chicken.prototype = Object.create(MovingUnit.prototype);
 Chicken.prototype.constructor = Chicken;
 
-const ChickenEnemy = function(settings) {
+const ChickenEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.chickenEnemy
   });
 
-  Chicken.call(this, settings);
+  Chicken.call(this, team, settings);
 };
 
 ChickenEnemy.prototype = Object.create(Chicken.prototype);

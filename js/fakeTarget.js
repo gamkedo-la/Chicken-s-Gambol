@@ -1,15 +1,17 @@
-const FakeTarget = function(settings) {
+const FakeTarget = function(team, settings) {
 
-  this.update = function(delta) {
-    readyToRemove = (followers.length <= 0);
-    if (readyToRemove) {
-      Game.scheduleRemoveDeadUnits();
+  settings = extend(settings, {
+    collisionRange: 0,
+    showHealthbar: false
+  });
+
+  this._update = function(delta) {
+    if (this.getFollowers().length <= 0) {
+      this.remove();
     }
   };
 
-  Unit.call(this, settings);
-
-  this.getCollisionRange = false;
+  Unit.call(this, team, settings);
 };
 
 FakeTarget.prototype = Object.create(Unit.prototype);

@@ -1,4 +1,4 @@
-const Barracks = function(settings) {
+const Barracks = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.barracks,
@@ -12,12 +12,7 @@ const Barracks = function(settings) {
   let counts = [];
   let buildTimeoutRemaining = 0;
 
-  this.queueUnit = function(constructor, button) {
-    if (button) {
-      // Immediately deactivate button, because it's not a toggle
-      button.deactivate();
-    }
-
+  this.queueUnit = function(constructor) {
     if (settings.maxQueue <= queue.length) {
       return;
     }
@@ -52,7 +47,7 @@ const Barracks = function(settings) {
 
     let constructor = queue.shift();
 
-    Game.createUnit(constructor, getSpawnPosition());
+    Game.create(constructor, team, getSpawnPosition());
     counts[constructor.name]--;
 
     if (queue.length === 0) {
@@ -104,19 +99,19 @@ const Barracks = function(settings) {
     }
   };
 
-  BuildingUnit.call(this, settings);
+  BuildingUnit.call(this, team, settings);
 };
 
 Barracks.prototype = Object.create(BuildingUnit.prototype);
 Barracks.prototype.constructor = Barracks;
 
-const BarracksEnemy = function(settings) {
+const BarracksEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.barracksEnemy
   });
 
-  Barracks.call(this, settings);
+  Barracks.call(this, team, settings);
 };
 
 BarracksEnemy.prototype = Object.create(Barracks.prototype);

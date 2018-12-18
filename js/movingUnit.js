@@ -1,4 +1,4 @@
-const MovingUnit = function(settings) {
+const MovingUnit = function(team, settings) {
 
   let footprints = false;
   if (settings.footprints) {
@@ -184,8 +184,7 @@ const MovingUnit = function(settings) {
       distance: 1000 // Something bigger than the minimum collision distance
     };
 
-    findCollisionWith(Game.units, collision, currentPosition, collisionRange);
-    findCollisionWith(Game.enemies, collision, currentPosition, collisionRange);
+    findCollisionWith(collision, currentPosition, collisionRange);
     Grid.findCollisionWith(collision, currentPosition, collisionRange);
 
     if (collision.position) {
@@ -242,10 +241,10 @@ const MovingUnit = function(settings) {
     return diff;
   }
 
-  function findCollisionWith(list, collision, currentPosition, collisionRange) {
-    let l = list.length;
+  function findCollisionWith(collision, currentPosition, collisionRange) {
+    let l = Game.units.length;
     for (let i = 0; i < l; i++) {
-      let unit = list[i];
+      let unit = Game.units[i];
       let unitPosition = unit.getPosition();
       if (currentPosition.x === unitPosition.x && currentPosition.y === unitPosition.y) {
         continue;
@@ -307,7 +306,6 @@ const MovingUnit = function(settings) {
   };
 
   this._draw = function(interpolationPercentage) {
-
     if (DEBUG) {
       drawLines(gameContext, 'red', 1, [
         { x: this.x, y: this.y },
@@ -316,7 +314,7 @@ const MovingUnit = function(settings) {
     }
   };
 
-  Unit.call(this, settings);
+  Unit.call(this, team, settings);
 };
 
 MovingUnit.prototype = Object.create(Unit.prototype);

@@ -4,6 +4,10 @@ const CANVAS_PADDING = 60;
 
 const PREVIEW_PATHS = true; // if true, we draw pathfinding previews showing what would happen when you right click
 
+const TEAM_NONE = 0;
+const TEAM_PLAYER = 1;
+const TEAM_ENEMY = 2;
+
 const FONT_COLOR = '#7f5333';
 const SHADOW_COLOR = '#351b14';
 const BUTTON_COUNT_FONT = '16px compass';
@@ -11,7 +15,6 @@ const UNITS_FONT = '18px compass';
 const SLIME_FONT = '26px compass';
 
 const DEC2RAD = (Math.PI / 180);
-const ANGLE360 = Math.PI * 2;
 
 const ANGLE15 = 15 * DEC2RAD;
 const ANGLE35 = 35 * DEC2RAD;
@@ -21,6 +24,7 @@ const ANGLE145 = 145 * DEC2RAD;
 const ANGLE180 = 180 * DEC2RAD;
 const ANGLE235 = 235 * DEC2RAD;
 const ANGLE305 = 305 * DEC2RAD;
+const ANGLE360 = Math.PI * 2;
 
 const TILE_SIZE = 32;
 const TILE_HALF_SIZE = TILE_SIZE / 2;
@@ -28,19 +32,14 @@ const TILE_COLLISION_SIZE = TILE_HALF_SIZE + 2;
 
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
+const MINIMAP_UNIT_COLOR = '#ffe6ad';
+const MINIMAP_UNIT_COLOR_ENEMY = '#ff2554';
 const HEALTH_BAR_COLOR = '#ffe6ad';
 const HEALTH_BAR_WIDTH = TILE_SIZE - 4;
 
 const MIN_NUM_UNITS = 5;
 const ABS_MIN_NUM_UNITS = 50;
 const STARTING_AMOUNT_SLIME = 100;
-
-const STATE = {
-  IDLE: 'idle',
-  MOVE: 'move',
-  ATTACK: 'attack',
-  DEAD: 'dead'
-};
 
 const TILE = {
   GRASS: 0,

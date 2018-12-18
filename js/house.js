@@ -1,4 +1,4 @@
-const House = function(settings) {
+const House = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.house,
@@ -15,19 +15,19 @@ const House = function(settings) {
     Game.subMaxNumUnits(settings.providesNumUnits);
   };
 
-  BuildingUnit.call(this, settings);
+  BuildingUnit.call(this, team, settings);
 };
 
 House.prototype = Object.create(BuildingUnit.prototype);
 House.prototype.constructor = House;
 
-const HouseEnemy = function(settings) {
+const HouseEnemy = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.houseEnemy
   });
 
-  House.call(this, settings);
+  House.call(this, team, settings);
 };
 
 HouseEnemy.prototype = Object.create(House.prototype);

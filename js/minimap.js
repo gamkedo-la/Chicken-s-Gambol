@@ -61,31 +61,6 @@ const Minimap = new (function() {
       minimapY,
       minimapW,
       minimapH,
-      'yellow'
-    ]);
-    callbackList(Game.buildings, 'minimapDraw', [
-      levelDimensions,
-      minimapX,
-      minimapY,
-      minimapW,
-      minimapH,
-      'white'
-    ]);
-    callbackList(Game.enemies, 'minimapDraw', [
-      levelDimensions,
-      minimapX,
-      minimapY,
-      minimapW,
-      minimapH,
-      'red'
-    ]);
-    callbackList(Game.enemyBuildings, 'minimapDraw', [
-      levelDimensions,
-      minimapX,
-      minimapY,
-      minimapW,
-      minimapH,
-      'red'
     ]);
   };
 
