@@ -7,6 +7,7 @@ const Slime = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slime,
+    state: 'default',
     collisionRange: 46,
     showHealthbar: false,
     patchGrowTimeoutSeconds: 10,
@@ -91,7 +92,7 @@ const Slime = function(team, settings) {
     }
   };
 
-  Unit.call(this, team, settings);
+  BuildingUnit.call(this, team, settings);
 };
 
 Slime.prototype = Object.create(BuildingUnit.prototype);

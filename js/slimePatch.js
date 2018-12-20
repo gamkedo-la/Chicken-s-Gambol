@@ -2,6 +2,7 @@ const SlimePatch = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.slimePatch,
+    state: 'default',
     showHealthbar: false,
     clickRadius: 18,
     collisionRange: 19,
@@ -33,7 +34,7 @@ const SlimePatch = function(team, settings) {
     return amount;
   };
 
-  Unit.call(this, team, settings);
+  BuildingUnit.call(this, team, settings);
 };
 
 SlimePatch.prototype = Object.create(BuildingUnit.prototype);
