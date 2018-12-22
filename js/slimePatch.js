@@ -5,6 +5,7 @@ const SlimePatch = function(team, settings) {
     state: 'default',
     showHealthbar: false,
     clickRadius: 18,
+    canSelect: false,
     collisionRange: 19,
     slimeAmount: 30,
     slime: undefined,

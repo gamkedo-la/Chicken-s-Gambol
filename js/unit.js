@@ -4,6 +4,7 @@ const Unit = function(team, settings) {
     selectionY: TILE_HALF_SIZE,
     healthbarY: TILE_HALF_SIZE * 1.1,
     showHealthbar: true,
+    canSelect: true,
     maxHealth: 13
   });
 
@@ -30,6 +31,10 @@ const Unit = function(team, settings) {
   let state;
 
   let health = settings.maxHealth;
+
+  this.canSelect = function() {
+    return settings.canSelect;
+  };
 
   this.getTeam = function() {
     return team;

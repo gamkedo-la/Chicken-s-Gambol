@@ -33,6 +33,10 @@ let Selection = new (function() {
   };
 
   this.addUnitToSelection = function(unit) {
+    if (!unit.canSelect()) {
+      return;
+    }
+
     if (selection.length) {
       if (selection[0].isEnemy()) {
         this.clearSelection();

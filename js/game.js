@@ -25,6 +25,11 @@ let Game = new (function() {
     let unit = new Constructor(team, settings);
     this.units.push(unit);
 
+    let c = unit.constructor;
+    if (c === Chicken || c === Goblin || c === Pig) {
+      this.addUnit();
+    }
+
     return unit;
   };
 
