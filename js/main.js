@@ -45,10 +45,6 @@ function gameInitialize() {
 
   Grid.initialize(levels[0]);
 
-  if (PREVIEW_PATHS) {
-    window.pathPreview = new pathPreviewer();
-  }
-
   MainLoop.start();
 
   Input.bindMouseMove(function(pos) {
@@ -64,7 +60,7 @@ function gameUpdate(delta) {
   Grid.update(delta);
   Game.update(delta);
   Selection.update(delta);
-  if (PREVIEW_PATHS) { pathPreview.update(delta); }
+  if (DEBUG) { pathPreview.update(delta); }
 
   HotKeys.update(delta);
   Interface.update(delta);
@@ -81,7 +77,7 @@ function gameDraw(interpolationPercentage) {
   screenShake.draw(interpolationPercentage);
 
   Grid.draw();
-  if (PREVIEW_PATHS) { pathPreview.draw(); }
+  if (DEBUG) { pathPreview.draw(); }
   Selection.draw();
   Game.draw();
 

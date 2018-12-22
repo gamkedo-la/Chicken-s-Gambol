@@ -1,28 +1,19 @@
 const Slime = function(team, settings) {
 
-  let oldX = settings.x;
-  let oldY = settings.y;
-  settings.x = settings.x + TILE_HALF_SIZE;
-  settings.y = settings.y + TILE_HALF_SIZE;
-
   settings = extend(settings, {
     sprite: Sprites.slime,
     state: 'default',
     collisionRange: 46,
     showHealthbar: false,
     patchGrowTimeoutSeconds: 10,
-    maxGrowDistance: 8
+    maxGrowDistance: 8,
+    unwalkableGrid: [3, 2]
   });
 
   let maxGrowDistanceSquared = Math.pow(settings.maxGrowDistance * TILE_SIZE, 2);
 
   let growablePatches = [];
-  let unwalkableGrid = settings.unwalkableGrid || [2, 2];
   let patchGrowTimeoutRemaining = 1;
-
-  // We use the oldX,oldY because the half-tile shift (for the image) uses the
-  // wrong tile-index and we need the upper-left tile + unwalkableGrid
-  Grid.updateWalkableGridForBuilding(oldX, oldY, unwalkableGrid);
 
   function findGrowablePatches() {
     if (0 < growablePatches.length) {
@@ -41,28 +32,41 @@ const Slime = function(team, settings) {
       for (let dy = minY; dy <= maxY; dy += TILE_SIZE) {
         let distance = Math.pow(dx - settings.x, 2) + Math.pow(dy - settings.y, 2);
         if (distance <= maxGrowDistanceSquared && Grid.isWalkableCoords(dx, dy)) {
-          growablePatches.push({x: dx, y: dy});
+          addPatchPosition(dx - TILE_HALF_SIZE, dy);
         }
       }
     }
 
-    // @todo make this basic shuffle more intelligent: nearer spots should be picked first
-    growablePatches = shuffle(growablePatches);
+    if (0 < growablePatches.length) {
+      // @todo make this basic shuffle more intelligent: nearer spots should be picked first
+      growablePatches = shuffle(growablePatches);
+    }
   }
 
-  this.addPatchPosition = function(x, y) {
-    growablePatches.push({x: x, y: y});
+  this.readdPatchPosition = function(x, y) {
+    addPatchPosition(x, y);
   };
 
   this._update = function(delta) {
     patchGrowTimeoutRemaining -= delta;
     if (patchGrowTimeoutRemaining <= 0) {
       patchGrowTimeoutRemaining += settings.patchGrowTimeoutSeconds;
-      growPatch();
+      growPatch(this);
     }
   };
 
-  function growPatch() {
+  function addPatchPosition(x, y) {
+    let length = growablePatches.length;
+    for (let i = 0; i < length; i++) {
+      if (growablePatches[i].x === x && growablePatches[i].y === y) {
+        return;
+      }
+    }
+
+    growablePatches.push({ x: x, y: y });
+  }
+
+  function growPatch(slime) {
     findGrowablePatches();
 
     if (growablePatches.length <= 0) {
@@ -73,10 +77,10 @@ const Slime = function(team, settings) {
     let patch = growablePatches.shift();
 
     if (!Grid.isWalkableCoords(patch.x, patch.y)) {
-      return growPatch();
+      return growPatch(slime);
     }
 
-    patch.slime = this;
+    patch.slime = slime;
 
     Game.create(SlimePatch, team, patch);
   }
@@ -87,7 +91,7 @@ const Slime = function(team, settings) {
 
       let len = growablePatches.length;
       for (let i = 0; i < len; i++) {
-        drawStrokeRect(gameContext, growablePatches[i][0], growablePatches[i][1], 2, 2, 'red', 1);
+        drawFillRect(gameContext, growablePatches[i].x - 1, growablePatches[i].y - 1, 3, 3, 'cyan', 1);
       }
     }
   };

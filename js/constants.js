@@ -2,8 +2,6 @@ let DEBUG = false;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
 
-const PREVIEW_PATHS = true; // if true, we draw pathfinding previews showing what would happen when you right click
-
 const TEAM_NONE = 0;
 const TEAM_PLAYER = 1;
 const TEAM_ENEMY = 2;

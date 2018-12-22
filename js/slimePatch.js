@@ -8,24 +8,19 @@ const SlimePatch = function(team, settings) {
     collisionRange: 19,
     slimeAmount: 30,
     slime: undefined,
-    selectionY: TILE_HALF_SIZE / 2
+    selectionY: TILE_HALF_SIZE / 2,
+    unwalkableGrid: [1, 1]
   });
 
   let slimeAmount = settings.slimeAmount || 30;
-
-  let unwalkableGrid = settings.unwalkableGrid || [1, 1];
-
-  // We use the oldX,oldY because the half-tile shift (for the image) uses the
-  // wrong tile-index and we need the upper-left tile + unwalkableGrid
-  Grid.updateWalkableGridForBuilding(settings.x, settings.y, unwalkableGrid);
 
   this.collectSlime = function(amount) {
     slimeAmount -= amount;
     if (slimeAmount <= 0) {
       amount += slimeAmount;
 
-      if (settings.slime && settings.slime.addPatchPosition) {
-        settings.slime.addPatchPosition(settings.x, settings.y);
+      if (settings.slime && settings.slime.readdPatchPosition) {
+        settings.slime.readdPatchPosition(settings.x, settings.y);
       }
 
       this.remove();

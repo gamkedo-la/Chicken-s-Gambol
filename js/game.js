@@ -1,9 +1,5 @@
 let Game = new (function() {
-  this.enemies = [];
-  this.enemyBuildings = [];
   this.units = [];
-  this.buildings = [];
-  this.targets = [];
   this.buildActionConstructor = false;
   let buildPreviewImage = false;
   let placedBuilding = false;
@@ -102,11 +98,11 @@ let Game = new (function() {
     let selection = Selection.getSelection();
 
     if (selection.length === 0) {
-      // We can only delete units or buildings, not enemies or enemy buildings
       return;
     }
 
-    if (!unitIsInList(selection[0], this.units) && !unitIsInList(selection[0], this.buildings)) {
+    // We can only delete player units or buildings, not enemies or slime
+    if (!selection[0].isPlayer()) {
       return;
     }
 
@@ -181,18 +177,10 @@ let Game = new (function() {
     updateGroundDecals(delta);
 
     callbackList(this.units, 'update', [delta]);
-//    callbackList(this.buildings, 'update', [delta]);
-//    callbackList(this.enemies, 'update', [delta]);
-//    callbackList(this.enemyBuildings, 'update', [delta]);
-//    callbackList(this.targets, 'update', [delta]);
 
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
-//      removeRemovableUnitsFromList(this.buildings);
-//      removeRemovableUnitsFromList(this.enemies);
-//      removeRemovableUnitsFromList(this.enemyBuildings);
-//      removeRemovableUnitsFromList(this.targets);
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
@@ -222,10 +210,7 @@ let Game = new (function() {
 
   this.draw = function(interpolationPercentage) {
     drawGroundDecals();
-//    callbackList(this.enemies, 'draw', [interpolationPercentage]);
-//    callbackList(this.enemyBuildings, 'draw', [interpolationPercentage]);
     callbackList(this.units, 'draw', [interpolationPercentage]);
-//    callbackList(this.buildings, 'draw', [interpolationPercentage]);
 
     if (this.hasActiveBuildButton() && buildPreviewImage) {
       let position = Input.getMousePosition();

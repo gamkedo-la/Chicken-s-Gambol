@@ -1,4 +1,4 @@
-function pathPreviewer() {
+const pathPreview = new (function() {
 
   let path = null;
   let multiPaths = []; // since we might have >1 unit selected
@@ -42,4 +42,4 @@ function pathPreviewer() {
     }
   };
 
-}
+})();

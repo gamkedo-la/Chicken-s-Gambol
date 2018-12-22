@@ -34,7 +34,7 @@ let Selection = new (function() {
 
   this.addUnitToSelection = function(unit) {
     if (selection.length) {
-      if (unitIsInList(selection[0], Game.enemies)) {
+      if (selection[0].isEnemy()) {
         this.clearSelection();
       }
     }
