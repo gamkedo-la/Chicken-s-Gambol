@@ -44,6 +44,10 @@ const Slime = function(team, settings) {
   }
 
   this.readdPatchPosition = function(x, y) {
+    if (growablePatches.length === 0) {
+      patchGrowTimeoutRemaining = settings.patchGrowTimeoutSeconds;
+    }
+
     addPatchPosition(x, y);
   };
 
