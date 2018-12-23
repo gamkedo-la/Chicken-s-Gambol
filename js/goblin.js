@@ -2,12 +2,15 @@ const Goblin = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.goblin,
-    actionRangeSquared: 14,
+    actionRange: 14,
+    attackRange: 180,
     clickRadius: 16,
     unitRanksSpacing: 36,
     footprints: Images.footprints,
     collisionRange: 26,
     speed: 1.75,
+    damage: 2,
+    maxHealth: 8,
     selectionY: TILE_HALF_SIZE / 2
   });
 

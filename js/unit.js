@@ -5,7 +5,9 @@ const Unit = function(team, settings) {
     healthbarY: TILE_HALF_SIZE * 1.1,
     showHealthbar: true,
     canSelect: true,
-    maxHealth: 13
+    canDamage: true,
+    maxHealth: 13,
+    damage: 2
   });
 
   let sprite = false;
@@ -20,6 +22,7 @@ const Unit = function(team, settings) {
 
   this.x = Math.round(settings.x);
   this.y = Math.round(settings.y);
+  this.damage = settings.damage;
 
   let readyToRemove = false;
   let enabled = true;
@@ -40,12 +43,12 @@ const Unit = function(team, settings) {
     return team;
   };
 
-  this.isEnemy = function() {
-    return this.getTeam() === TEAM_ENEMY;
+  this.isEnemy = function(myTeam) {
+    return this.getTeam() !== myTeam;
   };
 
-  this.isPlayer = function() {
-    return this.getTeam() === TEAM_PLAYER;
+  this.isPlayer = function(myTeam) {
+    return this.getTeam() === myTeam;
   };
 
   this.isBuilding = function() {
@@ -102,6 +105,19 @@ const Unit = function(team, settings) {
       x: Math.round(this.x),
       y: Math.round(this.y)
     };
+  };
+
+  this.canDamage = function() {
+    return settings.canDamage;
+  };
+
+  this.doDamage = function(damage) {
+    health -= damage;
+    if (health <= 0) {
+      this.remove();
+
+      callbackList(this.getFollowers(), 'unsetTarget');
+    }
   };
 
   this.getCollisionRange = function() {
@@ -205,7 +221,7 @@ const Unit = function(team, settings) {
   };
 
   this.minimapDraw = function(levelDimensions, mapX, mapY, mapW, mapH) {
-    let color = this.isPlayer() ? MINIMAP_UNIT_COLOR : MINIMAP_UNIT_COLOR_ENEMY;
+    let color = this.isPlayer(TEAM_PLAYER) ? MINIMAP_UNIT_COLOR : MINIMAP_UNIT_COLOR_ENEMY;
     let atX = mapX + (this.x / levelDimensions.width) * mapW;
     let atY = mapY + (this.y / levelDimensions.height) * mapH;
 

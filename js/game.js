@@ -107,7 +107,7 @@ let Game = new (function() {
     }
 
     // We can only delete player units or buildings, not enemies or slime
-    if (!selection[0].isPlayer()) {
+    if (selection[0].getTeam() === TEAM_ENEMY) {
       return;
     }
 

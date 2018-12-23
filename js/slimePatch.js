@@ -10,7 +10,8 @@ const SlimePatch = function(team, settings) {
     slimeAmount: 30,
     slime: undefined,
     selectionY: TILE_HALF_SIZE / 2,
-    unwalkableGrid: [1, 1]
+    unwalkableGrid: [1, 1],
+    canDamage: false
   });
 
   let slimeAmount = settings.slimeAmount || 30;

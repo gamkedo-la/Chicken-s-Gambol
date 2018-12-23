@@ -38,7 +38,7 @@ let Selection = new (function() {
     }
 
     if (selection.length) {
-      if (selection[0].isEnemy()) {
+      if (selection[0].isEnemy(TEAM_PLAYER)) {
         this.clearSelection();
       }
     }
@@ -90,7 +90,7 @@ let Selection = new (function() {
     let length = Game.units.length;
     for (let i = 0; i < length; i++) {
       let target = Game.units[i];
-      if (target.isPlayer() && !target.isBuilding() && target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
+      if (target.isPlayer(TEAM_PLAYER) && !target.isBuilding() && target.isInBox(mouseLassoPosition1, mouseLassoPosition2)) {
         Selection.addUnitToSelection(target);
         madeSelection = true;
       }
@@ -122,7 +122,7 @@ let Selection = new (function() {
     for (let i = 0; i < length; i++) {
       let target = Game.units[i];
       if (target.isClickPositionHit && target.isClickPositionHit(mousePosition)) {
-        hasEnemySelected = hasEnemySelected || target.isEnemy();
+        hasEnemySelected = hasEnemySelected || target.isEnemy(TEAM_PLAYER);
         if (canAppend && !target.isBuilding() && !hasEnemySelected) {
           this.removeEnemiesAndBuildingsFromSelection();
 
@@ -147,7 +147,7 @@ let Selection = new (function() {
   this.removeEnemiesAndBuildingsFromSelection = function() {
     for (let i = selection.length - 1; 0 <= i; i--) {
       let target = selection[i];
-      if (target.isBuilding() || target.isEnemy()) {
+      if (target.isBuilding() || target.isEnemy(TEAM_PLAYER)) {
         target.deselect();
         selection.splice(i, 1);
       }

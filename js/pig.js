@@ -2,12 +2,15 @@ const Pig = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.pig,
-    actionRangeSquared: 14,
+    actionRange: 14,
+    attackRange: 14,
     clickRadius: 16,
     unitRanksSpacing: 36,
     footprints: Images.footprints,
     collisionRange: 26,
     speed: 1.75,
+    damage: 4,
+    maxHealth: 13,
     selectionY: TILE_HALF_SIZE / 2
   });
 

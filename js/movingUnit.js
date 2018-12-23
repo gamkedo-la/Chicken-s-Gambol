@@ -9,8 +9,10 @@ const MovingUnit = function(team, settings) {
   const speed = settings.speed || 0;
   const rotationEase = settings.rotationEase || 0.6;
   const unitRanksSpacing = settings.unitRanksSpacing || settings.clickRadius * 2.25;
-  const actionRange = settings.actionRangeSquared || settings.clickRadius * 0.9;
+  const actionRange = settings.actionRange || settings.clickRadius * 0.9;
   const actionRangeSquared = actionRange * actionRange;
+  const attackRange = settings.attackRange || settings.clickRadius * 0.9;
+  const attackRangeSquared = attackRange * attackRange;
 
   let footprintPositions = false;
   const footprintMax = settings.footprintMax || 50;
@@ -82,8 +84,8 @@ const MovingUnit = function(team, settings) {
     return targetPosition;
   };
 
-  this.isWithinActionRange = function(unit) {
-    return distanceBetweenPointsSquared(this.getPosition(), unit.getPosition()) <= actionRangeSquared;
+  this.isWithinRange = function(unit, range) {
+    return distanceBetweenPointsSquared(this.getPosition(), unit.getPosition()) <= range;
   };
 
   this._update = function(delta) {
@@ -93,8 +95,10 @@ const MovingUnit = function(team, settings) {
       return;
     }
 
-    if (target && !this.isWithinActionRange(target)) {
-      if (this.stepTowardsTarget()) {
+    if (target) {
+      let movedCloseEnough = (target.constructor === FakeTarget && this.isWithinRange(target, actionRangeSquared));
+      let closeEnoughToAttack = (target.constructor !== FakeTarget && this.isWithinRange(target, attackRangeSquared));
+      if (!movedCloseEnough && !closeEnoughToAttack && this.stepTowardsTarget()) {
         return;
       }
     }
@@ -105,14 +109,16 @@ const MovingUnit = function(team, settings) {
       return;
     }
 
-    if (target && target.isEnemy()) {
-      // attack!
-      this.setState('attack');
+    if (this.childUpdate && this.childUpdate(delta)) {
+      // Child did something!
       return;
     }
 
-    if (this.childUpdate && this.childUpdate(delta)) {
-      // Child did something!
+    if (target && target.isEnemy(this.getTeam()) && target.canDamage && target.canDamage()) {
+      // attack!
+      this.setState('attack');
+      target.doDamage(this.damage * delta);
+
       return;
     }
 

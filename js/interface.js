@@ -89,7 +89,7 @@ const Interface = new (function() {
     }
 
     if (length === 1 && selection[0].constructor === Barracks && selection[0].isComplete()) {
-      setSelectionType('units', selection[0].isPlayer());
+      setSelectionType('units', selection[0].isPlayer(TEAM_PLAYER));
 
       return;
     }
@@ -102,7 +102,7 @@ const Interface = new (function() {
       }
     }
 
-    setSelectionType('buildings', selection[0].isPlayer());
+    setSelectionType('buildings', selection[0].isPlayer(TEAM_PLAYER));
   };
 
   function setSelectionType(selectionType, isPlayer) {

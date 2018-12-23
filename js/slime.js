@@ -3,11 +3,14 @@ const Slime = function(team, settings) {
   settings = extend(settings, {
     sprite: Sprites.slime,
     state: 'default',
+    clickRadius: 40,
+    canSelect: false,
     collisionRange: 46,
-    showHealthbar: false,
+    showHealthbar: true,
     patchGrowTimeoutSeconds: 10,
     maxGrowDistance: 8,
-    unwalkableGrid: [3, 2]
+    unwalkableGrid: [3, 2],
+    maxHealth: 500
   });
 
   let maxGrowDistanceSquared = Math.pow(settings.maxGrowDistance * TILE_SIZE, 2);

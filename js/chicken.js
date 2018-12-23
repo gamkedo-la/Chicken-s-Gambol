@@ -2,7 +2,8 @@ const Chicken = function(team, settings) {
 
   settings = extend(settings, {
     sprite: Sprites.chicken,
-    actionRangeSquared: 14,
+    actionRange: 14,
+    attackRange: 14,
     clickRadius: 16,
     unitRanksSpacing: 36,
     footprints: Images.footprints,
@@ -11,6 +12,8 @@ const Chicken = function(team, settings) {
     harvestMax: 25,
     buildSpeed: 5,
     speed: 1.4,
+    damage: 3,
+    maxHealth: 10,
     selectionY: TILE_HALF_SIZE / 2
   });
 
