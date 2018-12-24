@@ -171,7 +171,7 @@ function tintImage(image, color) {
 }
 
 // creates a brand new sprite in a new color
-function createTintedSprite(image, color) {
+function createTintedSprite(image, color, alpha) {
   let newCanvas = document.createElement('canvas');
   let newContext = newCanvas.getContext('2d');
   newCanvas.width = image.width;
@@ -179,7 +179,7 @@ function createTintedSprite(image, color) {
   newContext.fillStyle = color;
   newContext.fillRect(0, 0, newCanvas.width, newCanvas.height);
   newContext.globalCompositeOperation = 'destination-atop';
-  newContext.globalAlpha = 1;
+  newContext.globalAlpha = alpha || 1;
   newContext.drawImage(image, 0, 0);
   return newCanvas;
 }

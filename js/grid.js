@@ -169,6 +169,22 @@ const Grid = new (function() {
     return levelGrid[i] = levelData.defaultTile;
   }
 
+  this.canPlaceBuildingAt = function(buildingX, buildingY, unwalkableGrid) {
+    let tileIndex;
+    let index = this.coordsToIndex(buildingX, buildingY);
+
+    for (let r = 0; r < unwalkableGrid[1]; r++) {
+      for (let c = 0; c < unwalkableGrid[0]; c++) {
+        tileIndex = index + c + (r * levelData.cols);
+        if (!walkableGrid[tileIndex]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  };
+
   this.updateWalkableGridForBuilding = function(buildingX, buildingY, unwalkableGrid, state) {
     let tileIndex;
     let index = this.coordsToIndex(buildingX, buildingY);

@@ -2,6 +2,7 @@ let Game = new (function() {
   this.units = [];
   this.buildActionConstructor = false;
   let buildPreviewImage = false;
+  let buildPreviewImageInvalid = false;
   let placedBuilding = false;
 
   let removeDeadUnits = false;
@@ -73,6 +74,7 @@ let Game = new (function() {
 
   this.buildButton = function(Constructor, previewImage) {
     buildPreviewImage = previewImage;
+    buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
     this.buildActionConstructor = Constructor;
     placedBuilding = false;
   };
@@ -81,6 +83,7 @@ let Game = new (function() {
     this.buildActionConstructor = false;
     placedBuilding = false;
     buildPreviewImage = false;
+    buildPreviewImageInvalid = false;
   };
 
   this.hasActiveBuildButton = function() {
@@ -164,18 +167,6 @@ let Game = new (function() {
 
   this.findUnitAtPosition = function(position) {
     return getUnitAtPosition(position, this.units);
-//    let target = getUnitAtPosition(position, this.units);
-//    if (!target) {
-//      target = getUnitAtPosition(position, this.buildings);
-//    }
-//    if (!target) {
-//      target = getUnitAtPosition(position, this.enemies);
-//    }
-//    if (!target) {
-//      target = getUnitAtPosition(position, this.enemyBuildings);
-//    }
-//
-//    return target;
   };
 
   this.update = function(delta) {
@@ -213,6 +204,43 @@ let Game = new (function() {
     }
   }
 
+  this.canBuildAtMousePosition = function(team) {
+    if (!this.hasActiveBuildButton() || !buildPreviewImage) {
+      return false;
+    }
+
+    if (team === undefined) {
+      team = TEAM_PLAYER;
+    }
+
+    let mousePosition = Input.getMousePosition();
+
+    let length = this.units.length;
+    for (let i = 0; i < length; i++) {
+      let unit = this.units[i];
+
+      if (unit.getTeam() !== team) {
+        continue;
+      }
+
+      if (!unit.isBuilding() || unit.constructor === SlimePatch || unit.constructor === SlimePatchEnemy) {
+        continue;
+      }
+
+      let d = distanceBetweenPointsSquared(mousePosition, unit.getPosition());
+      if (MAX_BUILD_DISTANCE_SQUARED < d) {
+        continue;
+      }
+
+      // @todo how to grab the unwalkableGrid from building?
+      if (Grid.canPlaceBuildingAt(mousePosition.x, mousePosition.y, [2,2])) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   this.draw = function(interpolationPercentage) {
     drawGroundDecals();
     callbackList(this.units, 'draw', [interpolationPercentage]);
@@ -220,7 +248,7 @@ let Game = new (function() {
     if (this.hasActiveBuildButton() && buildPreviewImage) {
       let position = Input.getMousePosition();
       Grid.normalizeCoords(position);
-      drawImage(gameContext, buildPreviewImage, position.x + TILE_HALF_SIZE, position.y + TILE_HALF_SIZE);
+      drawImage(gameContext, this.canBuildAtMousePosition() ? buildPreviewImage : buildPreviewImageInvalid, position.x + TILE_HALF_SIZE, position.y + TILE_HALF_SIZE);
     }
   };
 
