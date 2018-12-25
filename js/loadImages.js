@@ -37,7 +37,8 @@ const Images = new (function() {
     buildButtonPig: 'img/build-button-pig.png',
     buildButtonBg: 'img/build-button-active-bg.png',
     bottomButtonBg: 'img/bottom-button-active-bg.png',
-    topButtonBg: 'img/top-button-active-bg.png'
+    topButtonBg: 'img/top-button-active-bg.png',
+    startMenu: 'img/startMenu.png'
   };
 
   let tileTypeImages = [
