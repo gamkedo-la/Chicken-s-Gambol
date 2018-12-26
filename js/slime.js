@@ -41,7 +41,7 @@ const Slime = function(team, settings) {
     }
 
     if (0 < growablePatches.length) {
-      // @todo make this basic shuffle more intelligent: nearer spots should be picked first
+	  //sorts growablePatches from nearest to farthest from slime.
 	  growablePatches.sort(function(a, b){
 		if (a.distanceFromSlime === b.distanceFromSlime){
 		  return 0;
@@ -51,6 +51,9 @@ const Slime = function(team, settings) {
 		  return 1;
 		}
 	  });
+	  
+	  //takes the 30 nearest patches and randomizes their order.
+	  growablePatches = shuffle(growablePatches.splice(0, 30));
     }
   }
 
