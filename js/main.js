@@ -1,5 +1,5 @@
 let gameCanvas, gameContext;
-let gameIsRunning = false;
+let gameIsStarted = false;
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
@@ -41,11 +41,7 @@ function windowOnFocus() {
 }
 
 function gameInitialize() {
-/*  if (gameIsRunning) {
-    return;
-  } else {
-    runMenu();
-  } */
+  gameIsStarted = true;
   Input.initialize();
   Interface.initialize();
 
@@ -70,7 +66,13 @@ function gameUpdate(delta) {
 
   HotKeys.update(delta);
   Interface.update(delta);
-  Input.update(delta); 
+  Input.update(delta);
+
+/*  if(gameIsStarted){
+    Menu.draw();
+  }else{
+    return;
+  }*/
 }
 
 function gameDraw(interpolationPercentage) {
