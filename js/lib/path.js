@@ -165,8 +165,6 @@ function findPath(worldWidth, worldHeight, pathStart, pathEnd) {
     let AStar = new Array(worldSize);
     // list of currently open Nodes
     let Open = [mypathStart];
-    // list of closed Nodes
-    let Closed = [];
     // list of the final output array
     let result = [];
     // reference to a Node (that is nearby)
@@ -191,14 +189,13 @@ function findPath(worldWidth, worldHeight, pathStart, pathEnd) {
       myNode = Open.splice(min, 1)[0];
       // is it the destination node?
       if (myNode.value === mypathEnd.value) {
-        myPath = Closed[Closed.push(myNode) - 1];
         do {
-          result.push([myPath.x, myPath.y]);
+          result.push([myNode.x, myNode.y]);
         }
-        while (myPath = myPath.Parent);
+        while (myNode = myNode.Parent);
 
         // clear the working arrays
-        AStar = Closed = Open = [];
+        AStar = Open = [];
         // we want to return start to finish
         result.reverse();
       }
@@ -220,8 +217,6 @@ function findPath(worldWidth, worldHeight, pathStart, pathEnd) {
             AStar[myPath.value] = true;
           }
         }
-        // remember this route as having no more untested options
-        Closed.push(myNode);
       }
     }
 
