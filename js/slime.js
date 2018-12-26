@@ -35,14 +35,22 @@ const Slime = function(team, settings) {
       for (let dy = minY; dy <= maxY; dy += TILE_SIZE) {
         let distance = Math.pow(dx - settings.x, 2) + Math.pow(dy - settings.y, 2);
         if (distance <= maxGrowDistanceSquared && Grid.isWalkableCoords(dx, dy)) {
-          addPatchPosition(dx - TILE_HALF_SIZE, dy);
+          addPatchPosition(dx - TILE_HALF_SIZE, dy, distance);
         }
       }
     }
 
     if (0 < growablePatches.length) {
       // @todo make this basic shuffle more intelligent: nearer spots should be picked first
-      growablePatches = shuffle(growablePatches);
+	  growablePatches.sort(function(a, b){
+		if (a.distanceFromSlime === b.distanceFromSlime){
+		  return 0;
+		} else if(a.distanceFromSlime < b.distanceFromSlime) {
+		  return -1;
+		} else if (a.distanceFromSlime > b.distanceFromSlime) {
+		  return 1;
+		}
+	  });
     }
   }
 
@@ -62,7 +70,7 @@ const Slime = function(team, settings) {
     }
   };
 
-  function addPatchPosition(x, y) {
+  function addPatchPosition(x, y, distanceFromSlime) {
     let length = growablePatches.length;
     for (let i = 0; i < length; i++) {
       if (growablePatches[i].x === x && growablePatches[i].y === y) {
@@ -70,7 +78,7 @@ const Slime = function(team, settings) {
       }
     }
 
-    growablePatches.push({ x: x, y: y });
+    growablePatches.push({ x: x, y: y, distanceFromSlime: distanceFromSlime });
   }
 
   function growPatch(slime) {
