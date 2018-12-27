@@ -63,7 +63,7 @@ const Unit = function(team, settings) {
     // @todo verify _state?
     if (state !== _state) {
       if (DEBUG && state) {
-        console.log('switching (' + this.constructor.name + ') from ' + state + ' to ' + _state);
+//        console.log('switching (' + this.constructor.name + ') from ' + state + ' to ' + _state);
       }
       state = _state;
 

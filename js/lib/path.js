@@ -176,7 +176,7 @@ function findPath(worldWidth, worldHeight, pathStart, pathEnd) {
     // temp integer variables used in the calculations
     let length, max, min, i, j;
     // iterate through the open list until none are left
-    while (length = Open.length) {
+    do {
       max = worldSize;
       min = -1;
       for (i = 0; i < length; i++) {
@@ -189,36 +189,39 @@ function findPath(worldWidth, worldHeight, pathStart, pathEnd) {
       myNode = Open.splice(min, 1)[0];
       // is it the destination node?
       if (myNode.value === mypathEnd.value) {
+        // we found a path!
         do {
-          result.push([myNode.x, myNode.y]);
+          result.unshift([myNode.x, myNode.y]);
+
+          myNode = myNode.Parent;
         }
-        while (myNode = myNode.Parent);
+        while (myNode !== null);
 
         // clear the working arrays
         AStar = Open = [];
-        // we want to return start to finish
-        result.reverse();
+
+        return result;
       }
-      else // not the destination
-      {
-        // find which nearby nodes are walkable
-        myNeighbours = neighbours(myNode.x, myNode.y);
+
+      // find which nearby nodes are walkable
+      myNeighbours = neighbours(myNode.x, myNode.y);
+      for (i = 0, j = myNeighbours.length; i < j; i++) {
         // test each one that hasn't been tried already
-        for (i = 0, j = myNeighbours.length; i < j; i++) {
-          myPath = Node(myNode, myNeighbours[i]);
-          if (!AStar[myPath.value]) {
-            // estimated cost of this particular route so far
-            myPath.g = myNode.g + distanceFunction(myNeighbours[i], myNode);
-            // estimated cost of entire guessed route to the destination
-            myPath.f = myPath.g + distanceFunction(myNeighbours[i], mypathEnd);
-            // remember this new path for testing above
-            Open.push(myPath);
-            // mark this node in the world graph as visited
-            AStar[myPath.value] = true;
-          }
+        myPath = Node(myNode, myNeighbours[i]);
+        if (!AStar[myPath.value]) {
+          // estimated cost of this particular route so far
+          myPath.g = myNode.g + distanceFunction(myNeighbours[i], myNode);
+          // estimated cost of entire guessed route to the destination
+          myPath.f = myPath.g + distanceFunction(myNeighbours[i], mypathEnd);
+          // remember this new path for testing above
+          Open.push(myPath);
+          // mark this node in the world graph as visited
+          AStar[myPath.value] = true;
         }
       }
-    }
+
+      length = Open.length;
+    } while (0 < length);
 
     return result;
   }

@@ -39,13 +39,19 @@ const Chicken = function(team, settings) {
         harvested += target.collectSlime(settings.harvestSpeed * delta);
 
         if (target.isReadyToRemove() && harvested < settings.harvestMax) {
+//          console.log('not enough');
           this.setTarget(findSlimePatch(this.getPosition()));
           if (!this.getTarget()) {
+//            console.log('but not found a new patch');
             returnSlime = true;
           }
+//          else {
+//            console.log('but found a new patch');
+//          }
         }
 
         if (returnSlime || settings.harvestMax <= harvested) {
+//          console.log('return slime', returnSlime, 'or max <= carrying', settings.harvestMax, harvested);
           lastHarvestedPosition = this.getPosition();
           this.setTarget(findMudPit(this.getPosition()));
         }

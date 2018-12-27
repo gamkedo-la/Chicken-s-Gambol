@@ -29,6 +29,8 @@ const MovingUnit = function(team, settings) {
   let nextStepPosition;
   let distanceTraveled = 0;
 
+  let currentPath;
+
   this.getTarget = function() {
     return target;
   };
@@ -57,6 +59,7 @@ const MovingUnit = function(team, settings) {
       target.removeFollower(this);
     }
     target = undefined;
+    currentPath = undefined;
   };
 
   this.getTargetPosition = function() {
@@ -137,16 +140,17 @@ const MovingUnit = function(team, settings) {
       distanceTraveled = 0;
     }
     if (distanceTraveled === 0) {
-      let path = Grid.findPath(this.getPosition(), this.getTargetPosition());
+      currentPath = Grid.findPath(this.getPosition(), this.getTargetPosition());
       // no path to target
-      if (!path || path[0] === undefined) {
+      if (!currentPath || currentPath[0] === undefined) {
         // no step to take
+//        console.log('did not find a path to target?');
         return false;
       }
 
       nextStepPosition = {
-        x: path[0][0] * TILE_SIZE + TILE_HALF_SIZE,
-        y: path[0][1] * TILE_SIZE + TILE_HALF_SIZE,
+        x: currentPath[0][0] * TILE_SIZE + TILE_HALF_SIZE,
+        y: currentPath[0][1] * TILE_SIZE + TILE_HALF_SIZE,
       };
     }
 
@@ -317,6 +321,10 @@ const MovingUnit = function(team, settings) {
         { x: this.x, y: this.y },
         { x: this.x + Math.cos(angle) * 20, y: this.y + Math.sin(angle) * 20 }
       ]);
+
+      if (currentPath) {
+        pathPreview.drawPath(currentPath);
+      }
     }
   };
 
