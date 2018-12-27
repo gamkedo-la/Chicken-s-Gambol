@@ -31,6 +31,8 @@ const TILE_SIZE = 32;
 const TILE_HALF_SIZE = TILE_SIZE / 2;
 const TILE_COLLISION_SIZE = TILE_HALF_SIZE + 2;
 
+const GRID_SCROLL_SPEED = 200;
+
 const LASSO_COLOR = '#ffffce';
 const SELECTED_COLOR = '#ffe6ad';
 const MINIMAP_UNIT_COLOR = '#ffe6ad';

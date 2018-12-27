@@ -4,8 +4,6 @@ const Grid = new (function() {
   let levelGrid;
   let walkableGrid;
 
-  const scrollSpeed = 200;
-
   const maxLeftDistance = 20;
   const maxRightDistance = gameCanvas.width - maxLeftDistance;
   const maxTopDistance = 20;
@@ -76,8 +74,6 @@ const Grid = new (function() {
     x = y = 0;
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
-
-    Minimap.initMinimap();
 
     // draw level-tiles on the canvas
     let tileIndex = 0;
@@ -308,7 +304,7 @@ const Grid = new (function() {
       return;
     }
 
-    let step = scrollSpeed * delta;
+    let step = GRID_SCROLL_SPEED * delta;
 
     if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
       x -= step;
@@ -328,7 +324,7 @@ const Grid = new (function() {
       document.body.style.cursor = "url('img/arrowDown.png'), auto";
     }
 
-    if (oldX == x && oldY == y) {
+    if (oldX === x && oldY === y) {
       document.body.style.cursor = "url('img/chickenCursor.png'), auto";
     }
 

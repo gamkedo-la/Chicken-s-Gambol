@@ -8,7 +8,7 @@ const Minimap = new (function() {
 
   let levelDimensions;
 
-  this.initMinimap = function() {
+  this.initialize = function() {
     levelDimensions = Grid.getWorldDimensions();
 
     mainViewRatio = gameCanvas.height / gameCanvas.width;

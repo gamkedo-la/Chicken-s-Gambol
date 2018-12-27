@@ -1,5 +1,4 @@
 let gameCanvas, gameContext;
-let gameIsStarted = false;
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
@@ -13,7 +12,7 @@ window.addEventListener('load', function() {
 
   MainLoop
     .stop()
-    .setMaxAllowedFPS(FRAME_RATE/4) // @todo debug
+    .setMaxAllowedFPS(FRAME_RATE)
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 
@@ -43,59 +42,36 @@ function windowOnFocus() {
 function gameInitialize() {
   gameIsStarted = true;
   Input.initialize();
-  Interface.initialize();
-
-  Grid.initialize(levels[0]);
-  Minimap.initialize();
+  // @todo initialize when selecting a level in the menu or from an empty level (ask for size?)
+  Editor.initialize(levels[0]);
 
   MainLoop.start();
-
-  Input.bindMouseMove(function(pos) {
-    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy) +
-      '<br>' + Grid.coordsToIndex(pos.x, pos.y) +
-      '<br>' + Math.floor(pos.x / TILE_SIZE) +','+ Math.floor(pos.y / TILE_SIZE);
-  });
 }
 
 function getPanPosition() {
-  return Grid.getPanPosition();
+  return Editor.getPanPosition();
 }
 
 function gameUpdate(delta) {
   // Make sure we have actual seconds instead of milliseconds
   delta = delta / 1000;
-  Grid.update(delta);
-  Game.update(delta);
-  Selection.update(delta);
-  if (DEBUG) { pathPreview.update(delta); }
 
-  HotKeys.update(delta);
-  Interface.update(delta);
+  Editor.update(delta);
+  HotKeysEditor.update(delta);
   Input.update(delta);
-
-/*  if(gameIsStarted){
-    Menu.draw();
-  }else{
-    return;
-  }*/
 }
 
 function gameDraw(interpolationPercentage) {
   clearCanvas();
   gameContext.save();
 
-  let panPosition = Grid.getPanPosition();
+  let panPosition = Editor.getPanPosition();
   gameContext.translate(-panPosition.x, -panPosition.y);
 
-  screenShake.draw(interpolationPercentage);
-
-  Grid.draw();
-  if (DEBUG) { pathPreview.draw(); }
-  Selection.draw();
-  Game.draw();
+  Editor.draw();
 
   if (DEBUG) {
-    Grid.drawDebug();
+    Editor.drawDebug();
 
     let pos = Input.getMousePosition();
     let col = Math.floor(pos.x / TILE_SIZE);
@@ -104,7 +80,6 @@ function gameDraw(interpolationPercentage) {
   }
 
   gameContext.restore();
-  Interface.draw();
   redrawCanvas();
 }
 
