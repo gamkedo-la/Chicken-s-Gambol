@@ -41,6 +41,11 @@ function windowOnFocus() {
 }
 
 function gameInitialize() {
+  if(gameIsStarted == false){
+    Menu.draw();
+  }else{
+    return;
+  }
   gameIsStarted = true;
   Input.initialize();
   Interface.initialize();
@@ -63,6 +68,9 @@ function getPanPosition() {
 
 function gameUpdate(delta) {
   // Make sure we have actual seconds instead of milliseconds
+  if(gameIsStarted == false){ // in menu?
+    return; // skip game logic below
+  }
   delta = delta / 1000;
   Grid.update(delta);
   Game.update(delta);
@@ -73,12 +81,6 @@ function gameUpdate(delta) {
   Interface.update(delta);
   Input.update(delta);
   AIPlayer.update(delta);
-
-/*  if(gameIsStarted){
-    Menu.draw();
-  }else{
-    return;
-  }*/
 }
 
 function gameDraw(interpolationPercentage) {

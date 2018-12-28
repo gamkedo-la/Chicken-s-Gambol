@@ -1,4 +1,4 @@
-const Menu = (function() {
+const Menu = new (function() {
 const MENU_ROW0 = 150;
 const MENU_ROW1 = 300;
 const MENU_ROW2 = 500;
@@ -72,6 +72,7 @@ const MENU_NUM = 4;
 //-----END GLOBAL SETTINGS-----//
 
 this.draw = function() {
+    console.log("menu Started");
     drawImage(gameContext, Images.startMenu, 0, 0);
 
         //Wobble the cursors back and forth
