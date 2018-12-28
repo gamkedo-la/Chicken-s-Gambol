@@ -41,7 +41,7 @@ function windowOnFocus() {
 }
 
 function gameInitialize() {
-  //gameIsStarted = false;
+  gameIsStarted = false;
   Input.initialize();
   Interface.initialize();
 
@@ -80,9 +80,13 @@ function gameUpdate(delta) {
 
 function gameDraw(interpolationPercentage) {
   if(gameIsStarted == false){
+    if(Input.isDown(KEY.SPACE)) {
+     gameIsStarted = true;
+   }
+   redrawCanvas()
     Menu.draw();
-    return;
-  }
+   return; // skip game logic below
+ }
   clearCanvas();
   gameContext.save();
 
