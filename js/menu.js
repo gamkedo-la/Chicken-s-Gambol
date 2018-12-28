@@ -38,9 +38,13 @@ const CLASS_SPEED = 1;
 const CLASS_CONTROLS = 2;
 
 let classListHelp= ["Layout", "How to play", "Shopping"];
-const CLASS_VOLUME = 0;
-const CLASS_SPEED = 1;
-const CLASS_CONTROLS = 2;
+const CLASS_LAYOUT = 0;
+const CLASS_HOWTOPLAY = 1;
+const CLASS_SHOPPING = 2;
+
+let classListCredits= ["Credits"];
+const CLASS_CREDITS = 0;
+
 
 
 const MENU_CLASS = 0;
@@ -68,18 +72,19 @@ this.draw = function() {
     drawText(gameContext,MENU_ROW2, menuColumnPos[1],FONT_COLOR, UNITS_FONT, 'left', 'middle',classListSettings[classListSettings] );
 
     drawText(gameContext,MENU_ROW1, menuColumnPos[2],FONT_COLOR, UNITS_FONT, 'left', 'middle',"Help:");
-    drawText(gameContext,MENU_ROW2, menuColumnPos[2],leftHandListP1[leftHandIndexP1] );
+    drawText(gameContext,MENU_ROW2, menuColumnPos[2],classListHelp[classListHelp] );
 
     drawText(gameContext,MENU_ROW1, menuColumnPos[3],FONT_COLOR, UNITS_FONT, 'left', 'middle',"Credits:");
-    drawText(gameContext,MENU_ROW2, menuColumnPos[3],leftHandListP2[leftHandIndexP2] );
-
+    drawText(gameContext,MENU_ROW2, menuColumnPos[3],classListCredits[classListCredits] );
+/*
         if(classIndexP1 != CLASS_P1_PALADIN){
             drawText(gameContext,MENU_ROW1, menuColumnPos[3],controlledByP1[controlIndexP1] );
         } else {
             drawText(gameContext,MENU_ROW1, menuColumnPos[3],controlledByP1Pali[controlIndexP1] );
         }
-    drawText(gameContext,MENU_ROW2, menuColumnPos[3],controlledByP2[controlIndexP2] );
         
+    drawText(gameContext,MENU_ROW2, menuColumnPos[3],controlledByP2[controlIndexP2] );
+   */     
         //Display previous score only if both players have died
     
             drawText(gameContext,MENU_ROW0, menuColumnPos[4],FONT_COLOR, UNITS_FONT, 'left', 'middle',"1st Score :" );
