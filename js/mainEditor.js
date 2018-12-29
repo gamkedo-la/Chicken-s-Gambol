@@ -43,6 +43,8 @@ function gameInitialize() {
   gameIsStarted = true;
   Input.initialize();
   // @todo initialize when selecting a level in the menu or from an empty level (ask for size?)
+  // @todo window.prompt('Enter the number of rows for this level:')
+  // @todo have user select a default tile
   Editor.initialize(levels[0]);
 
   MainLoop.start();
