@@ -19,6 +19,11 @@ const Editor = new (function() {
   const levelCanvas = document.createElement('canvas');
   const levelContext = levelCanvas.getContext('2d');
 
+  let draggingButtonContainer = null;
+
+  let currentTileType;
+  let currentActiveButton;
+
   this.getPanPosition = function() {
     return {
       x: x,
@@ -97,7 +102,49 @@ const Editor = new (function() {
       tileX = 0;
       tileY += TILE_SIZE;
     }
+
+    let buttons = document.getElementById('buttons');
+    buttons.innerHTML = '';
+    appendSpacer(buttons);
+
+    let isFirst = true;
+    for (let i in EDITOR_TILES) {
+      let img = document.createElement('img');
+      img.src = 'img/editor/button-' + EDITOR_TILES[i] + '.png';
+
+      let btn = document.createElement('button');
+
+      btn.appendChild(img);
+      btn.dataset.type = EDITOR_TILES[i];
+      btn.addEventListener('click', changeTileType);
+
+      buttons.appendChild(btn);
+
+      if (isFirst) {
+        isFirst = false;
+        changeTileType({ target: btn });
+      }
+    }
+    appendSpacer(buttons);
+
+    makeDraggable(document.getElementById('button-container'));
   };
+
+  function appendSpacer(container) {
+    let spacer = document.createElement('span');
+    spacer.innerHTML = '&nbsp;';
+    container.appendChild(spacer);
+  }
+
+  function changeTileType(event) {
+    if (currentActiveButton) {
+      currentActiveButton.className = '';
+    }
+
+    currentActiveButton = event.target;
+    currentActiveButton.className = 'active';
+    currentTileType = currentActiveButton.dataset.type;
+  }
 
   function processGridCell(x, y, i) {
     let tileType = levelGrid[i];
@@ -106,6 +153,12 @@ const Editor = new (function() {
     // switch
 
     return levelGrid[i] = levelData.defaultTile;
+  }
+
+  function validateLevel() {
+    // @todo rules:
+    // @todo level contains at least 1 player start and 1 enemy start
+    // @todo starting tiles should be at least 5 rows and 5 cols away from the level edges
   }
 
   this.tileToIndex = function(col, row) {
@@ -203,5 +256,46 @@ const Editor = new (function() {
       tileY += TILE_SIZE;
     }
   };
+
+  function makeDraggable(element) {
+    element.addEventListener('mousedown', function(event) {
+      draggingButtonContainer = {
+        mouseX: event.clientX,
+        mouseY: event.clientY,
+        startX: parseInt(element.offsetLeft),
+        startY: parseInt(element.offsetTop)
+      };
+
+      if (element.setCapture) {
+        element.setCapture();
+      }
+    });
+
+    element.addEventListener('losecapture', function() {
+      draggingButtonContainer = null;
+    });
+
+    document.addEventListener('mouseup', function() {
+      draggingButtonContainer = null;
+
+      if (document.releaseCapture) {
+        document.releaseCapture();
+      }
+    }, true);
+
+    let dragTarget = element.setCapture ? element : document;
+
+    dragTarget.addEventListener('mousemove', function(event) {
+      if (!draggingButtonContainer) {
+        return;
+      }
+
+      let top = draggingButtonContainer.startY + (event.clientY - draggingButtonContainer.mouseY);
+      let left = draggingButtonContainer.startX + (event.clientX - draggingButtonContainer.mouseX);
+
+      element.style.top = Math.min(document.body.clientHeight - 75, Math.max(20, top)) + 'px';
+      element.style.left = Math.min(document.body.clientWidth, Math.max(20, left)) + 'px';
+    }, true);
+  }
 
 })();

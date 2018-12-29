@@ -15,6 +15,16 @@ html, body {
   height: 100%;
 }
 
+* {
+  box-sizing: border-box;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 body {
   background: #8cc137;
   overflow: hidden;
@@ -45,4 +55,70 @@ canvas {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+#button-container {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border: solid 1px #1b2a0f;
+  box-shadow: 0 0 5px 1px rgba(27, 42, 15, .5);
+
+  margin: 0;
+  padding: 0 0 0 4px;
+  max-width: 80%;
+
+  background: #8cc137;
+  font-family: compass, serif;
+  font-size: 2em;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: move;
+}
+
+#button-container > h2 {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+#button-container > div {
+  display: flex;
+
+  border-left: solid 1px #1b2a0f;
+
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#button-container > div button {
+  float: left;
+  background: transparent;
+  border: 1px solid transparent;
+  line-height: 0;
+  margin: 3px;
+  padding: 0;
+  cursor: pointer;
+}
+
+#button-container > div button:hover {
+  border-color: #cfcf00;
+}
+
+#button-container > div button.active {
+  border-color: #c13747;
+}
+
+#button-container > div > div button img {
+  line-height: 0;
 }

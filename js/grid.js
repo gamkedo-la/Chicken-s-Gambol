@@ -103,6 +103,7 @@ const Grid = new (function() {
   };
 
   function processGridCell(x, y, i) {
+    // @todo process TILE.TEAM_PLAYER, TILE.TEAM_ENEMY: create slime at position + create chicken nearby
     let tileType = levelGrid[i];
     let settings = { x: x, y: y };
     let unit;
