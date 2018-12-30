@@ -202,7 +202,7 @@ const Grid = new (function() {
   };
 
   function isWalkableTileAtIndex(tileIndex) {
-    return WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
+    return levelGrid[tileIndex] === 0 || WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
 
   this.findCollisionWith = function(collision, currentPosition, collisionRange) {
@@ -352,7 +352,6 @@ const Grid = new (function() {
       y = maxY;
       document.body.style.cursor = "url('img/noArrowDown.png'), auto";
     }
-
   }
 
   this.draw = function() {

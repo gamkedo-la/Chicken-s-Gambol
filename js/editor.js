@@ -78,18 +78,18 @@ const Editor = new (function() {
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
 
-    // draw level-tiles on the canvas
+    drawGridTiles();
+
+    createButtons();
+
+    makeDraggable(document.getElementById('button-container'));
+  };
+
+  function drawGridTiles() {
     let tileIndex = 0;
     let tileX = 0, tileY = 0, tileType;
     let row, col;
 
-    for (row = 0; row < levelData.rows; row++) {
-      for (col = 0; col < levelData.cols; col++) {
-        tileIndex++;
-      }
-    }
-
-    tileIndex = 0;
     for (row = 0; row < levelData.rows; row++) {
       for (col = 0; col < levelData.cols; col++) {
         tileType = processGridCell(tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, tileIndex);
@@ -102,7 +102,9 @@ const Editor = new (function() {
       tileX = 0;
       tileY += TILE_SIZE;
     }
+  }
 
+  function createButtons() {
     let buttons = document.getElementById('buttons');
     buttons.innerHTML = '';
     appendSpacer(buttons);
@@ -126,9 +128,7 @@ const Editor = new (function() {
       }
     }
     appendSpacer(buttons);
-
-    makeDraggable(document.getElementById('button-container'));
-  };
+  }
 
   function appendSpacer(container) {
     let spacer = document.createElement('span');
@@ -210,6 +210,14 @@ const Editor = new (function() {
     }
 
     fixXY();
+
+    if (Input.isDown(KEY.MOUSE_LEFT)) {
+      let index = this.coordsToIndex(mousePosition.x, mousePosition.y);
+      if (levelGrid[index] !== currentTileType) {
+        levelGrid[index] = currentTileType;
+        drawGridTiles();
+      }
+    }
   };
 
   function fixXY() {
@@ -229,7 +237,6 @@ const Editor = new (function() {
       y = maxY;
       document.body.style.cursor = "url('img/noArrowDown.png'), auto";
     }
-
   }
 
   this.draw = function() {
