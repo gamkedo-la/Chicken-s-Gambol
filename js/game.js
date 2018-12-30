@@ -179,8 +179,13 @@ let Game = new (function() {
       removeRemovableUnitsFromList(this.units);
     }
 
+    let mousePos = Input.getMousePosition();
+    if (Input.isPressed(KEY.MOUSE_LEFT) || Input.isPressed(KEY.MOUSE_RIGHT)) {
+      if (!Interface.hasMouseOver(mousePos))
+      clickParticles();
+    }
+
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
-      let mousePos = Input.getMousePosition();
       let settings = {
         x: mousePos.x,
         y: mousePos.y

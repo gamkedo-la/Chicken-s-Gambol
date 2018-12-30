@@ -1,91 +1,108 @@
-var particles = [];
-var maxParticles = 2500;
+let particles = [];
+const MAX_PARTICLES = 2500;
 
-var usableParticles = {
-	//Non-Mechanical
-	organic: [
-				{emissionRate: Vector.randBtweenTwoNums(5,10), image: null, life:{min:10,max:20}, size:{min:15,max:25}},
-				{emissionRate: Vector.randBtweenTwoNums(50,100), image: null, life:{min:20,max:30}, size:{min:10,max:20}},
-			],
-	//Mechanical
-	nonOrganic: [
-					{emissionRate: Vector.randBtweenTwoNums(20,50), image: null, life:{min:5,max:10}, size:{min:5,max:10}},
-					{emissionRate: Vector.randBtweenTwoNums(10,300), image: null, life:{min:5,max:10}, size:{min:50,max:100}},
-				],
-    //Other
-    fight: [
-	{emissionRate: Vector.randBtweenTwoNums(5,10), image: null, life:{min:5,max:8}, size:{min:5,max:15}},
-	{emissionRate: Vector.randBtweenTwoNums(10,15), image: null, life:{min:8,max:12}, size:{min:10,max:15}},
-    ]
+let usableParticles = {
+  //Non-Mechanical
+  organic: [
+    {
+      emissionRate: Vector.randBtweenTwoNums(5, 10),
+      image: null,
+      life: { min: 10, max: 20 },
+      size: { min: 15, max: 25 }
+    },
+    {
+      emissionRate: Vector.randBtweenTwoNums(50, 100),
+      image: null,
+      life: { min: 20, max: 30 },
+      size: { min: 10, max: 20 }
+    },
+  ],
+  //Mechanical
+  nonOrganic: [
+    {
+      emissionRate: Vector.randBtweenTwoNums(20, 50),
+      image: null,
+      life: { min: 5, max: 10 },
+      size: { min: 5, max: 10 }
+    },
+    {
+      emissionRate: Vector.randBtweenTwoNums(10, 300),
+      image: null,
+      life: { min: 5, max: 10 },
+      size: { min: 50, max: 100 }
+    },
+  ],
+  //Other
+  click: {
+    emissionTime: 0,
+    emissionRate: 1,
+    emissionCount: Vector.randBtweenTwoNums(10, 15),
+    image: null,
+    life: { min: 0.02, max: 0.1 },
+    size: { min: 0.3, max: 1 }
+  },
+};
+
+function Particle(point, velocity, acceleration, whichImage, life, size) {
+  this.pos = point || new Vector(0, 0);
+  this.vel = velocity || new Vector(0, 0);
+  this.acceleration = acceleration || new Vector(0, 0);
+
+  this.bitmap = whichImage;
+
+  this.life = Vector.randBtweenTwoFloats(life.min, life.max);
+  this.size = Vector.randBtweenTwoFloats(size.min, size.max);
 }
 
-function Particle(point,velocity,acceleration,whichImage,life,size)
-{
-	this.pos = point || new Vector(0,0);
-	this.vel = velocity || new Vector(0,0);
-	this.acceleration = acceleration || new Vector(0,0,);
+Particle.prototype.move = function(delta) {
+  this.size -= 0.3 * delta;
+  this.life -= 0.5 * delta;
+  if (this.life <= 0) {
+    return;
+  }
 
-	this.bitmap = whichImage;
+  this.vel.add(this.acceleration);
 
-	//get min/max based on whichImage. for example, green splat will return 10,20 for life and 5,10 for size
-	this.life = Vector.randBtweenTwoNums(life.min,life.max);
-	this.size = Vector.randBtweenTwoNums(size.min,size.max);
+  this.pos.add(this.vel);
+};
+
+Particle.prototype.draw = function() {
+  if (this.size <= 0) {
+    return;
+  }
+
+  if (this.bitmap) {
+    gameContext.drawImage(this.bitmap, 0, 0, this.bitmap.width, this.bitmap.height, this.pos.x, this.pos.y, this.size, this.size);
+  }
+  else {
+    drawFillCircle(gameContext, this.pos.x, this.pos.y, this.size, 'blue');
+  }
+};
+
+function updateParticles(delta) {
+  for (let i = particles.length - 1; 0 <= i; i--) {
+    let particle = particles[i];
+
+    particle.move(delta);
+
+    if (particle.life <= 0) {
+      particles.splice(i, 1);
+    }
+  }
+
+  for (let i = emitters.length - 1; 0 <= i; i--) {
+    let emitter = emitters[i];
+
+    emitter.update(delta);
+
+    if (emitter.life <= 0) {
+      emitters.splice(i, 1);
+    }
+  }
 }
 
-Particle.prototype.move = function()
-{
-	this.vel.add(this.acceleration);
-
-	this.pos.add(this.vel);
-}
-
-function addParticles(emissionRate,whichImage,life,size)
-{
-	if(particles.length > maxParticles) return;
-
-	for(var i = 0; i < emitters.length; i++)
-	{
-		for(var j = 0; j < emissionRate; j++)
-		{
-			particles.push(emitters[i].emitParticle(whichImage,life,size));
-		}
-	}
-}
-
-function plotParticles(boundsX,boundsY)
-{
-	var currentParticles = [];
-
-	for(var i = 0; i < particles.length; i++)
-	{
-		var particle = particles[i];
-		var pos = particle.pos;
-
-		particle.size -= 0.3;
-		particle.life -= 0.5;
-		if(particle.life <= 0)
-			continue;
-
-		particle.move();
-		currentParticles.push(particle);
-	}
-
-	particles = currentParticles;
-}
-
-function drawParticles()
-{
-	for(var i = 0; i < particles.length; i++)
-	{
-		var pos = particles[i].pos;
-		var img = particles[i].bitmap;
-		var size = particles[i].size;
-		if(size <= 0)
-			continue;
-
-		if(img != null || img != undefined)
-			canvasContext.drawImage(img,0, 0, 40, 40, pos.x, pos.y, size, size);
-		else
-			drawCircle(pos.x,pos.y, size, 'blue');
-	}
+function drawParticles() {
+  for (let i = 0; i < particles.length; i++) {
+    particles[i].draw();
+  }
 }

@@ -72,6 +72,8 @@ function gameUpdate(delta) {
   Selection.update(delta);
   if (DEBUG) { pathPreview.update(delta); }
 
+  updateParticles(delta);
+
   HotKeys.update(delta);
   Interface.update(delta);
   Input.update(delta);
@@ -84,7 +86,7 @@ function gameDraw(interpolationPercentage) {
      gameIsStarted = true;
    }
    redrawCanvas()
-    Menu.draw();
+   Menu.draw();
    return; // skip game logic below
  }
   clearCanvas();
@@ -99,6 +101,7 @@ function gameDraw(interpolationPercentage) {
   if (DEBUG) { pathPreview.draw(); }
   Selection.draw();
   Game.draw();
+  drawParticles();
 
   if (DEBUG) {
     Grid.drawDebug();

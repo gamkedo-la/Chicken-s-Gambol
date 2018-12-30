@@ -1,27 +1,50 @@
-var emitters = [];
+let emitters = [];
 
-function Emitter(point,velocity,spread)
-{
-	this.pos = point; //Vector
-	this.vel = velocity; //Vector
-	this.spread = spread || Math.PI / 32; //possible angles = velocity +/- spread
-	this.life = 240;//30 fps * 8 seconds
+function Emitter(point, velocity, spread, particleConfig) {
+  this.pos = point; //Vector
+  this.vel = velocity; //Vector
+  this.spread = spread || Math.PI / 32; //possible angles = velocity +/- spread
+  this.life = particleConfig.emissionTime || 0;
 
-	this.color = "#999";
-	this.texture = "";
+  if (particleConfig.emissionRate === 0) {
+    this.life = 0;
+  }
 
-	this.draw = function()
-	{
-		drawCircle(this.pos.x,this.pos.y, 5, 'red');
-	}
+  this.particleConfig = particleConfig;
+  this.emissionTimeout = 0;
+
+  this.draw = function() {
+    drawFillCircle(gameContext, this.pos.x, this.pos.y, 5, 'red');
+  };
 }
 
-Emitter.prototype.emitParticle = function(image,life,size)
-{
-	var ang = this.vel.getAng() + this.spread - (Math.random() * this.spread * 2);
-	var magnitude = this.vel.getMagnitude();
-	var pos = new Vector(this.pos.x,this.pos.y);
-	var vel = Vector.getNewVectorFromAngMag(ang,magnitude);
+Emitter.prototype.emitParticle = function() {
+  if (MAX_PARTICLES < particles.length) {
+    return;
+  }
 
-	return new Particle(pos,vel,0,image,life,size);
-}
+  let ang = this.vel.getAng() + this.spread - (Math.random() * this.spread * 2);
+  let magnitude = this.vel.getMagnitude();
+  let pos = new Vector(this.pos.x, this.pos.y);
+  let vel = Vector.getNewVectorFromAngMag(ang, magnitude);
+
+  particles.push(new Particle(pos, vel, 0, this.particleConfig.image, this.particleConfig.life, this.particleConfig.size));
+};
+
+Emitter.prototype.update = function(delta) {
+  if (this.life < 0) {
+    return;
+  }
+
+  this.life -= delta;
+
+  this.emissionTimeout -= delta;
+  if (0 < this.emissionTimeout) {
+    return;
+  }
+
+  this.emissionTimeout += this.particleConfig.emissionRate;
+  for (let i = 0; i < this.particleConfig.emissionCount; i++) {
+    this.emitParticle();
+  }
+};

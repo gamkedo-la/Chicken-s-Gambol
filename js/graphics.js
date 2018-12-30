@@ -102,6 +102,13 @@ function drawStrokeEllipse(canvasContext, x, y, radiusX, radiusY, strokeColor, l
   }
 }
 
+function drawFillCircle(canvasContext, x, y, radius, color) {
+  canvasContext.fillStyle = color;
+  canvasContext.beginPath();
+  canvasContext.arc(x, y, radius, 0, 2 * Math.PI, true);
+  canvasContext.fill();
+}
+
 function drawStrokeCircle(canvasContext, x, y, radius, percentage, strokeColor, lineWidth, alpha) {
   if (alpha !== undefined) {
     canvasContext.globalAlpha = alpha;
