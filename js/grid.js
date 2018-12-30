@@ -108,6 +108,9 @@ const Grid = new (function() {
     let settings = { x: x, y: y };
     let unit;
     switch (tileType) {
+      case 0:
+        // do nothing, because this should be replaced with the default tile
+        break;
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:
         Game.create(Chicken, TEAM_PLAYER, settings);
