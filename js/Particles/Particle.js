@@ -4,8 +4,8 @@ var maxParticles = 2500;
 var usableParticles = {
 	//Non-Mechanical
 	organic: [
-				{emissionRate: Vector.randBtweenTwoNums(5,10), image: greenSplat, life:{min:10,max:20}, size:{min:15,max:25}},
-				{emissionRate: Vector.randBtweenTwoNums(50,100), image: greenSplat, life:{min:20,max:30}, size:{min:10,max:20}},
+				{emissionRate: Vector.randBtweenTwoNums(5,10), image: null, life:{min:10,max:20}, size:{min:15,max:25}},
+				{emissionRate: Vector.randBtweenTwoNums(50,100), image: null, life:{min:20,max:30}, size:{min:10,max:20}},
 			],
 	//Mechanical
 	nonOrganic: [
@@ -14,8 +14,8 @@ var usableParticles = {
 				],
     //Other
     fight: [
-	{emissionRate: Vector.randBtweenTwoNums(5,10), image: fightRune, life:{min:5,max:8}, size:{min:5,max:15}},
-	{emissionRate: Vector.randBtweenTwoNums(10,15), image: fightRune, life:{min:8,max:12}, size:{min:10,max:15}},
+	{emissionRate: Vector.randBtweenTwoNums(5,10), image: null, life:{min:5,max:8}, size:{min:5,max:15}},
+	{emissionRate: Vector.randBtweenTwoNums(10,15), image: null, life:{min:8,max:12}, size:{min:10,max:15}},
     ]
 }
 
