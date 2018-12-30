@@ -68,6 +68,7 @@ const TILE = {
 };
 
 const WALKABLE_TILES = [
+  0, // Index for the default tile
   TILE.GRASS,
 
   // character tiles need to be walkable during level initializing
