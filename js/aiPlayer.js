@@ -1,14 +1,14 @@
 const AIPlayer = new (function() {
-	
+
   let elapsedSinceUpdate = 0;
   const updateInterval = 1;
-  
+
   let allEnemyUnits = [];
   let allEnemyMovingUnits = [];
   let allEnemyBuildingUnits = [];
   let allEnemySlimePatchUnits = [];
   let allEnemySlimeUnits = [];
-	
+
   this.update = function (delta){
     elapsedSinceUpdate += delta;
     if (updateInterval <= elapsedSinceUpdate) {
@@ -24,11 +24,11 @@ const AIPlayer = new (function() {
 	  //this.logArrayContentToConsole(allEnemySlimeUnits);
     }
   };
-	
+
   this.findAllEnemyUnits = (function(){
-	  
+
     this.clearEnemyUnitArrays();
-	
+
     let length = Game.units.length;
     for (let i = 0; i < length; i++) {
       let unit = Game.units[i];
@@ -36,20 +36,20 @@ const AIPlayer = new (function() {
         allEnemyUnits.push(unit);
 	  }
 	}
-	
+
 	length = allEnemyUnits.length;
 	allEnemyMovingUnits = [];
       for (let i = 0; i < length; i++) {
         let unit = allEnemyUnits[i];
 		switch (unit.constructor.name){
-		  case "Pig":
+		  case "PigEnemy":
 		  case "GoblinEnemy":
 		  case "ChickenEnemy":
 			allEnemyMovingUnits.push(unit);
 			break;
-		  case "Barracks":
-		  case "MudPit":
-		  case "House":
+		  case "BarracksEnemy":
+		  case "MudPitEnemy":
+		  case "HouseEnemy":
 			allEnemyBuildingUnits.push(unit);
 			break;
 		  case "SlimePatch":
@@ -61,7 +61,7 @@ const AIPlayer = new (function() {
 		}
 	  }
   });
-  
+
   this.clearEnemyUnitArrays = function (){
     allEnemyUnits = [];
     allEnemyMovingUnits = [];
@@ -69,7 +69,7 @@ const AIPlayer = new (function() {
     allEnemySlimePatchUnits = [];
     allEnemySlimeUnits = [];
   }
-  
+
   //For Testing Purposes
   this.logArrayContentToConsole = function (array){
     let length = array.length;
@@ -78,4 +78,4 @@ const AIPlayer = new (function() {
 	  }
   };
 
-})();	
+})();

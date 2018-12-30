@@ -142,7 +142,7 @@ const Grid = new (function() {
         Game.create(ChickenEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_PIG:
-        Game.create(Pig, TEAM_ENEMY, settings);
+        Game.create(PigEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_GOBLIN:
         Game.create(GoblinEnemy, TEAM_ENEMY, settings);
@@ -151,15 +151,15 @@ const Grid = new (function() {
         Game.create(SlimeEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_HOUSE:
-        unit = Game.create(House, TEAM_ENEMY, settings);
+        unit = Game.create(HouseEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_BARRACKS:
-        unit = Game.create(Barracks, TEAM_ENEMY, settings);
+        unit = Game.create(BarracksEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_MUD_PIT:
-        unit = Game.create(MudPit, TEAM_ENEMY, settings);
+        unit = Game.create(MudPitEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       default:
