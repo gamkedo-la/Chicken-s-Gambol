@@ -45,8 +45,10 @@ const ABS_MIN_NUM_UNITS = 50;
 const STARTING_AMOUNT_SLIME = 100;
 
 const TILE = {
-  GRASS: 0,
-  TREES: 1,
+  TEAM_PLAYER: 1,
+  TEAM_ENEMY: 2,
+  GRASS: 3,
+  TREES: 4,
 
   PLAYER_CHICKEN: 30,
   PLAYER_PIG: 31,
@@ -66,6 +68,7 @@ const TILE = {
 };
 
 const WALKABLE_TILES = [
+  0, // Index for the default tile
   TILE.GRASS,
 
   // character tiles need to be walkable during level initializing
@@ -75,6 +78,13 @@ const WALKABLE_TILES = [
   TILE.ENEMY_CHICKEN,
   TILE.ENEMY_PIG,
   TILE.ENEMY_GOBLIN
+];
+
+const EDITOR_TILES = [
+  TILE.TEAM_PLAYER,
+  TILE.TEAM_ENEMY,
+  TILE.GRASS,
+  TILE.TREES
 ];
 
 const KEY = {

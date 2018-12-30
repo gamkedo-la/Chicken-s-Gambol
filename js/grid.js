@@ -103,10 +103,14 @@ const Grid = new (function() {
   };
 
   function processGridCell(x, y, i) {
+    // @todo process TILE.TEAM_PLAYER, TILE.TEAM_ENEMY: create slime at position + create chicken nearby
     let tileType = levelGrid[i];
     let settings = { x: x, y: y };
     let unit;
     switch (tileType) {
+      case 0:
+        // do nothing, because this should be replaced with the default tile
+        break;
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:
         Game.create(Chicken, TEAM_PLAYER, settings);
@@ -138,7 +142,7 @@ const Grid = new (function() {
         Game.create(ChickenEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_PIG:
-        Game.create(Pig, TEAM_ENEMY, settings);
+        Game.create(PigEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_GOBLIN:
         Game.create(GoblinEnemy, TEAM_ENEMY, settings);
@@ -147,15 +151,15 @@ const Grid = new (function() {
         Game.create(SlimeEnemy, TEAM_ENEMY, settings);
         break;
       case TILE.ENEMY_HOUSE:
-        unit = Game.create(House, TEAM_ENEMY, settings);
+        unit = Game.create(HouseEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_BARRACKS:
-        unit = Game.create(Barracks, TEAM_ENEMY, settings);
+        unit = Game.create(BarracksEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       case TILE.ENEMY_MUD_PIT:
-        unit = Game.create(MudPit, TEAM_ENEMY, settings);
+        unit = Game.create(MudPitEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
       default:
@@ -198,7 +202,7 @@ const Grid = new (function() {
   };
 
   function isWalkableTileAtIndex(tileIndex) {
-    return WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
+    return levelGrid[tileIndex] === 0 || WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
 
   this.findCollisionWith = function(collision, currentPosition, collisionRange) {
@@ -348,7 +352,6 @@ const Grid = new (function() {
       y = maxY;
       document.body.style.cursor = "url('img/noArrowDown.png'), auto";
     }
-
   }
 
   this.draw = function() {
