@@ -72,15 +72,6 @@ function gameDraw(interpolationPercentage) {
 
   Editor.draw();
 
-  if (DEBUG) {
-    Editor.drawDebug();
-
-    let pos = Input.getMousePosition();
-    let col = Math.floor(pos.x / TILE_SIZE);
-    let row = Math.floor(pos.y / TILE_SIZE);
-    drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
-  }
-
   gameContext.restore();
   redrawCanvas();
 }

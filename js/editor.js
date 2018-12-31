@@ -92,7 +92,7 @@ const Editor = new (function() {
 
     for (row = 0; row < levelData.rows; row++) {
       for (col = 0; col < levelData.cols; col++) {
-        tileType = processGridCell(tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, tileIndex);
+        tileType = processGridCell(tileIndex);
 
         drawImage(levelContext, TileImages[tileType], tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE);
 
@@ -143,14 +143,15 @@ const Editor = new (function() {
 
     currentActiveButton = event.target;
     currentActiveButton.className = 'active';
-    currentTileType = currentActiveButton.dataset.type;
+    currentTileType = parseInt(currentActiveButton.dataset.type);
   }
 
-  function processGridCell(x, y, i) {
+  function processGridCell(i) {
     let tileType = levelGrid[i];
-    let settings = { x: x, y: y };
 
-    // switch
+    if (tileType && EDITOR_TILES[tileType]) {
+      return tileType;
+    }
 
     return levelGrid[i] = levelData.defaultTile;
   }
@@ -214,6 +215,8 @@ const Editor = new (function() {
     if (Input.isDown(KEY.MOUSE_LEFT)) {
       let index = this.coordsToIndex(mousePosition.x, mousePosition.y);
       if (levelGrid[index] !== currentTileType) {
+        removeDoublePlayerEnemyStarts();
+
         levelGrid[index] = currentTileType;
 
         let col = Math.floor(mousePosition.x / TILE_SIZE);
@@ -223,6 +226,24 @@ const Editor = new (function() {
       }
     }
   };
+
+  function removeDoublePlayerEnemyStarts() {
+    if (currentTileType !== TILE.TEAM_PLAYER && currentTileType !== TILE.TEAM_ENEMY) {
+      return;
+    }
+
+    let row, col;
+    let length = levelGrid.length;
+    for (let i = 0; i < length; i++) {
+      if (levelGrid[i] === currentTileType) {
+        levelGrid[i] = levelData.defaultTile;
+
+        row = Math.floor(i / levelData.cols);
+        col = i - (row * levelData.cols);
+        drawImage(levelContext, TileImages[levelData.defaultTile], col * TILE_SIZE + TILE_HALF_SIZE, row * TILE_SIZE + TILE_HALF_SIZE);
+      }
+    }
+  }
 
   function fixXY() {
     if (x < 0) {
@@ -245,27 +266,11 @@ const Editor = new (function() {
 
   this.draw = function() {
     gameContext.drawImage(levelCanvas, x, y, gameCanvas.width, gameCanvas.height, x, y, gameCanvas.width, gameCanvas.height);
-  };
 
-  this.drawDebug = function() {
-    if (!DEBUG) {
-      return;
-    }
-
-    let tileIndex = 0;
-    let tileX = 0, tileY = 0;
-    for (let row = 0; row < levelData.rows; row++) {
-      for (let col = 0; col < levelData.cols; col++) {
-        if (!walkableGrid[tileIndex]) {
-          drawFillRect(gameContext, tileX, tileY, TILE_SIZE, TILE_SIZE, 'red', .2);
-          drawStrokeCircle(gameContext, tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, TILE_COLLISION_SIZE, 100, 'red', 2, .5);
-        }
-        tileX += TILE_SIZE;
-        tileIndex++;
-      }
-      tileX = 0;
-      tileY += TILE_SIZE;
-    }
+    let pos = Input.getMousePosition();
+    let col = Math.floor(pos.x / TILE_SIZE);
+    let row = Math.floor(pos.y / TILE_SIZE);
+    drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
   };
 
   function makeDraggable(element) {
