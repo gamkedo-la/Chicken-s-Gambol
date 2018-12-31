@@ -655,14 +655,54 @@ let Sprites = new (function() {
       },
     },
     houseEnemy: {
-      image: 'house',
+      image: 'houseEnemy',
       frames: {
         default: {
           frames: 1,
           frameTime: .2,
           width: 64,
           height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
           firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
           firstFrameY: 0
         }
       },
@@ -675,7 +715,47 @@ let Sprites = new (function() {
           frameTime: .2,
           width: 64,
           height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
           firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
           firstFrameY: 0
         }
       },
@@ -688,7 +768,47 @@ let Sprites = new (function() {
           frameTime: .2,
           width: 64,
           height: 64,
+          firstFrameX: 320,
+          firstFrameY: 0
+        },
+        step0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
           firstFrameX: 0,
+          firstFrameY: 0
+        },
+        step1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 0
+        },
+        step2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 0
+        },
+        step3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 0
+        },
+        step4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
           firstFrameY: 0
         }
       },
