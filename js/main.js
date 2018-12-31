@@ -77,7 +77,7 @@ function gameUpdate(delta) {
   HotKeys.update(delta);
   Interface.update(delta);
   Input.update(delta);
-  AIPlayer.update(delta);
+  if (AI_ENABLED) { AIPlayer.update(delta); }
 }
 
 function gameDraw(interpolationPercentage) {

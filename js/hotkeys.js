@@ -4,6 +4,16 @@ const HotKeys = new (function() {
     if (Input.isPressed(KEY.U)) {
       DEBUG = !DEBUG;
     }
+	
+	if (Input.isPressed(KEY.C)) {
+      AI_ENABLED = !AI_ENABLED;
+	  if (AI_ENABLED){
+		  console.log("AI Enabled");	  
+	  }
+	  if (!AI_ENABLED){
+		  console.log("AI Disabled");
+	  }
+    }
 
     if (Input.isPressed(KEY.PERIOD)) {
       Game.findIdleChicken();
