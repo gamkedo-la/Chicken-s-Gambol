@@ -43,6 +43,8 @@ const Images = new (function() {
   };
 
   let tileTypeImages = [
+    { type: TILE.TEAM_PLAYER, src: 'img/start-team-player.png' },
+    { type: TILE.TEAM_ENEMY, src: 'img/start-team-enemy.png' },
     { type: TILE.GRASS, src: 'img/grass.png' },
     { type: TILE.TREES, src: 'img/trees.png' }
   ];

@@ -215,7 +215,11 @@ const Editor = new (function() {
       let index = this.coordsToIndex(mousePosition.x, mousePosition.y);
       if (levelGrid[index] !== currentTileType) {
         levelGrid[index] = currentTileType;
-        drawGridTiles();
+
+        let col = Math.floor(mousePosition.x / TILE_SIZE);
+        let row = Math.floor(mousePosition.y / TILE_SIZE);
+
+        drawImage(levelContext, TileImages[currentTileType], col * TILE_SIZE + TILE_HALF_SIZE, row * TILE_SIZE + TILE_HALF_SIZE);
       }
     }
   };
