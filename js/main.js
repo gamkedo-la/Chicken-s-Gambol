@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
 
   MainLoop
     .stop()
-    .setMaxAllowedFPS(FRAME_RATE/4) // @todo debug
+    .setMaxAllowedFPS(FRAME_RATE)
     .setUpdate(gameUpdate)
     .setDraw(gameDraw);
 
@@ -51,9 +51,9 @@ function gameInitialize() {
   MainLoop.start();
 
   Input.bindMouseMove(function(pos) {
-    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>'+ Math.round(pos.sx) + ',' + Math.round(pos.sy) +
+    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>' + Math.round(pos.sx) + ',' + Math.round(pos.sy) +
       '<br>' + Grid.coordsToIndex(pos.x, pos.y) +
-      '<br>' + Math.floor(pos.x / TILE_SIZE) +','+ Math.floor(pos.y / TILE_SIZE);
+      '<br>' + Math.floor(pos.x / TILE_SIZE) + ',' + Math.floor(pos.y / TILE_SIZE);
   });
 }
 
@@ -63,34 +63,40 @@ function getPanPosition() {
 
 function gameUpdate(delta) {
   // Make sure we have actual seconds instead of milliseconds
-  if(gameIsStarted == false){ // in menu?
-    return; // skip game logic below
-  }
   delta = delta / 1000;
-  Grid.update(delta);
-  Game.update(delta);
-  Selection.update(delta);
-  if (DEBUG) { pathPreview.update(delta); }
 
-  updateParticles(delta);
+  if (gameIsStarted === false) {
+    Menu.update();
+  }
+  else {
+    Grid.update(delta);
+    Game.update(delta);
+    Selection.update(delta);
+    if (DEBUG) {
+      pathPreview.update(delta);
+    }
 
-  HotKeys.update(delta);
-  Interface.update(delta);
+    updateParticles(delta);
+
+    HotKeys.update(delta);
+    Interface.update(delta);
+    if (AI_ENABLED) {
+      AIPlayer.update(delta);
+    }
+  }
   Input.update(delta);
-  if (AI_ENABLED) { AIPlayer.update(delta); }
 }
 
 function gameDraw(interpolationPercentage) {
-  if(gameIsStarted == false){
-    if(Input.isDown(KEY.SPACE)) {
-     gameIsStarted = true;
-   }
-   redrawCanvas()
-   Menu.draw();
-   Menu.update();
-   Menu.Cycle();
-   return; // skip game logic below
- }
+  if (gameIsStarted === false) {
+    if (Input.isDown(KEY.SPACE)) {
+      gameIsStarted = true;
+    }
+    Menu.draw();
+    Menu.Cycle();
+    redrawCanvas();
+    return; // skip game logic below
+  }
   clearCanvas();
   gameContext.save();
 
@@ -100,7 +106,9 @@ function gameDraw(interpolationPercentage) {
   screenShake.draw(interpolationPercentage);
 
   Grid.draw();
-  if (DEBUG) { pathPreview.draw(); }
+  if (DEBUG) {
+    pathPreview.draw();
+  }
   Selection.draw();
   Game.draw();
   drawParticles();

@@ -70,18 +70,18 @@ this.draw = function() {
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
 
         //Draw menu options
-    drawText(gameContext,MENU_ROW1, menuColumnPos[0],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Play"); 
+    drawText(gameContext,MENU_ROW1, menuColumnPos[0],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Play");
     drawText(gameContext,MENU_ROW1, menuColumnPos[1],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Settings");
     drawText(gameContext,MENU_ROW1, menuColumnPos[2],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Help");
     drawText(gameContext,MENU_ROW1, menuColumnPos[3],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Credits");
 
         //Display previous score only if  player has lost
-    
+
     drawText(gameContext,MENU_ROW0, menuColumnPos[4],FONT_COLOR, SLIME_FONT, 'left', 'middle',"Score: " );
-        
+
         //Draw cursor
     drawImage(gameContext,Images.arrow,MENU_ROW1 -20 ,menuColumnPos[cursor1] - wobble + 8);
- }
+ };
 
 
 
@@ -127,7 +127,7 @@ this.Cycle = function (inDir) {
             }
             break;
     }
-}
+};
 
 
 
@@ -138,21 +138,20 @@ this.update = function(){
     }
         wobble += wobbleSpeed;
 
-        if((Input.isDown(KEY.UP))) {
+        if (Input.isPressed(KEY.UP)) {
         console.log("cursor UP", menuColumnPos[cursor1]);
             cursor1--;
-            if (cursor1 > MENU_NUM){
-                 cursor1 = MENU_NUM--;
-                 clearScreen();
-            }
         }
-    if((Input.isDown(KEY.DOWN))) {
+    if (Input.isPressed(KEY.DOWN)) {
         console.log("cursor DOWN", menuColumnPos[cursor1]);
             cursor1++;
-            if (cursor1 < 0){
-                cursor1 = 0;
-            }
         }
-     
-}
-})(); 
+  if (cursor1 >= MENU_NUM){
+    cursor1 = MENU_NUM - 1;
+  }
+  else if (cursor1 < 0){
+    cursor1 = 0;
+  }
+
+};
+})();
