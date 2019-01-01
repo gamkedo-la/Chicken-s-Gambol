@@ -87,6 +87,8 @@ function gameDraw(interpolationPercentage) {
    }
    redrawCanvas()
    Menu.draw();
+   Menu.update();
+   Menu.Cycle();
    return; // skip game logic below
  }
   clearCanvas();

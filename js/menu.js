@@ -89,11 +89,11 @@ this.Cycle = function (inDir) {
     switch(cursor1) {
         case MENU_CLASS:
             MENU_CLASS_INDEX+=inDir;
-            if (MENU_CLASS_Index >= MENU_NUM) {
-                MENU_CLASS_Index = 0;
+            if (MENU_CLASS_INDEX >= MENU_NUM) {
+                MENU_CLASS_INDEX = 0;
             }
-            if (MENU_CLASS_Index < 0) {
-                MENU_CLASS_Index = MENU_NUM-1;
+            if (MENU_CLASS_INDEX < 0) {
+                MENU_CLASS_INDEX = MENU_NUM-1;
             }
             break;
 
@@ -138,26 +138,21 @@ this.update = function(){
     }
         wobble += wobbleSpeed;
 
-  if(keySet && keysPressed(KEY_UP)) {
+        if((Input.isDown(KEY.UP))) {
         console.log("cursor UP", menuColumnPos[cursor1]);
             cursor1--;
             if (cursor1 > MENU_NUM){
-                 cursor1 = MENU_NUM-1;
+                 cursor1 = MENU_NUM--;
                  clearScreen();
             }
         }
-    if(keySet && keysPressed(KEY_DOWN)) {
+    if((Input.isDown(KEY.DOWN))) {
         console.log("cursor DOWN", menuColumnPos[cursor1]);
             cursor1++;
             if (cursor1 < 0){
                 cursor1 = 0;
             }
         }
-        evt = false;
-    if (keysPressed(evt)) {
-        keySet(evt, true);
-        }else{
-            keySet(evt, false)
-        }
+     
 }
 })(); 
