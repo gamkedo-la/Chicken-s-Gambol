@@ -179,9 +179,37 @@ const Editor = new (function() {
       return;
     }
 
-    // @todo export level code to console
-    alert('export code in console');
-    console.log('exported level code');
+    let name = prompt('Level name?', levelData.name);
+    if (name === null) {
+      alert('Saving canceled');
+      return;
+    }
+
+    if (name === '') {
+      alert('Type a proper name for this level');
+      return exportLevel();
+    }
+
+    let levelExport =
+      '{' +
+      ' name: \'' + name + '\',' +
+      ' cols: ' + levelData.cols + ',' +
+      ' rows: ' + levelData.rows + ',' +
+      ' defaultTile: ' + getDefaultTile(levelData.defaultTile) + ',' +
+      ' grid: ' + JSON.stringify(levelGrid) +
+      '}';
+
+    console.log(levelExport);
+
+    alert('Exported level code in console, add (or replace) the level in levels.js');
+  }
+
+  function getDefaultTile(tileValue) {
+    for (let p in TILE) {
+      if (TILE.hasOwnProperty(p) && tileValue === TILE[p]) {
+        return 'TILE.' + p;
+      }
+    }
   }
 
   function resetLevel() {
@@ -200,7 +228,9 @@ const Editor = new (function() {
       return tileType;
     }
 
-    return levelGrid[i] = levelData.defaultTile;
+    levelGrid[i] = 0;
+
+    return levelData.defaultTile;
   }
 
   function validateLevel() {
