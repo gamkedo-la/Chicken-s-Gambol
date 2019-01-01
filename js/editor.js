@@ -2,11 +2,16 @@ const Editor = new (function() {
 
   let levelData;
   let levelGrid;
+  let levelDataOriginal;
+  let levelGridOriginal;
 
   const maxLeftDistance = 20;
   const maxRightDistance = gameCanvas.width - maxLeftDistance;
   const maxTopDistance = 20;
   const maxBottomDistance = gameCanvas.height - maxTopDistance;
+
+  const minColsFromEdge = 5;
+  const minRowsFromEdge = 5;
 
   let x = 0;
   let y = 0;
@@ -71,6 +76,9 @@ const Editor = new (function() {
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
 
+    levelDataOriginal = _levelData;
+    levelGridOriginal = levelData.grid.slice();
+
     levelCanvas.width = levelData.cols * TILE_SIZE;
     levelCanvas.height = levelData.rows * TILE_SIZE;
 
@@ -80,7 +88,8 @@ const Editor = new (function() {
 
     drawGridTiles();
 
-    createButtons();
+    createMenuButtons();
+    createTileButtons();
 
     makeDraggable(document.getElementById('button-container'));
   };
@@ -104,23 +113,27 @@ const Editor = new (function() {
     }
   }
 
-  function createButtons() {
-    let buttons = document.getElementById('buttons');
+  function createMenuButtons() {
+    let buttons = document.getElementById('menu-buttons');
+    buttons.innerHTML = '';
+    appendSpacer(buttons);
+
+    createButton(buttons, 'export', exportLevel);
+    createButton(buttons, 'reset', resetLevel);
+
+    appendSpacer(buttons);
+  }
+
+  function createTileButtons() {
+    let buttons = document.getElementById('tile-buttons');
     buttons.innerHTML = '';
     appendSpacer(buttons);
 
     let isFirst = true;
     for (let i in EDITOR_TILES) {
-      let img = document.createElement('img');
-      img.src = 'img/editor/button-' + EDITOR_TILES[i] + '.png';
+      let btn = createButton(buttons, EDITOR_TILES[i], changeTileType);
 
-      let btn = document.createElement('button');
-
-      btn.appendChild(img);
       btn.dataset.type = EDITOR_TILES[i];
-      btn.addEventListener('click', changeTileType);
-
-      buttons.appendChild(btn);
 
       if (isFirst) {
         isFirst = false;
@@ -136,6 +149,20 @@ const Editor = new (function() {
     container.appendChild(spacer);
   }
 
+  function createButton(container, imgName, callback) {
+    let img = document.createElement('img');
+    img.src = 'img/editor/button-' + imgName + '.png';
+
+    let btn = document.createElement('button');
+
+    btn.appendChild(img);
+    btn.addEventListener('click', callback);
+
+    container.appendChild(btn);
+
+    return btn;
+  }
+
   function changeTileType(event) {
     if (currentActiveButton) {
       currentActiveButton.className = '';
@@ -144,6 +171,26 @@ const Editor = new (function() {
     currentActiveButton = event.target;
     currentActiveButton.className = 'active';
     currentTileType = parseInt(currentActiveButton.dataset.type);
+  }
+
+  function exportLevel() {
+    if (!validateLevel()) {
+      alert('Level not exported: see validation errors in console');
+      return;
+    }
+
+    // @todo export level code to console
+    alert('export code in console');
+    console.log('exported level code');
+  }
+
+  function resetLevel() {
+    if (!confirm('Are you sure you want to reset the level?')) {
+      return;
+    }
+
+    levelGrid = levelGridOriginal.slice();
+    drawGridTiles();
   }
 
   function processGridCell(i) {
@@ -157,10 +204,54 @@ const Editor = new (function() {
   }
 
   function validateLevel() {
-    // @todo rules:
-    // @todo level contains at least 1 player start and 1 enemy start
-    // @todo starting tiles should be at least 5 rows and 5 cols away from the level edges
+    let numPlayerStart = 0, numEnemyStart = 0;
+    let playerStartPosition, enemyStartPosition;
+
+    let length = levelGrid.length;
+    for (let i = 0; i < length; i++) {
+      if (levelGrid[i] === TILE.TEAM_PLAYER) {
+        numPlayerStart++;
+        playerStartPosition = Editor.indexToColRow(i);
+      }
+      else if (levelGrid[i] === TILE.TEAM_ENEMY) {
+        numEnemyStart++;
+        enemyStartPosition = Editor.indexToColRow(i);
+      }
+    }
+
+    if (numPlayerStart !== 1 || numEnemyStart !== 1) {
+      console.log('Make sure there are exactly 1 player and 1 enemy starting positions.');
+      return false;
+    }
+
+    let playerColTooClose = (playerStartPosition.col < minColsFromEdge || levelData.cols - minColsFromEdge < playerStartPosition.col);
+    let playerRowTooClose = (playerStartPosition.row < minRowsFromEdge || levelData.rows - minRowsFromEdge < playerStartPosition.row);
+    if (playerColTooClose || playerRowTooClose) {
+      console.log('Player starting position too close to the edge of the level');
+      return false;
+    }
+
+    let enemyColTooClose = (enemyStartPosition.col < minColsFromEdge || levelData.cols - minColsFromEdge < enemyStartPosition.col);
+    let enemyRowTooClose = (enemyStartPosition.row < minRowsFromEdge || levelData.rows - minRowsFromEdge < enemyStartPosition.row);
+    if (enemyColTooClose || enemyRowTooClose) {
+      console.log('Enemy starting position too close to the edge of the level');
+      return false;
+    }
+
+    // @todo additional rules?
+
+    return true;
   }
+
+  this.indexToColRow = function(index) {
+    let row = Math.floor(index / levelData.cols);
+    let col = index - (row * levelData.cols);
+
+    return {
+      col: col,
+      row: row
+    };
+  };
 
   this.tileToIndex = function(col, row) {
     return (col + levelData.cols * row);
@@ -232,15 +323,13 @@ const Editor = new (function() {
       return;
     }
 
-    let row, col;
     let length = levelGrid.length;
     for (let i = 0; i < length; i++) {
       if (levelGrid[i] === currentTileType) {
         levelGrid[i] = levelData.defaultTile;
 
-        row = Math.floor(i / levelData.cols);
-        col = i - (row * levelData.cols);
-        drawImage(levelContext, TileImages[levelData.defaultTile], col * TILE_SIZE + TILE_HALF_SIZE, row * TILE_SIZE + TILE_HALF_SIZE);
+        let colRow = Editor.indexToColRow(i);
+        drawImage(levelContext, TileImages[levelData.defaultTile], colRow.col * TILE_SIZE + TILE_HALF_SIZE, colRow.row * TILE_SIZE + TILE_HALF_SIZE);
       }
     }
   }
