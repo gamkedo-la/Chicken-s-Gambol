@@ -124,12 +124,9 @@ const Editor = new (function() {
   function createMenuButtons() {
     let buttons = document.getElementById('menu-buttons');
     buttons.innerHTML = '';
-    appendSpacer(buttons);
 
     createButton(buttons, 'img/editor/button-export.png', exportLevel);
     createButton(buttons, 'img/editor/button-reset.png', resetLevel);
-
-    appendSpacer(buttons);
   }
 
   function createTileButtons() {

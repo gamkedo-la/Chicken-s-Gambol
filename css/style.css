@@ -77,8 +77,7 @@ canvas {
 
 #button-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: nowrap;
 
   cursor: move;
 }
@@ -86,7 +85,7 @@ canvas {
 #button-container > h2 {
   display: flex;
   margin: 0;
-  padding: 0;
+  padding: 0 4px;
 }
 
 #button-container > div {
@@ -97,8 +96,6 @@ canvas {
   position: relative;
   margin: 0;
   padding: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 #button-container > div button {
@@ -123,6 +120,15 @@ canvas {
 
 #button-container > div > div button img {
   line-height: 0;
+}
+
+#button-container > div#menu-buttons {
+  min-width: 113px;
+}
+
+#button-container > div#tile-buttons {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 #button-container > div#tile-buttons button img {
