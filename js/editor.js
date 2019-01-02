@@ -6,11 +6,6 @@ const Editor = new (function() {
   let levelDataOriginal;
   let levelGridOriginal;
 
-  const maxLeftDistance = 20;
-  const maxRightDistance = gameCanvas.width - maxLeftDistance;
-  const maxTopDistance = 20;
-  const maxBottomDistance = gameCanvas.height - maxTopDistance;
-
   let x = 0;
   let y = 0;
   let maxX = 0;
@@ -119,11 +114,14 @@ const Editor = new (function() {
   }
 
   function createMenuButtons() {
+    let btn;
     let buttons = document.getElementById('menu-buttons');
     buttons.innerHTML = '';
 
-    createButton(buttons, 'img/editor/button-export.png', exportLevel);
-    createButton(buttons, 'img/editor/button-reset.png', resetLevel);
+    btn = createButton(buttons, 'img/editor/button-export.png', exportLevel);
+    btn.title = 'Export level';
+    btn = createButton(buttons, 'img/editor/button-reset.png', resetLevel);
+    btn.title = 'Reset level';
   }
 
   function createTileButtons() {
@@ -344,24 +342,23 @@ const Editor = new (function() {
   this.update = function(delta) {
     let oldX = x;
     let oldY = y;
-    let mousePosition = Input.getMousePosition();
 
     let step = GRID_SCROLL_SPEED * delta;
 
-    if (mousePosition.sx < maxLeftDistance || Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
+    if (Input.isDown(KEY.A) || Input.isDown(KEY.LEFT)) {
       x -= step;
       document.body.style.cursor = "url('img/arrowLeft.png'), auto";
     }
-    else if (maxRightDistance < mousePosition.sx || Input.isDown(KEY.D) || Input.isDown(KEY.RIGHT)) {
+    else if (Input.isDown(KEY.D) || Input.isDown(KEY.RIGHT)) {
       x += step;
       document.body.style.cursor = "url('img/arrowRight.png'), auto";
     }
 
-    if (mousePosition.sy < maxTopDistance || Input.isDown(KEY.W) || Input.isDown(KEY.UP)) {
+    if (Input.isDown(KEY.W) || Input.isDown(KEY.UP)) {
       y -= step;
       document.body.style.cursor = "url('img/arrowUp.png'), auto";
     }
-    else if (maxBottomDistance < mousePosition.sy || Input.isDown(KEY.S) || Input.isDown(KEY.DOWN)) {
+    else if (Input.isDown(KEY.S) || Input.isDown(KEY.DOWN)) {
       y += step;
       document.body.style.cursor = "url('img/arrowDown.png'), auto";
     }
@@ -373,6 +370,7 @@ const Editor = new (function() {
     fixXY();
 
     if (Input.isDown(KEY.MOUSE_LEFT)) {
+      let mousePosition = Input.getMousePosition();
       let index = this.coordsToIndex(mousePosition.x, mousePosition.y);
       if (levelGrid[index] !== currentTileType) {
         removeDoublePlayerEnemyStarts();
