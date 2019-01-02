@@ -11,11 +11,6 @@ const Editor = new (function() {
   const maxTopDistance = 20;
   const maxBottomDistance = gameCanvas.height - maxTopDistance;
 
-  const minColsFree = 3;
-  const minRowsFree = 3;
-  const minColsFromEdge = 5;
-  const minRowsFromEdge = 5;
-
   let x = 0;
   let y = 0;
   let maxX = 0;
@@ -264,15 +259,15 @@ const Editor = new (function() {
       return false;
     }
 
-    let playerColTooClose = (playerStartPosition.col < minColsFromEdge || levelData.cols - minColsFromEdge < playerStartPosition.col);
-    let playerRowTooClose = (playerStartPosition.row < minRowsFromEdge || levelData.rows - minRowsFromEdge < playerStartPosition.row);
+    let playerColTooClose = (playerStartPosition.col < MIN_COLS_FROM_EDGE || levelData.cols - MIN_COLS_FROM_EDGE < playerStartPosition.col);
+    let playerRowTooClose = (playerStartPosition.row < MIN_ROWS_FROM_EDGE || levelData.rows - MIN_ROWS_FROM_EDGE < playerStartPosition.row);
     if (playerColTooClose || playerRowTooClose) {
       console.log('Player starting position too close to the edge of the level');
       return false;
     }
 
-    let enemyColTooClose = (enemyStartPosition.col < minColsFromEdge || levelData.cols - minColsFromEdge < enemyStartPosition.col);
-    let enemyRowTooClose = (enemyStartPosition.row < minRowsFromEdge || levelData.rows - minRowsFromEdge < enemyStartPosition.row);
+    let enemyColTooClose = (enemyStartPosition.col < MIN_COLS_FROM_EDGE || levelData.cols - MIN_COLS_FROM_EDGE < enemyStartPosition.col);
+    let enemyRowTooClose = (enemyStartPosition.row < MIN_ROWS_FROM_EDGE || levelData.rows - MIN_ROWS_FROM_EDGE < enemyStartPosition.row);
     if (enemyColTooClose || enemyRowTooClose) {
       console.log('Enemy starting position too close to the edge of the level');
       return false;
@@ -293,10 +288,10 @@ const Editor = new (function() {
   }
 
   function gridAroundPositionIsWalkable(col, row) {
-    let startCol = col - minColsFree;
-    let startRow = row - minRowsFree;
-    let numFreeCols = minColsFree * 2;
-    let numFreeRows = minRowsFree * 2;
+    let startCol = col - MIN_COLS_FREE;
+    let startRow = row - MIN_ROWS_FREE;
+    let numFreeCols = MIN_COLS_FREE * 2;
+    let numFreeRows = MIN_ROWS_FREE * 2;
     let index;
 
     for (let r = 0; r <= numFreeRows; r++) {

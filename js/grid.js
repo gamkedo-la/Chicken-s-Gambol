@@ -76,7 +76,7 @@ const Grid = new (function() {
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
 
-    tiles = getLevelTiles();
+    tiles = getLevelTiles(true);
 
     // draw level-tiles on the canvas
     let tileIndex = 0;
@@ -111,13 +111,25 @@ const Grid = new (function() {
   }
 
   function processGridCell(x, y, i) {
-    // @todo process TILE.TEAM_PLAYER, TILE.TEAM_ENEMY: create slime at position + create chicken nearby
     let tileType = levelGrid[i];
     let settings = { x: x, y: y };
+    let chickenSettings = {
+      x: settings.x + (MIN_COLS_FREE - 1) * TILE_SIZE,
+      y: settings.y + (MIN_ROWS_FREE - 1) * TILE_SIZE
+    };
     let unit;
+
     switch (tileType) {
       case 0:
         // do nothing, because this should be replaced with the default tile
+        break;
+      case TILE.TEAM_PLAYER:
+        unit = Game.create(Slime, TEAM_PLAYER, settings);
+        unit = Game.create(Chicken, TEAM_PLAYER, chickenSettings);
+        break;
+      case TILE.TEAM_ENEMY:
+        unit = Game.create(Slime, TEAM_ENEMY, settings);
+        unit = Game.create(Chicken, TEAM_ENEMY, chickenSettings);
         break;
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:

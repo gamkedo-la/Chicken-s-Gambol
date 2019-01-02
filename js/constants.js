@@ -7,6 +7,11 @@ const TEAM_NONE = 0;
 const TEAM_PLAYER = 1;
 const TEAM_ENEMY = 2;
 
+const MIN_COLS_FREE = 3;
+const MIN_ROWS_FREE = 3;
+const MIN_COLS_FROM_EDGE = 5;
+const MIN_ROWS_FROM_EDGE = 5;
+
 const MAX_BUILD_DISTANCE = 340;
 const MAX_BUILD_DISTANCE_SQUARED = MAX_BUILD_DISTANCE * MAX_BUILD_DISTANCE;
 
@@ -133,8 +138,8 @@ const TILE = {
 };
 
 const LEVEL_TILES = [
-  { type: TILE.TEAM_PLAYER, x: 64, y: 0 },
-  { type: TILE.TEAM_ENEMY, x: 96, y: 0 },
+  { type: TILE.TEAM_PLAYER, x: 64, y: 0, editorOnly: true },
+  { type: TILE.TEAM_ENEMY, x: 96, y: 0, editorOnly: true },
   { type: TILE.GRASS, x: 0, y: 0 },
   { type: TILE.TREES, x: 32, y: 0 },
 
