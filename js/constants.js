@@ -204,6 +204,8 @@ const LEVEL_TILES = [
 
 const WALKABLE_TILES = [
   0, // Index for the default tile
+  TILE.TEAM_PLAYER,
+  TILE.TEAM_ENEMY,
   TILE.GRASS,
   TILE.SNOW,
   TILE.SNOW_ROAD1,

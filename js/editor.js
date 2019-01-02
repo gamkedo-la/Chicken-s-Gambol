@@ -11,6 +11,8 @@ const Editor = new (function() {
   const maxTopDistance = 20;
   const maxBottomDistance = gameCanvas.height - maxTopDistance;
 
+  const minColsFree = 3;
+  const minRowsFree = 3;
   const minColsFromEdge = 5;
   const minRowsFromEdge = 5;
 
@@ -277,11 +279,44 @@ const Editor = new (function() {
       console.log('Enemy starting position too close to the edge of the level');
       return false;
     }
+    if (!gridAroundPositionIsWalkable(playerStartPosition.col, playerStartPosition.row)) {
+      console.log('Area around player starting position is blocked');
+      return false;
+    }
+
+    if (!gridAroundPositionIsWalkable(enemyStartPosition.col, enemyStartPosition.row)) {
+      console.log('Area around enemy starting position is blocked');
+      return false;
+    }
 
     // @todo additional rules?
-    // @todo player/enemy start need to have room (walkable tiles) around them to build
 
     return true;
+  }
+
+  function gridAroundPositionIsWalkable(col, row) {
+    let startCol = col - minColsFree;
+    let startRow = row - minRowsFree;
+    let numFreeCols = minColsFree * 2;
+    let numFreeRows = minRowsFree * 2;
+    let index;
+
+    for (let r = 0; r <= numFreeRows; r++) {
+      index = Editor.tileToIndex(startCol, startRow + r);
+      for (let c = 0; c <= numFreeCols; c++) {
+        if (!isWalkableTileAtIndex(index)) {
+          return false;
+        }
+        index++;
+      }
+    }
+
+
+    return true;
+  }
+
+  function isWalkableTileAtIndex(tileIndex) {
+    return levelGrid[tileIndex] === 0 || WALKABLE_TILES.indexOf(levelGrid[tileIndex]) !== -1;
   }
 
   this.indexToColRow = function(index) {
