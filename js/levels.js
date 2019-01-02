@@ -1,3 +1,12 @@
+function getLevelTiles() {
+  let tiles = [];
+  for (let t in LEVEL_TILES) {
+    tiles[LEVEL_TILES[t].type] = LEVEL_TILES[t];
+  }
+
+  return tiles;
+}
+
 const levels = [
   {
     name: 'Level 1',
@@ -57,5 +66,7 @@ const levels = [
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
     ],
-  }
+  },
+
+  // Paste your level export above this line, it will automatically be picked up by the menu!
 ];

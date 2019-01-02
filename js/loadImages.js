@@ -39,7 +39,8 @@ const Images = new (function() {
     bottomButtonBg: 'img/bottom-button-active-bg.png',
     topButtonBg: 'img/top-button-active-bg.png',
     startMenu: 'img/startMenu.png',
-    arrow: 'img/arrowRight.png'
+    arrow: 'img/arrowRight.png',
+    levels: 'img/levels.png'
   };
 
   let tileTypeImages = [

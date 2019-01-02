@@ -1,5 +1,6 @@
 const Editor = new (function() {
 
+  let tiles;
   let levelData;
   let levelGrid;
   let levelDataOriginal;
@@ -86,6 +87,8 @@ const Editor = new (function() {
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
 
+    tiles = getLevelTiles();
+
     drawGridTiles();
 
     createMenuButtons();
@@ -103,7 +106,7 @@ const Editor = new (function() {
       for (col = 0; col < levelData.cols; col++) {
         tileType = processGridCell(tileIndex);
 
-        drawImage(levelContext, TileImages[tileType], tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE);
+        drawTile(tileType, tileX, tileY);
 
         tileX += TILE_SIZE;
         tileIndex++;
@@ -113,13 +116,18 @@ const Editor = new (function() {
     }
   }
 
+  function drawTile(tileType, tileX, tileY) {
+    drawTileImage(levelContext, Images.levels, tiles[levelData.defaultTile].x, tiles[levelData.defaultTile].y, tileX, tileY);
+    drawTileImage(levelContext, Images.levels, tiles[tileType].x, tiles[tileType].y, tileX, tileY);
+  }
+
   function createMenuButtons() {
     let buttons = document.getElementById('menu-buttons');
     buttons.innerHTML = '';
     appendSpacer(buttons);
 
-    createButton(buttons, 'export', exportLevel);
-    createButton(buttons, 'reset', resetLevel);
+    createButton(buttons, 'img/editor/button-export.png', exportLevel);
+    createButton(buttons, 'img/editor/button-reset.png', resetLevel);
 
     appendSpacer(buttons);
   }
@@ -130,10 +138,12 @@ const Editor = new (function() {
     appendSpacer(buttons);
 
     let isFirst = true;
-    for (let i in EDITOR_TILES) {
-      let btn = createButton(buttons, EDITOR_TILES[i], changeTileType);
+    // @todo use tiles
+    // @todo overridable with custom image, fallback to tiles?
+    for (let i in tiles) {
+      let btn = createButton(buttons, Images.levels.src, changeTileType, '-' + tiles[i].x + 'px -' + tiles[i].y + 'px');
 
-      btn.dataset.type = EDITOR_TILES[i];
+      btn.dataset.type = i;
 
       if (isFirst) {
         isFirst = false;
@@ -149,9 +159,12 @@ const Editor = new (function() {
     container.appendChild(spacer);
   }
 
-  function createButton(container, imgName, callback) {
+  function createButton(container, imgSrc, callback, position) {
     let img = document.createElement('img');
-    img.src = 'img/editor/button-' + imgName + '.png';
+    img.src = imgSrc;
+    if (position) {
+      img.style.objectPosition = position;
+    }
 
     let btn = document.createElement('button');
 
@@ -224,7 +237,7 @@ const Editor = new (function() {
   function processGridCell(i) {
     let tileType = levelGrid[i];
 
-    if (tileType && EDITOR_TILES[tileType]) {
+    if (tileType && tiles[tileType]) {
       return tileType;
     }
 
@@ -269,6 +282,7 @@ const Editor = new (function() {
     }
 
     // @todo additional rules?
+    // @todo player/enemy start need to have room (walkable tiles) around them to build
 
     return true;
   }
@@ -343,7 +357,7 @@ const Editor = new (function() {
         let col = Math.floor(mousePosition.x / TILE_SIZE);
         let row = Math.floor(mousePosition.y / TILE_SIZE);
 
-        drawImage(levelContext, TileImages[currentTileType], col * TILE_SIZE + TILE_HALF_SIZE, row * TILE_SIZE + TILE_HALF_SIZE);
+        drawTile(currentTileType, col * TILE_SIZE, row * TILE_SIZE);
       }
     }
   };

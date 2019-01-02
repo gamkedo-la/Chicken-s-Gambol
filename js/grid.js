@@ -1,5 +1,6 @@
 const Grid = new (function() {
 
+  let tiles;
   let levelData;
   let levelGrid;
   let walkableGrid;
@@ -75,6 +76,8 @@ const Grid = new (function() {
     maxX = levelCanvas.width - gameCanvas.width;
     maxY = levelCanvas.height - gameCanvas.height;
 
+    tiles = getLevelTiles();
+
     // draw level-tiles on the canvas
     let tileIndex = 0;
     let tileX = 0, tileY = 0, tileType;
@@ -92,7 +95,7 @@ const Grid = new (function() {
       for (col = 0; col < levelData.cols; col++) {
         tileType = processGridCell(tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE, tileIndex);
 
-        drawImage(levelContext, TileImages[tileType], tileX + TILE_HALF_SIZE, tileY + TILE_HALF_SIZE);
+        drawTile(tileType, tileX, tileY);
 
         tileX += TILE_SIZE;
         tileIndex++;
@@ -101,6 +104,11 @@ const Grid = new (function() {
       tileY += TILE_SIZE;
     }
   };
+
+  function drawTile(tileType, tileX, tileY) {
+    drawTileImage(levelContext, Images.levels, tiles[levelData.defaultTile].x, tiles[levelData.defaultTile].y, tileX, tileY);
+    drawTileImage(levelContext, Images.levels, tiles[tileType].x, tiles[tileType].y, tileX, tileY);
+  }
 
   function processGridCell(x, y, i) {
     // @todo process TILE.TEAM_PLAYER, TILE.TEAM_ENEMY: create slime at position + create chicken nearby

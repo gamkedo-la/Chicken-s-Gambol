@@ -104,11 +104,13 @@ canvas {
 #button-container > div button {
   float: left;
   background: transparent;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   line-height: 0;
   margin: 3px;
   padding: 0;
   cursor: pointer;
+  width: 48px;
+  height: 48px;
 }
 
 #button-container > div button:hover {
@@ -116,9 +118,17 @@ canvas {
 }
 
 #button-container > div button.active {
-  border-color: #c13747;
+  border-color: #000;
 }
 
 #button-container > div > div button img {
   line-height: 0;
+}
+
+#button-container > div#tile-buttons button img {
+  width: 32px;
+  height: 32px;
+
+  object-fit: none;
+  object-position: 0 0;
 }

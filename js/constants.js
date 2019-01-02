@@ -68,6 +68,13 @@ const TILE = {
   ENEMY_SLIME: 56,
 };
 
+const LEVEL_TILES = [
+  { type: TILE.TEAM_PLAYER, x: 64, y: 0 },
+  { type: TILE.TEAM_ENEMY, x: 96, y: 0 },
+  { type: TILE.GRASS, x: 0, y: 0 },
+  { type: TILE.TREES, x: 32, y: 0 },
+];
+
 const WALKABLE_TILES = [
   0, // Index for the default tile
   TILE.GRASS,
@@ -79,13 +86,6 @@ const WALKABLE_TILES = [
   TILE.ENEMY_CHICKEN,
   TILE.ENEMY_PIG,
   TILE.ENEMY_GOBLIN
-];
-
-const EDITOR_TILES = [
-  TILE.TEAM_PLAYER,
-  TILE.TEAM_ENEMY,
-  TILE.GRASS,
-  TILE.TREES
 ];
 
 const KEY = {

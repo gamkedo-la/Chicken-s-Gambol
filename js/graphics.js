@@ -25,6 +25,10 @@ function resetShadow() {
         gameContext.shadowOffsetY = 0;
 }
 
+function drawTileImage(canvasContext, tileImage, tileX, tileY, destX, destY) {
+  canvasContext.drawImage(tileImage, tileX, tileY, TILE_SIZE, TILE_SIZE, destX, destY, TILE_SIZE, TILE_SIZE);
+}
+
 function drawImage(canvasContext, image, x, y, angle) {
   canvasContext.save();
   canvasContext.translate(x, y);
