@@ -73,44 +73,30 @@ this.cycle = function (INDEX_PAGE) {
             }
             break;
      }
-};           
-this.checkState = function(){
-    if (classListMenu[cursor1] === 0){
-        gameIsStarted = true;
-    }
-    
-}
-
+};
 this.update = function(){
-            //Wobble the cursors back and forth
+     //Wobble the cursors back and forth
     if (wobble > 13 || wobble < 9) {
         wobbleSpeed *= -1;
     }
         wobble += wobbleSpeed;
 
-    if (Input.isPressed(KEY.UP)) {
-            cursor1--;
-         if (Input.isDown(KEY.ENTER)) {
-            this.cycle();
+    if (Input.isPressed(KEY.SPACE || KEY.ENTER)) {
             this.cycle();
             this.checkState();
         }
+
+    if (Input.isPressed(KEY.UP)) {
+            cursor1--;
             console.log("cursor UP", classListMenu[cursor1]);
     }      
     if (Input.isPressed(KEY.DOWN)) {
             cursor1++;
-        if (Input.isDown(KEY.ENTER)) {
-            this.cycle();
-            this.cycle();
-            this.checkState();
-        }
-            
-        console.log("cursor DOWN", classListMenu[cursor1]);
+            console.log("cursor DOWN", classListMenu[cursor1]);
     }      
 
     if (cursor1 >= MENU_NUM){
       cursor1 = MENU_NUM - 1;
-      
     }
     else if (cursor1 < 0){
     cursor1 = 0;
@@ -118,6 +104,49 @@ this.update = function(){
     }
 
 };
+
+this.checkState = function(){
+    if (classListMenu[cursor1] === "Play"){
+        gameIsStarted = true;
+    }  
+    if (classListMenu[cursor1] === "Setting"){
+        this.drawSettings();
+    } 
+    if (classListMenu[cursor1] === "Help"){
+         this.drawHelp();
+    } 
+    if (classListMenu[cursor1] === "Credits"){
+         this.drawCredits();
+    } 
+
+    if (classListSettings[cursor1] === "Volume"){
+        //this.drawVolume();
+    }  
+    if (classListSettings[cursor1] === "Speed"){
+        //this.drawSpeed();
+    } 
+    if (classListSettings[cursor1] === "Controls"){
+         //this.drawControl();
+    } 
+    if (classListSettings[cursor1] === "etc"){
+         INDEX_PAGE = CREDITS_PAGE;
+    }    
+
+    if (classListHelp[cursor1] === "How to play"){
+        //this.drawHowToPlay();
+    }  
+    if (classListHelp[cursor1] === "Control layout"){
+        //this.controlLayOut();
+    } 
+    if (classListHelp[cursor1] === "Shopping"){
+         //this.controlLayOut();
+    } 
+    if (classListSettings[cursor1] === "etc"){
+         INDEX_PAGE = CREDITS_PAGE;
+    }    
+}
+
+
 this.draw = function() {
     drawImage(gameContext, Images.startMenu, 368, 240);
     drawText(gameContext,260, 40,FONT_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
@@ -137,6 +166,7 @@ this.draw = function() {
  };
 
 this.drawSettings = function() {
+    clearCanvas();
     drawImage(gameContext, Images.startMenu, 368, 240);
     drawText(gameContext,260, 40,FONT_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
@@ -155,6 +185,7 @@ this.drawSettings = function() {
  };
 
  this.drawHelp = function() {
+    clearCanvas();
     drawImage(gameContext, Images.startMenu, 368, 240);
     drawText(gameContext,260, 40,FONT_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
@@ -162,8 +193,8 @@ this.drawSettings = function() {
         //Draw menu options
     drawText(gameContext,MENU_ROW1, menuColumnPos[0],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"How to play");
     drawText(gameContext,MENU_ROW1, menuColumnPos[1],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Control Layout");
-    drawText(gameContext,MENU_ROW1, menuColumnPos[2],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Help");
-    drawText(gameContext,MENU_ROW1, menuColumnPos[3],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Credits");
+    drawText(gameContext,MENU_ROW1, menuColumnPos[2],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Shopping");
+    drawText(gameContext,MENU_ROW1, menuColumnPos[3],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"etc");
 
         //Display previous score
     drawText(gameContext,MENU_ROW0, menuColumnPos[4],FONT_COLOR, SLIME_FONT, 'left', 'middle',"Score: " );
@@ -176,6 +207,7 @@ this.drawSettings = function() {
 
 
 this.drawCredits = function() {
+    clearCanvas();
     drawImage(gameContext, Images.startMenu, 368, 240);
     drawText(gameContext,260, 40,FONT_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");

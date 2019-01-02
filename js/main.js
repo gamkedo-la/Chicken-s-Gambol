@@ -89,9 +89,6 @@ function gameUpdate(delta) {
 
 function gameDraw(interpolationPercentage) {
   if (gameIsStarted === false) {
-    if (Input.isDown(KEY.SPACE)) {
-      gameIsStarted = true;
-    }
     Menu.draw();
     redrawCanvas();
     return; // skip game logic below
