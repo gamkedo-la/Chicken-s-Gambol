@@ -93,7 +93,6 @@ function gameDraw(interpolationPercentage) {
       gameIsStarted = true;
     }
     Menu.draw();
-    Menu.cycle();
     redrawCanvas();
     return; // skip game logic below
   }

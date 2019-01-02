@@ -21,84 +21,100 @@ const Menu = new (function() {
     const MENU_NUM = 4;
 
     let INDEX = 0;
+    let INDEX_PAGE=0
 
+    let LEVELS_INDEX = 0;
 
-    let LEVELS_CLASS_INDEX = 0;
-
-    const MENU_CLASS = 0;
-    const SETTINGS_CLASS = 1;
-    const HELP_CLASS = 2;
-    const CREDITS_CLASS = 3;
-    const LEVELS_CLASS = 4;
+    const MENU_PAGE = 0;
+    const SETTINGS_PAGE = 1;
+    const HELP_PAGE = 2;
+    const CREDITS_PAGE = 3;
+    const LEVELS_PAGE = 4;
 //-----END GLOBAL SETTINGS-----//
-this.cycle = function (cursor1) {
+this.cycle = function (INDEX_PAGE) {
     switch(cursor1) {
-        case MENU_CLASS:
+        case MENU_PAGE:
             INDEX=classListMenu[cursor1];
             if (INDEX >= MENU_NUM) {
                 INDEX = 0;
             }
-            if (INDEX < 0) {
+            else if (INDEX < 0) {
                 INDEX = MENU_NUM-1;
             }
             break;
 
-        case SETTINGS_CLASS:
+        case SETTINGS_PAGE:
             INDEX=classListSettings[cursor1];
             if (INDEX >= MENU_NUM) {
                 INDEX = 0;
             }
-            if (INDEX < 0) {
+            else if (INDEX < 0) {
                 INDEX = NUM-1;
             }
             break;
 
-        case HELP_CLASS:
+        case HELP_PAGE:
             INDEX=classListHelp[cursor1];
             if (INDEX >= MENU_NUM) {
                 INDEX = 0;
             }
-            if (INDEX < 0) {
+            else if (INDEX < 0) {
                 INDEX = MENU_NUM-1;
             }
             break;
 
-        case LEVELS_CLASS:
+        case LEVELS_PAGE:
             INDEX=classListLevels[cursor1];
             if (INDEX >= MENU_NUM) {
                 INDEX = 0;
             }
-            if (INDEX < 0) {
+            else if (INDEX < 0) {
                 INDEX = MENU_NUM-1;
             }
             break;
      }
 };           
-
+this.checkState = function(){
+    if (classListMenu[cursor1] === 0){
+        gameIsStarted = true;
+    }
+    
+}
 
 this.update = function(){
             //Wobble the cursors back and forth
     if (wobble > 13 || wobble < 9) {
-      wobbleSpeed *= -1;
+        wobbleSpeed *= -1;
     }
         wobble += wobbleSpeed;
 
     if (Input.isPressed(KEY.UP)) {
-        console.log("cursor UP", classListMenu[cursor1]);
             cursor1--;
-    }       INDEX--;
+         if (Input.isDown(KEY.ENTER)) {
+            this.cycle();
+            this.cycle();
+            this.checkState();
+        }
+            console.log("cursor UP", classListMenu[cursor1]);
+    }      
     if (Input.isPressed(KEY.DOWN)) {
-        console.log("cursor DOWN", classListMenu[cursor1]);
             cursor1++;
-    }       INDEX++;
+        if (Input.isDown(KEY.ENTER)) {
+            this.cycle();
+            this.cycle();
+            this.checkState();
+        }
+            
+        console.log("cursor DOWN", classListMenu[cursor1]);
+    }      
 
     if (cursor1 >= MENU_NUM){
       cursor1 = MENU_NUM - 1;
-      INDEX = MENU_NUM - 1;
+      
     }
     else if (cursor1 < 0){
     cursor1 = 0;
-    INDEX =0;
+    
     }
 
 };
@@ -165,10 +181,9 @@ this.drawCredits = function() {
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
 
         //Draw menu options
-    drawText(gameContext,MENU_ROW1, menuColumnPos[0],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Play");
-    drawText(gameContext,MENU_ROW1, menuColumnPos[1],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Settings");
-    drawText(gameContext,MENU_ROW1, menuColumnPos[2],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Help");
-    drawText(gameContext,MENU_ROW1, menuColumnPos[3],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Credits");
+        for (i=0; i<classListMenu[i]; i++){
+    drawText(gameContext,MENU_ROW1, menuColumnPos[i],SHADOW_COLOR, SLIME_FONT, 'left', 'middle',classListMenu[i]);
+        }
 
         //Display previous score
     drawText(gameContext,MENU_ROW0, menuColumnPos[4],FONT_COLOR, SLIME_FONT, 'left', 'middle',"Score: " );
