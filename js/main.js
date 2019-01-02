@@ -89,7 +89,7 @@ function gameUpdate(delta) {
 
 function gameDraw(interpolationPercentage) {
   if (gameIsStarted === false) {
-    Menu.draw();
+    Menu.cycle();
     redrawCanvas();
     return; // skip game logic below
   }

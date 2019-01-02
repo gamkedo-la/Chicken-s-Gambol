@@ -11,7 +11,7 @@ const Menu = new (function() {
     let cursor1 = 0;
     let cursor2 = 0;
 
-    let classListMenu = ["Play", "Setting", "Help" , "Credits"];
+    let classListMenu = ["Play", "Settings", "Help" , "Credits"];
     let classListGame = ["New Game", "Continue", "Select Chapter", "etc"];
     let classListLevels = ["Chapter 1", "Chapter 2", "Chapter 3", "etc"];
     let classListSettings = ["Volume", "Speed", "Controls", "etc"];
@@ -31,49 +31,7 @@ const Menu = new (function() {
     const CREDITS_PAGE = 3;
     const LEVELS_PAGE = 4;
 //-----END GLOBAL SETTINGS-----//
-this.cycle = function (INDEX_PAGE) {
-    switch(cursor1) {
-        case MENU_PAGE:
-            INDEX=classListMenu[cursor1];
-            if (INDEX >= MENU_NUM) {
-                INDEX = 0;
-            }
-            else if (INDEX < 0) {
-                INDEX = MENU_NUM-1;
-            }
-            break;
 
-        case SETTINGS_PAGE:
-            INDEX=classListSettings[cursor1];
-            if (INDEX >= MENU_NUM) {
-                INDEX = 0;
-            }
-            else if (INDEX < 0) {
-                INDEX = NUM-1;
-            }
-            break;
-
-        case HELP_PAGE:
-            INDEX=classListHelp[cursor1];
-            if (INDEX >= MENU_NUM) {
-                INDEX = 0;
-            }
-            else if (INDEX < 0) {
-                INDEX = MENU_NUM-1;
-            }
-            break;
-
-        case LEVELS_PAGE:
-            INDEX=classListLevels[cursor1];
-            if (INDEX >= MENU_NUM) {
-                INDEX = 0;
-            }
-            else if (INDEX < 0) {
-                INDEX = MENU_NUM-1;
-            }
-            break;
-     }
-};
 this.update = function(){
      //Wobble the cursors back and forth
     if (wobble > 13 || wobble < 9) {
@@ -81,7 +39,7 @@ this.update = function(){
     }
         wobble += wobbleSpeed;
 
-    if (Input.isPressed(KEY.SPACE || KEY.ENTER)) {
+    if (Input.isPressed(KEY.SPACE) || Input.isPressed(KEY.ENTER)) {
             this.cycle();
             this.checkState();
         }
@@ -105,44 +63,73 @@ this.update = function(){
 
 };
 
+this.cycle = function (INDEX_PAGE) {
+    switch(cursor1) {
+        case MENU_PAGE:
+            INDEX=classListMenu[cursor1];
+           this.draw();
+            break;
+
+        case SETTINGS_PAGE:
+            INDEX=classListSettings[cursor1];
+            this.drawSettings();
+            break;
+
+        case HELP_PAGE:
+            INDEX=classListHelp[cursor1];
+            this.drawHelp();
+            break;
+
+        case CREDITS_PAGE:
+            INDEX=classListHelp[cursor1];
+            this.drawHelp();
+            break;
+
+        case LEVELS_PAGE:
+            INDEX=classListLevels[cursor1];
+            //this.drawLevels();
+            break;
+     }
+};
+
 this.checkState = function(){
     if (classListMenu[cursor1] === "Play"){
         gameIsStarted = true;
     }  
-    if (classListMenu[cursor1] === "Setting"){
-        this.drawSettings();
+    if (classListMenu[cursor1] === "Settings"){
+        INDEX_PAGE = SETTINGS_PAGE;
     } 
     if (classListMenu[cursor1] === "Help"){
-         this.drawHelp();
+         INDEX_PAGE = HELP_PAGE;
     } 
     if (classListMenu[cursor1] === "Credits"){
-         this.drawCredits();
+         INDEX_PAGE = CREDITS_PAGE;
     } 
 
     if (classListSettings[cursor1] === "Volume"){
-        //this.drawVolume();
+        INDEX_PAGE = VOLUME_PAGE;
     }  
     if (classListSettings[cursor1] === "Speed"){
-        //this.drawSpeed();
+        INDEX_PAGE = SPEED_PAGE;
     } 
     if (classListSettings[cursor1] === "Controls"){
-         //this.drawControl();
+          INDEX_PAGE = CONTROLS_PAGE;
     } 
     if (classListSettings[cursor1] === "etc"){
-         INDEX_PAGE = CREDITS_PAGE;
+         INDEX_PAGE = etc;
     }    
 
     if (classListHelp[cursor1] === "How to play"){
-        //this.drawHowToPlay();
+        INDEX_PAGE = HOWTOPLAY_PAGE;
     }  
     if (classListHelp[cursor1] === "Control layout"){
-        //this.controlLayOut();
+        INDEX_PAGE = CONTROLS_PAGE;
     } 
     if (classListHelp[cursor1] === "Shopping"){
-         //this.controlLayOut();
+         INDEX_PAGE = SHOPPING_PAGE;
     } 
     if (classListSettings[cursor1] === "etc"){
-         INDEX_PAGE = CREDITS_PAGE;
+         INDEX_PAGE = etc2;
     }    
 }
 
