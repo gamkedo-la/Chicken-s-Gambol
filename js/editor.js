@@ -137,8 +137,6 @@ const Editor = new (function() {
     appendSpacer(buttons);
 
     let isFirst = true;
-    // @todo use tiles
-    // @todo overridable with custom image, fallback to tiles?
     for (let i in tiles) {
       let btn = createButton(buttons, Images.levels.src, changeTileType, '-' + tiles[i].x + 'px -' + tiles[i].y + 'px');
 
