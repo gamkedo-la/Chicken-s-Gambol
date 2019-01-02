@@ -102,7 +102,7 @@ this.update = function(){
     }
 
 };
-this.drawMenu = function() {
+this.draw = function() {
     drawImage(gameContext, Images.startMenu, 368, 240);
     drawText(gameContext,260, 40,FONT_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
     drawText(gameContext,263, 40,SHADOW_COLOR, SLIME_FONT, 'left', 'middle',"Chickens Gambol");
