@@ -31,7 +31,7 @@ const Menu = new (function() {
     const CREDITS_CLASS = 3;
     const LEVELS_CLASS = 4;
 //-----END GLOBAL SETTINGS-----//
-this.Cycle = function (inDir) {
+this.cycle = function (cursor1) {
     switch(cursor1) {
         case MENU_CLASS:
             INDEX=classListMenu[cursor1];
