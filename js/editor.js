@@ -370,7 +370,7 @@ const Editor = new (function() {
         levelGrid[i] = levelData.defaultTile;
 
         let colRow = Editor.indexToColRow(i);
-        drawImage(levelContext, TileImages[levelData.defaultTile], colRow.col * TILE_SIZE + TILE_HALF_SIZE, colRow.row * TILE_SIZE + TILE_HALF_SIZE);
+        drawTile(levelData.defaultTile, colRow.col * TILE_SIZE, colRow.row * TILE_SIZE);
       }
     }
   }

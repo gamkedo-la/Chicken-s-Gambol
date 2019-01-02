@@ -170,8 +170,10 @@ const Grid = new (function() {
         unit = Game.create(MudPitEnemy, TEAM_ENEMY, settings);
         unit.setComplete();
         break;
-      default:
-        return tileType;
+    }
+
+    if (tileType && tiles[tileType]) {
+      return tileType;
     }
 
     return levelGrid[i] = levelData.defaultTile;

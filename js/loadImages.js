@@ -1,5 +1,3 @@
-const TileImages = [];
-
 const Images = new (function() {
 
   let images = {
@@ -43,15 +41,8 @@ const Images = new (function() {
     levels: 'img/levels.png'
   };
 
-  let tileTypeImages = [
-    { type: TILE.TEAM_PLAYER, src: 'img/start-team-player.png' },
-    { type: TILE.TEAM_ENEMY, src: 'img/start-team-enemy.png' },
-    { type: TILE.GRASS, src: 'img/grass.png' },
-    { type: TILE.TREES, src: 'img/trees.png' }
-  ];
-
   this.initialize = function(callback) {
-    let numToLoad = Object.keys(images).length + tileTypeImages.length;
+    let numToLoad = Object.keys(images).length;
     if (numToLoad === 0 && callback) {
       callback();
       return;
@@ -61,12 +52,6 @@ const Images = new (function() {
       if (images.hasOwnProperty(key)) {
         this[key] = this.loadImage(images[key], doneLoading);
       }
-    }
-
-    let length = tileTypeImages.length;
-    for (let key = 0; key < length; key++) {
-      let tileTypeImage = tileTypeImages[key];
-      TileImages[tileTypeImage['type']] = this.loadImage(tileTypeImage['src'], doneLoading);
     }
 
     function doneLoading() {
