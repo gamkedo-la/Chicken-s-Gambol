@@ -45,7 +45,13 @@ const Barracks = function(team, settings) {
       return;
     }
 
+    if (!Game.hasAmountOfSlimeAvailable(COSTS[queue[0].name])) {
+      return;
+    }
+
     let constructor = queue.shift();
+
+    Game.subSlime(COSTS[constructor.name]);
 
     Game.create(constructor, team, getSpawnPosition());
     counts[constructor.name]--;

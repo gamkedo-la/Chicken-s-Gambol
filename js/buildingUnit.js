@@ -36,6 +36,8 @@ const BuildingUnit = function(team, settings) {
 
     if (buildCompletePercentage === 100) {
       this.setComplete();
+
+      Interface.selectionChanged(Selection.getSelection());
       return;
     }
 

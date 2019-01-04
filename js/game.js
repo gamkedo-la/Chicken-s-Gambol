@@ -73,6 +73,12 @@ let Game = new (function() {
   };
 
   this.buildButton = function(Constructor, previewImage) {
+    if (!this.hasAmountOfSlimeAvailable(COSTS[Constructor.name])) {
+      return;
+    }
+
+    this.subSlime(COSTS[Constructor.name]);
+
     buildPreviewImage = previewImage;
     buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
     this.buildActionConstructor = Constructor;
@@ -181,8 +187,9 @@ let Game = new (function() {
 
     let mousePos = Input.getMousePosition();
     if (Input.isPressed(KEY.MOUSE_LEFT) || Input.isPressed(KEY.MOUSE_RIGHT)) {
-      if (!Interface.hasMouseOver(mousePos))
-      clickParticles();
+      if (!Interface.hasMouseOver(mousePos)) {
+        clickParticles();
+      }
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
@@ -238,7 +245,7 @@ let Game = new (function() {
       }
 
       // @todo how to grab the unwalkableGrid from building?
-      if (Grid.canPlaceBuildingAt(mousePosition.x, mousePosition.y, [2,2])) {
+      if (Grid.canPlaceBuildingAt(mousePosition.x, mousePosition.y, [2, 2])) {
         return true;
       }
     }

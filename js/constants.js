@@ -50,6 +50,14 @@ const MIN_NUM_UNITS = 5;
 const ABS_MIN_NUM_UNITS = 50;
 const STARTING_AMOUNT_SLIME = 100;
 
+let COSTS = [];
+COSTS['House'] = 30;
+COSTS['Barracks'] = 30;
+COSTS['MudPit'] = 30;
+COSTS['Chicken'] = 30;
+COSTS['Pig'] = 30;
+COSTS['Goblin'] = 30;
+
 const TILE = {
   TEAM_PLAYER: 1,
   TEAM_ENEMY: 2,
