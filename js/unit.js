@@ -119,14 +119,6 @@ const Unit = function(team, settings) {
       callbackList(this.getFollowers(), 'unsetTarget');
     }
   };
-  
-  this.getHealth = function(){
-    return health;	  
-  };
-  
-  this.getMaxHealth = function(){
-    return settings.maxHealth;	  
-  };
 
   this.getCollisionRange = function() {
     return collisionRange;
