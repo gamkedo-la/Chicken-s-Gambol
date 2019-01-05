@@ -253,8 +253,28 @@ let Game = new (function() {
     return false;
   };
 
+  function sortUnits(a, b) {
+    let aIsSlimePatch = (a.constructor === SlimePatch || a.constructor === SlimePatchEnemy);
+    let bIsSlimePatch = (b.constructor === SlimePatch || b.constructor === SlimePatchEnemy);
+
+    if (aIsSlimePatch || bIsSlimePatch) {
+      if (!aIsSlimePatch) {
+        return 1;
+      }
+      else if (!bIsSlimePatch) {
+        return -1;
+      }
+      else {
+        return 0;
+      }
+    }
+
+    return a.getPosition().y - b.getPosition().y;
+  }
+
   this.draw = function(interpolationPercentage) {
     drawGroundDecals();
+    this.units.sort(sortUnits);
     callbackList(this.units, 'draw', [interpolationPercentage]);
 
     if (this.hasActiveBuildButton() && buildPreviewImage) {

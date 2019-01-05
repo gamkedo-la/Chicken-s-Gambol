@@ -6,11 +6,10 @@ const SlimePatch = function(team, settings) {
     showHealthbar: false,
     clickRadius: 18,
     canSelect: false,
-    collisionRange: 19,
+    collisionRange: 0,
     slimeAmount: 30,
     slime: undefined,
     selectionY: TILE_HALF_SIZE / 2,
-    unwalkableGrid: [1, 1],
     canDamage: false
   });
 
@@ -31,10 +30,10 @@ const SlimePatch = function(team, settings) {
     return amount;
   };
 
-  BuildingUnit.call(this, team, settings);
+  Unit.call(this, team, settings);
 };
 
-SlimePatch.prototype = Object.create(BuildingUnit.prototype);
+SlimePatch.prototype = Object.create(Unit.prototype);
 SlimePatch.prototype.constructor = SlimePatch;
 
 const SlimePatchEnemy = function(team, settings) {

@@ -255,6 +255,11 @@ const MovingUnit = function(team, settings) {
     let l = Game.units.length;
     for (let i = 0; i < l; i++) {
       let unit = Game.units[i];
+
+      if (!unit.getCollisionRange()) {
+        continue;
+      }
+
       let unitPosition = unit.getPosition();
       if (currentPosition.x === unitPosition.x && currentPosition.y === unitPosition.y) {
         continue;
