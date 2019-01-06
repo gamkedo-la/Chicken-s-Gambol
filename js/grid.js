@@ -128,8 +128,8 @@ const Grid = new (function() {
         unit = Game.create(Chicken, TEAM_PLAYER, chickenSettings);
         break;
       case TILE.TEAM_ENEMY:
-        unit = Game.create(Slime, TEAM_ENEMY, settings);
-        unit = Game.create(Chicken, TEAM_ENEMY, chickenSettings);
+        unit = Game.create(SlimeEnemy, TEAM_ENEMY, settings);
+        unit = Game.create(ChickenEnemy, TEAM_ENEMY, chickenSettings);
         break;
       // Player units/buildings
       case TILE.PLAYER_CHICKEN:
