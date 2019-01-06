@@ -183,6 +183,7 @@ let Game = new (function() {
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
+      checkGameWinLoseState(this.units);
     }
 
     let mousePos = Input.getMousePosition();
@@ -214,6 +215,36 @@ let Game = new (function() {
         list.splice(i, 1);
       }
     }
+  }
+
+  function checkGameWinLoseState(list) {
+    let hasPlayer = false;
+    let hasPlayerSlime = false;
+    let hasEnemy = false;
+    let hasEnemySlime = false;
+
+    let length = list.length;
+    for (let i = 0; i < length; i++) {
+      let unit = list[i];
+      hasPlayer = hasPlayer || unit.isPlayer(TEAM_PLAYER);
+      hasEnemy = hasEnemy || unit.isEnemy(TEAM_ENEMY);
+      hasPlayerSlime = hasPlayerSlime || unit.constructor === Slime;
+      hasEnemySlime = hasEnemySlime || unit.constructor === SlimeEnemy;
+
+      if (hasPlayer && hasPlayerSlime && hasEnemy && hasEnemySlime) {
+        return;
+      }
+    }
+
+    gameIsStarted = false;
+
+    if (hasPlayer) {
+      console.log('Player won! Enemy defeated');
+
+      return;
+    }
+
+    console.log('Enemy won! Player defeated...')
   }
 
   this.canBuildAtMousePosition = function(team) {
