@@ -281,6 +281,10 @@ const Grid = new (function() {
       Math.floor((destination.y) / TILE_SIZE)
     ];
 
+	while (!this.isWalkable(destination[0], destination[1])){
+	  destination = this.findAlternateWalkableDestination(destination);
+	}
+	
     let path = findPath(levelData.cols, levelData.rows, start, destination);
 
     if (path[0] && path[0][0] === start[0] && path[0][1] === start[1]) {
@@ -289,6 +293,12 @@ const Grid = new (function() {
 
     return path;
   };
+  
+  this.findAlternateWalkableDestination = function(destination){
+    destination[0]++;
+    destination[1]++;
+    return destination;
+  }
 
   this.isWalkableCoords = function(x, y) {
     return this.isWalkableIndex(this.coordsToIndex(x, y));
