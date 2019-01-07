@@ -1,5 +1,6 @@
 let gameCanvas, gameContext;
 let gameIsStarted = true;
+let pause = false;
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
@@ -63,8 +64,7 @@ function getPanPosition() {
 
 function gameUpdate(delta) {
   // Make sure we have actual seconds instead of milliseconds
-  delta = delta / 1000;
-
+  delta = delta / 1000;  
   if (gameIsStarted === false) {
     Menu.update();
   }
@@ -88,6 +88,16 @@ function gameUpdate(delta) {
 }
 
 function gameDraw(interpolationPercentage) {
+  if (!pause && Input.isPressed(KEY.P)){
+  MainLoop.stop();
+  Menu.pauseScreen();
+   redrawCanvas();
+  pause = true;
+  }else if (pause && Input.isPressed(KEY.P)){
+    MainLoop.start();
+    pause = false;
+    return;
+  }
   if (gameIsStarted === false) {
     Menu.draw();
     redrawCanvas();
