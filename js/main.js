@@ -1,5 +1,5 @@
 let gameCanvas, gameContext;
-let gameIsStarted = true;
+let gameIsStarted = false;
 let pause = false;
 
 window.addEventListener('load', function() {
@@ -19,7 +19,7 @@ window.addEventListener('load', function() {
     .setDraw(gameDraw);
 
   Images.initialize(function() {
-    Sprites.initialize(gameInitialize);
+    Sprites.initialize(menuInitialize);
   });
 
   window.addEventListener('blur', windowOnBlur);
@@ -41,21 +41,40 @@ function windowOnFocus() {
   }
 }
 
-function gameInitialize() {
-  gameIsStarted = false;
+function menuInitialize() {
   Input.initialize();
-  Interface.initialize();
+  Menu.initialize();
 
-  Grid.initialize(levels[0]);
-  Minimap.initialize();
+  gameIsStarted = false;
+
+  Input.bindMouseMove(debugMousePos);
 
   MainLoop.start();
+}
 
-  Input.bindMouseMove(function(pos) {
-    document.getElementById('test').innerHTML = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>' + Math.round(pos.sx) + ',' + Math.round(pos.sy) +
-      '<br>' + Grid.coordsToIndex(pos.x, pos.y) +
-      '<br>' + Math.floor(pos.x / TILE_SIZE) + ',' + Math.floor(pos.y / TILE_SIZE);
-  });
+function gameInitialize(levelId) {
+  if (!levels[levelId]) {
+    alert('Level does not exists!?');
+    return;
+  }
+
+  Interface.initialize();
+
+  Grid.initialize(levels[levelId]);
+  Minimap.initialize();
+
+  gameIsStarted = true;
+}
+
+function debugMousePos(pos) {
+  let t = Math.round(pos.x) + ',' + Math.round(pos.y) + '<br>' + Math.round(pos.sx) + ',' + Math.round(pos.sy) +
+    '<br>' + Math.floor(pos.x / TILE_SIZE) + ',' + Math.floor(pos.y / TILE_SIZE);
+
+  if (Grid.isInitialized()) {
+    t +='<br>' + Grid.coordsToIndex(pos.x, pos.y);
+  }
+
+  document.getElementById('test').innerHTML = t;
 }
 
 function getPanPosition() {
@@ -64,7 +83,7 @@ function getPanPosition() {
 
 function gameUpdate(delta) {
   // Make sure we have actual seconds instead of milliseconds
-  delta = delta / 1000;  
+  delta = delta / 1000;
   if (gameIsStarted === false) {
     Menu.update();
   }
@@ -88,12 +107,13 @@ function gameUpdate(delta) {
 }
 
 function gameDraw(interpolationPercentage) {
-  if (!pause && Input.isPressed(KEY.P)){
-  MainLoop.stop();
-  Menu.pauseScreen();
-   redrawCanvas();
-  pause = true;
-  }else if (pause && Input.isPressed(KEY.P)){
+  if (!pause && Input.isPressed(KEY.P)) {
+    MainLoop.stop();
+    Menu.pauseScreen();
+    redrawCanvas();
+    pause = true;
+  }
+  else if (pause && Input.isPressed(KEY.P)) {
     MainLoop.start();
     pause = false;
     return;

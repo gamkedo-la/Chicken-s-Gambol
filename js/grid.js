@@ -1,5 +1,7 @@
 const Grid = new (function() {
 
+  let initialized = false;
+
   let tiles;
   let levelData;
   let levelGrid;
@@ -64,7 +66,23 @@ const Grid = new (function() {
     }
   };
 
+  this.isInitialized = function() {
+    return initialized;
+  };
+
+  this.unInitialize = function() {
+    initialized = false;
+    walkableGrid = [];
+    levelData = {};
+    x = y = 0;
+    maxX = maxY = 0;
+
+    tiles = [];
+  };
+
   this.initialize = function(_levelData) {
+    initialized = true;
+
     walkableGrid = [];
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
@@ -284,7 +302,7 @@ const Grid = new (function() {
 	while (!this.isWalkable(destination[0], destination[1])){
 	  destination = this.findAlternateWalkableDestination(destination);
 	}
-	
+
     let path = findPath(levelData.cols, levelData.rows, start, destination);
 
     if (path[0] && path[0][0] === start[0] && path[0][1] === start[1]) {
@@ -293,7 +311,7 @@ const Grid = new (function() {
 
     return path;
   };
-  
+
   this.findAlternateWalkableDestination = function(destination){
     destination[0]++;
     destination[1]++;

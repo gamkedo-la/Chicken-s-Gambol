@@ -2,6 +2,7 @@ const Images = new (function() {
 
   let images = {
     // key: 'img/image_name.png'
+    menuCursor: 'img/arrowRight.png',
     chickenEnemy: 'img/chicken2.png',
     chicken: 'img/chicken2.png',
     goblin: 'img/gobo.png',
