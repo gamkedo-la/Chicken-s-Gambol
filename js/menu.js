@@ -123,8 +123,8 @@ const Menu = new (function() {
   };
 
   this.draw = function() {
-    drawImage(gameContext, Images.startMenu, 368, 240);
-    drawTextWithShadow(gameContext, 240, 40, FONT_COLOR, MENU_FONT, 'left', 'middle', "Chickens Gambol");
+
+    gameContext.drawImage(Images.startMenu,0,0); // logo and main menu bg
 
     for (let i = 0; i < menuPageText[currentPage].length; i++) {
       drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, FONT_COLOR, SLIME_FONT, 'left', 'top', menuPageText[currentPage][i]);
