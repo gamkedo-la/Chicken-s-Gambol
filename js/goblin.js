@@ -11,7 +11,8 @@ const Goblin = function(team, settings) {
     speed: 1.75,
     damage: 2,
     maxHealth: 8,
-    selectionY: TILE_HALF_SIZE / 2
+    selectionY: TILE_HALF_SIZE / 2,
+    deadBodySprite: Images.deadGoblinImg
   });
 
   MovingUnit.call(this, team, settings);

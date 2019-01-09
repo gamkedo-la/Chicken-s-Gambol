@@ -10,8 +10,11 @@ const Slime = function(team, settings) {
     patchGrowTimeoutSeconds: 10,
     maxGrowDistance: 8,
     unwalkableGrid: [3, 2],
-    maxHealth: 500
+    maxHealth: 500,
+    deadBodySprite: Images.deadSlimeImg
   });
+
+  this.deadBodySprite = Images.deadSlimeImg; // FIXME, settings not used for slime?
 
   let maxGrowDistanceSquared = Math.pow(settings.maxGrowDistance * TILE_SIZE, 2);
 
@@ -51,7 +54,7 @@ const Slime = function(team, settings) {
 		  return 1;
 		}
 	  });
-	  
+
 	  //takes the 30 nearest patches and randomizes their order.
 	  growablePatches = shuffle(growablePatches.splice(0, 30));
     }
@@ -131,4 +134,3 @@ const SlimeEnemy = function(team, settings) {
 
 SlimeEnemy.prototype = Object.create(Slime.prototype);
 SlimeEnemy.prototype.constructor = SlimeEnemy;
-

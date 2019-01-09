@@ -11,7 +11,8 @@ const Pig = function(team, settings) {
     speed: 1.75,
     damage: 4,
     maxHealth: 13,
-    selectionY: TILE_HALF_SIZE / 2
+    selectionY: TILE_HALF_SIZE / 2,
+    deadBodySprite : Images.deadPigImg
   });
 
   MovingUnit.call(this, team, settings);

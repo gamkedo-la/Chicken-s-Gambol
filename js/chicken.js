@@ -14,7 +14,8 @@ const Chicken = function(team, settings) {
     speed: 1.4,
     damage: 3,
     maxHealth: 10,
-    selectionY: TILE_HALF_SIZE / 2
+    selectionY: TILE_HALF_SIZE / 2,
+    deadBodySprite: Images.deadChickenImg
   });
 
   let harvested = 0;

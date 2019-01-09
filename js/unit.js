@@ -15,6 +15,8 @@ const Unit = function(team, settings) {
     sprite = new Sprite(settings.sprite);
   }
 
+  this.deadBodySprite = settings.deadBodySprite;
+
   const clickRadius = settings.clickRadius;
   const clickRadiusSquared = clickRadius * clickRadius;
   const collisionRange = settings.collisionRange !== undefined ? settings.collisionRange : clickRadius * 1.3;
@@ -111,21 +113,39 @@ const Unit = function(team, settings) {
     return settings.canDamage;
   };
 
+  this.leaveDeadBody = function() {
+
+    console.log("Unit died! Adding a dead body decal...");
+    if (this.deadBodySprite) {
+      let pos = this.getPosition();
+      pos.angle = Math.random()*Math.PI*2;
+      addGroundDecal(pos,this.deadBodySprite);
+    }
+    else
+    {
+      console.log("Unit does not have a deadBodySprite...");
+    }
+
+  }
+
   this.doDamage = function(damage) {
     health -= damage;
     if (health <= 0) {
+
+      this.leaveDeadBody()
+
       this.remove();
 
       callbackList(this.getFollowers(), 'unsetTarget');
     }
   };
-    
+
   this.getHealth = function(){
-    return health;	  
+    return health;
   };
-  
+
   this.getMaxHealth = function(){
-    return settings.maxHealth;	  
+    return settings.maxHealth;
   };
 
   this.getCollisionRange = function() {

@@ -37,11 +37,16 @@ const Images = new (function() {
     bottomButtonBg: 'img/bottom-button-active-bg.png',
     topButtonBg: 'img/top-button-active-bg.png',
     startMenu: 'img/startMenu.png',
-    levels: 'img/levels.png'
+    levels: 'img/levels.png',
+    deadPigImg: 'img/dead-pig.png',
+    deadGoblinImg: 'img/dead-goblin.png',
+    deadChickenImg: 'img/dead-chicken.png',
+    deadSlimeImg: 'img/dead-slime.png',
   };
 
   this.initialize = function(callback) {
     let numToLoad = Object.keys(images).length;
+    if (DEBUG) console.log("Downloading " + numToLoad + " images...");
     if (numToLoad === 0 && callback) {
       callback();
       return;
@@ -55,6 +60,7 @@ const Images = new (function() {
 
     function doneLoading() {
       numToLoad--;
+      if (DEBUG) console.log("Finished downloading image " + numToLoad);
       if (numToLoad === 0) {
         callback();
       }
