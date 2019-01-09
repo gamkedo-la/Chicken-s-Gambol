@@ -80,3 +80,8 @@ function callbackList(items, callback, arguments) {
     arguments.pop();
   }
 }
+
+function pointIsInBox(point, topLeft, bottomRight) {
+  return ((point.x - topLeft.x) * (point.x - bottomRight.x) < 0) &&
+    ((point.y - topLeft.y) * (point.y - bottomRight.y) < 0);
+}

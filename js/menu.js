@@ -1,12 +1,14 @@
 const Menu = new (function() {
   let itemsX = 340;
   let topItemY = 260;
+  let itemsWidth = 300;
   let rowHeight = 40;
 
-  let wobble = 0;
+  let wobble = 12;
   let wobbleSpeed = 0.25;
   let cursor1 = 0;
   let currentPage = 0;
+  let pointingAt = -1;
 
   let classListMenu = ["Play", "Options", "Help", "Credits"];
   let classListLevels = [];
@@ -42,6 +44,9 @@ const Menu = new (function() {
     if (Input.isPressed(KEY.SPACE) || Input.isPressed(KEY.ENTER)) {
       this.checkState();
     }
+    else if (pointingAt !== -1 && Input.isPressed(KEY.MOUSE_LEFT)) {
+      this.checkState();
+    }
 
     if (Input.isPressed(KEY.UP)) {
       cursor1--;
@@ -56,8 +61,18 @@ const Menu = new (function() {
       }
     }
 
+    pointingAt = -1;
+    let mousePos = Input.getMousePosition();
+    for (let i = 0; i < menuPageText[currentPage].length; i++) {
+      if (pointIsInBox(mousePos, {x: itemsX, y: topItemY + rowHeight * i}, {x: itemsX + itemsWidth, y: topItemY + rowHeight * i + rowHeight})) {
+        cursor1 = i;
+        pointingAt = i;
+      }
+    }
+
+
     //Wobble the cursors back and forth
-    if (wobble < -4 || 4 < wobble) {
+    if (wobble < 8 || 16 < wobble) {
       wobbleSpeed = -wobbleSpeed;
     }
     wobble += wobbleSpeed;
@@ -112,10 +127,10 @@ const Menu = new (function() {
     drawTextWithShadow(gameContext, 240, 40, FONT_COLOR, MENU_FONT, 'left', 'middle', "Chickens Gambol");
 
     for (let i = 0; i < menuPageText[currentPage].length; i++) {
-      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, FONT_COLOR, SLIME_FONT, 'left', 'middle', menuPageText[currentPage][i]);
+      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, FONT_COLOR, SLIME_FONT, 'left', 'top', menuPageText[currentPage][i]);
     }
 
-    drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) - wobble);
+    drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) + wobble);
   };
 
 })();

@@ -166,8 +166,7 @@ const Unit = function(team, settings) {
   };
 
   this.isInBox = function(point1, point2) {
-    return ((this.x - point1.x) * (this.x - point2.x) < 0) &&
-      ((this.y - point1.y) * (this.y - point2.y) < 0);
+    return pointIsInBox(this, point1, point2);
   };
 
   this.disable = function() {
