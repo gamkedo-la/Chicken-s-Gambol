@@ -70,7 +70,6 @@ const Menu = new (function() {
       }
     }
 
-
     //Wobble the cursors back and forth
     if (wobble < 8 || 16 < wobble) {
       wobbleSpeed = -wobbleSpeed;
@@ -123,11 +122,10 @@ const Menu = new (function() {
   };
 
   this.draw = function() {
-
-    gameContext.drawImage(Images.startMenu,0,0); // logo and main menu bg
+    gameContext.drawImage(Images.startMenu, 0, 0); // logo and main menu bg
 
     for (let i = 0; i < menuPageText[currentPage].length; i++) {
-      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, FONT_COLOR, SLIME_FONT, 'left', 'top', menuPageText[currentPage][i]);
+      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, MENU_COLOR, MENU_FONT, 'left', 'top', menuPageText[currentPage][i]);
     }
 
     drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) + wobble);

@@ -18,6 +18,7 @@ const MAX_BUILD_DISTANCE_SQUARED = MAX_BUILD_DISTANCE * MAX_BUILD_DISTANCE;
 const FONT_COLOR = '#7f5333';
 const SHADOW_COLOR = '#351b14';
 const MENU_FONT = '24px compass';
+const MENU_COLOR = '#cff09e';
 const BUTTON_COUNT_FONT = '16px compass';
 const UNITS_FONT = '18px compass';
 const SLIME_FONT = '26px compass';
