@@ -1,12 +1,9 @@
 const Menu = new (function() {
-  //-----BEGIN GLOBAL SETTINGS-----//
-  let MENU_COLOR = "russet";
-  let MENU_FONT = "24px compass";
-  let MENU_ROW = [340, 335, 335, 340, 340];
-  let menuColumnPos = [260, 300, 340, 380, 420];
-  let mouseColumnPos = [260, 300, 340, 380, 420];
+  let itemsX = 340;
+  let topItemY = 260;
+  let rowHeight = 40;
 
-  let wobble = 10;
+  let wobble = 0;
   let wobbleSpeed = 0.25;
   let cursor1 = 0;
   let currentPage = 0;
@@ -16,8 +13,6 @@ const Menu = new (function() {
   let classListSettings = ["Sounds", "Music", "Back"];
   let classListHelp = ["How to play", "Control layout", "Back"];
   let classListCredits = ['Caspar Dunant', "Back"];
-
-  let classListPause = ["Continue", "Save", "Quit"];
 
   const MENU_PAGE = 0;
   const LEVELS_PAGE = 1;
@@ -32,9 +27,6 @@ const Menu = new (function() {
     classListHelp,
     classListCredits
   ];
-
-  let pausePageText = [classListPause];
-//-----END GLOBAL SETTINGS-----//
 
   this.initialize = function() {
     let length = levels.length;
@@ -63,6 +55,12 @@ const Menu = new (function() {
         cursor1 = 0;
       }
     }
+
+    //Wobble the cursors back and forth
+    if (wobble < -4 || 4 < wobble) {
+      wobbleSpeed = -wobbleSpeed;
+    }
+    wobble += wobbleSpeed;
   };
 
   this.checkState = function() {
@@ -92,11 +90,9 @@ const Menu = new (function() {
         break;
 
       case "How to play":
-        //Handle help screen differently;
         console.log("TODO implement how to play");
         break;
       case "Control layout":
-        //Handle Control layout screen differently;
         console.log("TODO implement control layout");
         break;
       case "Back":
@@ -116,25 +112,10 @@ const Menu = new (function() {
     drawTextWithShadow(gameContext, 240, 40, FONT_COLOR, MENU_FONT, 'left', 'middle', "Chickens Gambol");
 
     for (let i = 0; i < menuPageText[currentPage].length; i++) {
-      drawTextWithShadow(gameContext, MENU_ROW[i], menuColumnPos[i], MENU_COLOR, SLIME_FONT, 'left', 'middle', menuPageText[currentPage][i]);
+      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, FONT_COLOR, SLIME_FONT, 'left', 'middle', menuPageText[currentPage][i]);
     }
 
-    //Display previous score
-    //drawText(gameContext,MENU_ROW0, menuColumnPos[4],FONT_COLOR, SLIME_FONT, 'left', 'middle',"Score: " );
-
-    //Draw cursor
-    drawImage(gameContext, Images.menuCursor, MENU_ROW[0] - 20, menuColumnPos[cursor1] - wobble + 8);
-    //Wobble the cursors back and forth
-    if (wobble > 13 || wobble < 9) {
-      wobbleSpeed *= -1;
-    }
-    wobble += wobbleSpeed;
-
+    drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) - wobble);
   };
 
-  this.pauseScreen = function() {
-    for (let i = 0; i < pausePageText[currentPage].length; i++) {
-      drawText(gameContext, MENU_ROW[i], menuColumnPos[i], SHADOW_COLOR, SLIME_FONT, 'left', 'middle', pausePageText[currentPage][i]);
-    }
-  };
 })();

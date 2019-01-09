@@ -107,17 +107,6 @@ function gameUpdate(delta) {
 }
 
 function gameDraw(interpolationPercentage) {
-  if (!pause && Input.isPressed(KEY.P)) {
-    MainLoop.stop();
-    Menu.pauseScreen();
-    redrawCanvas();
-    pause = true;
-  }
-  else if (pause && Input.isPressed(KEY.P)) {
-    MainLoop.start();
-    pause = false;
-    return;
-  }
   if (gameIsStarted === false) {
     Menu.draw();
     redrawCanvas();
