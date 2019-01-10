@@ -15,11 +15,13 @@ const HotKeys = new (function() {
 	  }
     }
 
-    // test dead bodies: insta-kill first chicken
+    // test dead bodies: insta-kill the known first unit
+    /*
     if (Input.isPressed(KEY.K)) {
       console.log("CHEAT KEY! [K]ILL A UNIT!");
       Game.units[0].doDamage(999);
     }
+    */
 
 
     if (Input.isPressed(KEY.PERIOD)) {
