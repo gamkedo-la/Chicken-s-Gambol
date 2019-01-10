@@ -31,44 +31,44 @@ const AIPlayer = new (function() {
     elapsedSinceUpdate += delta;
     if (updateInterval <= elapsedSinceUpdate) {
 	  elapsedSinceUpdate = 0;
-	  
+
 	  this.clearEnemyAndPlayerUnitArrays();
 	  this.findAllEnemyUnits();
 	  this.findAllPlayerUnits();
-	  
+
 	  this.collectSlime();
-	  	  
+
 	  //if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
 	 //   this.defendSlime();
 	  //}
-	  
+
 	  //this.attackAllPlayerUnits();
     }
-  };  
-  
+  };
+
   this.getUnitHealth = function (unit){
     console.log(unit.getHealth());
   }
-  
+
   this.getUnitMaxHealth = function (unit){
     console.log(unit.getMaxHealth());
   }
-  
+
   this.collectSlime = function(){
 	let length = allEnemyChickenUnits.length;
-	for (i = 0; i < length; i++){
-	  allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatchEnemy(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
+	for (let i = 0; i < length; i++){
+	  allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
 	}
   }
-  
+
   this.defendSlime = function(){
     let length = allPlayerMovingUnits.length;
-	for (i = 0; i < length; i++){
+	for (let i = 0; i < length; i++){
 	  //console.log(allPlayerMovingUnits[i].getTarget());
 	  if (allPlayerMovingUnits[i].getTarget() === allEnemySlimeUnits[0]){
 		//console.log("target found");
 		let enemyUnitsLength = allEnemyMovingUnits.length;
-	    for (let j = 0; j < enemyUnitsLength; j++){ 
+	    for (let j = 0; j < enemyUnitsLength; j++){
 		  allEnemyMovingUnits[j].setTarget(allPlayerMovingUnits[i]);
 		}
 	  }
@@ -120,10 +120,10 @@ const AIPlayer = new (function() {
 		  allEnemySlimeUnits.push(unit);
 		  break;
 		}
-      
+
 	  }
   });
-  
+
   this.findAllPlayerUnits = (function(){
 
     let length = Game.units.length;
@@ -133,7 +133,7 @@ const AIPlayer = new (function() {
         allPlayerUnits.push(unit);
 	  }
 	}
-	
+
 	length = allPlayerUnits.length;
       for (let i = 0; i < length; i++) {
         let unit = allPlayerUnits[i];
@@ -156,26 +156,26 @@ const AIPlayer = new (function() {
 			break;
 		}
 	  }
-		
+
   });
-  
+
   this.attackAllPlayerUnits = (function(){
-	  
+
 	let enemyUnitsLength = allEnemyMovingUnits.length;
-	for (let i = 0; i < enemyUnitsLength; i++){ 
-	
+	for (let i = 0; i < enemyUnitsLength; i++){
+
 	  let playerUnitsLength = allPlayerUnits.length;
-	  for (let j = 0; j < playerUnitsLength; j++){ 
-	  
+	  for (let j = 0; j < playerUnitsLength; j++){
+
 		let enemyUnit = allEnemyMovingUnits[i];
 		  if(allPlayerUnits[j].canDamage() === true /* && allPlayerUnits[j].constructor.name != "Slime"*/){ //Bug: attacking slime causes game to slow/crash
 		     enemyUnit.setTarget(allPlayerUnits[j]);
 		  }
-		  
+
 	  }
-		
+
 	}
-	
+
   });
 
   this.clearEnemyAndPlayerUnitArrays = (function (){
