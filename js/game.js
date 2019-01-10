@@ -13,6 +13,7 @@ let Game = new (function() {
   let absoluteMaxNumUnits = ABS_MIN_NUM_UNITS;
 
   let numSlime = STARTING_AMOUNT_SLIME;
+  let numSlimeAI = STARTING_AMOUNT_SLIME;
 
   this.scheduleRemoveDeadUnits = function() {
     removeDeadUnits = true;
@@ -54,8 +55,13 @@ let Game = new (function() {
     return maxNumUnits;
   };
 
-  this.addSlime = function(amount) {
-    numSlime += amount;
+  this.addSlime = function(amount, team) {
+	if (team === TEAM_PLAYER){
+	  numSlime += amount;	
+	} else if (team === TEAM_ENEMY){
+	  numSlimeAI += amount;
+	}
+    
   };
   this.subSlime = function(amount) {
     numSlime -= amount;

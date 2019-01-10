@@ -102,8 +102,13 @@ const Slime = function(team, settings) {
     }
 
     patch.slime = slime;
+	
+	if (slime.getTeam() === TEAM_PLAYER){
+	  Game.create(SlimePatch, team, patch);
+	} else if (slime.getTeam() === TEAM_ENEMY){
+	  Game.create(SlimePatchEnemy, team, patch);
+	}
 
-    Game.create(SlimePatch, team, patch);
   }
 
   this._draw = function() {

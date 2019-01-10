@@ -5,12 +5,25 @@ const AIPlayer = new (function() {
 
   let allEnemyUnits = [];
   let allEnemyMovingUnits = [];
+  let allEnemyPigUnits = [];
+  let allEnemyGoblinUnits = [];
+  let allEnemyChickenUnits = [];
   let allEnemyBuildingUnits = [];
-  let allEnemySlimePatchUnits = [];
+  let allEnemyHouseUnits = [];
+  let allEnemyMudpitUnits = [];
+  let allEnemyBarracksUnits = [];
   let allEnemySlimeUnits = [];
+  let allEnemySlimePatchUnits = [];
+
   let allPlayerUnits = [];
   let allPlayerMovingUnits = [];
+  let allPlayerPigUnits = [];
+  let allPlayerGoblinUnits = [];
+  let allPlayerChickenUnits = [];
   let allPlayerBuildingUnits = [];
+  let allPlayerHouseUnits = [];
+  let allPlayerMudpitUnits = [];
+  let allPlayerBarracksUnits = [];
   let allPlayerSlimePatchUnits = [];
   let allPlayerSlimeUnits = [];
 
@@ -22,10 +35,12 @@ const AIPlayer = new (function() {
 	  this.clearEnemyAndPlayerUnitArrays();
 	  this.findAllEnemyUnits();
 	  this.findAllPlayerUnits();
+	  
+	  this.collectSlime();
 	  	  
-	  if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
-	    this.defendSlime();
-	  }
+	  //if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
+	 //   this.defendSlime();
+	  //}
 	  
 	  //this.attackAllPlayerUnits();
     }
@@ -37,6 +52,13 @@ const AIPlayer = new (function() {
   
   this.getUnitMaxHealth = function (unit){
     console.log(unit.getMaxHealth());
+  }
+  
+  this.collectSlime = function(){
+	let length = allEnemyChickenUnits.length;
+	for (i = 0; i < length; i++){
+	  allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatchEnemy(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
+	}
   }
   
   this.defendSlime = function(){
@@ -64,26 +86,41 @@ const AIPlayer = new (function() {
 	}
 
 	length = allEnemyUnits.length;
-      for (let i = 0; i < length; i++) {
-        let unit = allEnemyUnits[i];
-		switch (unit.constructor.name){
-		  case "PigEnemy":
-		  case "GoblinEnemy":
-		  case "ChickenEnemy":
-			allEnemyMovingUnits.push(unit);
-			break;
-		  case "BarracksEnemy":
-		  case "MudPitEnemy":
-		  case "HouseEnemy":
-			allEnemyBuildingUnits.push(unit);
-			break;
-		  case "SlimePatch":
-			allEnemySlimePatchUnits.push(unit);
-			break;
-		  case "SlimeEnemy":
-			allEnemySlimeUnits.push(unit);
-			break;
+    for (let i = 0; i < length; i++) {
+      let unit = allEnemyUnits[i];
+      switch (unit.constructor.name){
+		case "PigEnemy":
+		  allEnemyPigUnits.push(unit);
+	      allEnemyMovingUnits.push(unit);
+		  break;
+		case "GoblinEnemy":
+		  allEnemyGoblinUnits.push(unit);
+		  allEnemyMovingUnits.push(unit);
+	      break;
+		case "ChickenEnemy":
+		  allEnemyChickenUnits.push(unit);
+		  allEnemyMovingUnits.push(unit);
+		  break;
+		case "BarracksEnemy":
+		  allEnemyBarracksUnits.push(unit);
+		  allEnemyBuildingUnits.push(unit);
+		  break;
+		case "MudPitEnemy":
+		  allEnemyMudpitUnits.push(unit);
+		  allEnemyBuildingUnits.push(unit);
+	      break;
+		case "HouseEnemy":
+		  allEnemyHouseUnits.push(unit);
+		  allEnemyBuildingUnits.push(unit);
+		  break;
+		case "SlimePatchEnemy":
+		  allEnemySlimePatchUnits.push(unit);
+		  break;
+		case "SlimeEnemy":
+		  allEnemySlimeUnits.push(unit);
+		  break;
 		}
+      
 	  }
   });
   
@@ -144,7 +181,13 @@ const AIPlayer = new (function() {
   this.clearEnemyAndPlayerUnitArrays = (function (){
     allEnemyUnits = [];
     allEnemyMovingUnits = [];
+	allEnemyPigUnits = [];
+    allEnemyGoblinUnits = [];
+    allEnemyChickenUnits = [];
     allEnemyBuildingUnits = [];
+	allEnemyHouseUnits = [];
+    allEnemyMudpitUnits = [];
+    allEnemyBarracksUnits = [];
     allEnemySlimePatchUnits = [];
     allEnemySlimeUnits = [];
 	allPlayerUnits = [];

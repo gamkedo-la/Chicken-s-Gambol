@@ -28,7 +28,7 @@ const Chicken = function(team, settings) {
   this.childUpdate = function(delta) {
     let target = this.getTarget();
     if (target) {
-      if (canBuildBuilding(target)) {
+      if (this.canBuildBuilding(target)) {
         target.addBuildPercentage(settings.buildSpeed * delta);
         lastHarvestedPosition = undefined;
 
@@ -41,7 +41,7 @@ const Chicken = function(team, settings) {
 
         if (target.isReadyToRemove() && harvested < settings.harvestMax) {
 //          console.log('not enough');
-          this.setTarget(findSlimePatch(this.getPosition()));
+          this.setTarget(this.findSlimePatch(this.getPosition()));
           if (!this.getTarget()) {
 //            console.log('but not found a new patch');
             returnSlime = true;
@@ -54,18 +54,18 @@ const Chicken = function(team, settings) {
         if (returnSlime || settings.harvestMax <= harvested) {
 //          console.log('return slime', returnSlime, 'or max <= carrying', settings.harvestMax, harvested);
           lastHarvestedPosition = this.getPosition();
-          this.setTarget(findMudPit(this.getPosition()));
+          this.setTarget(this.findMudPit(this.getPosition()));
         }
 
         return true;
       }
 
       if (target.constructor === MudPit && lastHarvestedPosition) {
-        Game.addSlime(Math.round(harvested));
+        Game.addSlime(Math.round(harvested), this.getTeam());
 
         harvested = 0;
 
-        this.setTarget(findSlimePatch(lastHarvestedPosition));
+        this.setTarget(this.findSlimePatch(lastHarvestedPosition));
 
         lastHarvestedPosition = undefined;
 
@@ -76,23 +76,23 @@ const Chicken = function(team, settings) {
     return false;
   };
 
-  function canBuildBuilding(target) {
-    if (!target.isComplete) {
+  this.canBuildBuilding = function(target) {
+    if (!target.isComplete || target.isComplete == undefined) {
       return false;
     }
 
     return !target.isComplete() && (target.constructor === House || target.constructor === MudPit || target.constructor === Barracks);
   }
 
-  function findMudPit(position) {
-    return findNearbyitemInList(Game.units, position, MudPit);
+   this.findMudPit = function(position) {
+    return this.findNearbyitemInList(Game.units, position, MudPit);
   }
 
-  function findSlimePatch(position) {
-    return findNearbyitemInList(Game.units, position, SlimePatch, 90000);
+  this.findSlimePatch = function(position) {
+    return this.findNearbyitemInList(Game.units, position, SlimePatch, 90000);
   }
 
-  function findNearbyitemInList(list, position, type, maxDistanceSquared) {
+  this.findNearbyitemInList = function(list, position, type, maxDistanceSquared) {
     let item, distance;
 
     let l = list.length;
@@ -128,6 +128,10 @@ const Chicken = function(team, settings) {
 
     return item;
   }
+  
+  this.getHarvestSpeed = function(){
+	  return settings.harvestSpeed;
+  }
 
   MovingUnit.call(this, team, settings);
 };
@@ -140,8 +144,69 @@ const ChickenEnemy = function(team, settings) {
   settings = extend(settings, {
     sprite: Sprites.chickenEnemy
   });
+  
+  this.findSlimePatchEnemy = function(position, list) {
+    return this.findNearbyitemInList(list, position, SlimePatchEnemy, 9000000);
+  }
+  
+  function findMudPitEnemy(position) {
+    return this.findNearbyitemInList(Game.units, position, MudPitEnemy, 9000000);
+  }
 
   Chicken.call(this, team, settings);
+  
+  this.childUpdate = function(delta) {
+	console.log(this.harvested);
+    let target = this.getTarget();
+    if (target) {
+      if (this.canBuildBuilding(target)) {
+        target.addBuildPercentage(settings.buildSpeed * delta);
+        lastHarvestedPosition = undefined;
+
+        return true;
+      }
+
+      if (target.constructor === SlimePatchEnemy) {
+        let returnSlime = false;
+		//console.log(ChickenEnemy.settings.harvestSpeed);
+        this.harvested += target.collectSlime(this.getHarvestSpeed(this) * delta);
+
+        if (target.isReadyToRemove() && this.harvested < settings.harvestMax) {
+//          console.log('not enough');
+          this.setTarget(findSlimePatchEnemy(this.getPosition()));
+          if (!this.getTarget()) {
+//            console.log('but not found a new patch');
+            returnSlime = true;
+          }
+//          else {
+//            console.log('but found a new patch');
+//          }
+        }
+
+        if (returnSlime || settings.harvestMax <= this.harvested) {
+//          console.log('return slime', returnSlime, 'or max <= carrying', settings.harvestMax, this.harvested);
+          lastHarvestedPosition = this.getPosition();
+          this.setTarget(findMudPitEnemy(this.getPosition()));
+        }
+
+        return true;
+      }
+
+      if (target.constructor === MudPitEnemy && lastHarvestedPosition) {
+        Game.addSlime(Math.round(this.harvested), this.getTeam());
+
+        this.harvested = 0;
+
+        this.setTarget(findSlimePatchEnemy(lastHarvestedPosition));
+
+        lastHarvestedPosition = undefined;
+
+        return true;
+      }
+    }
+
+    return false;
+  };
 };
 
 ChickenEnemy.prototype = Object.create(Chicken.prototype);
