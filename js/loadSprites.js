@@ -267,52 +267,52 @@ let Sprites = new (function() {
       image: 'pig',
       frames: {
         default: {
-          frames: 1,
+          frames: 2,
           frameTime: .2,
-          width: 32,
-          height: 32,
-          firstFrameX: 0,
+          width: 36,
+          height: 36,
+          firstFrameX: 144,
           firstFrameY: 0
         },
         attack: {
-          frames: 1,
+          frames: 6,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
           firstFrameY: 0
         },
         moveRight: {
-          frames: 1,
+          frames: 6,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 36
         },
         moveLeft: {
-          frames: 1,
+          frames: 6,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 72
         },
         moveUp: {
           frames: 1,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 144
         },
         moveDown: {
           frames: 1,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 108
         }
       }
     },
@@ -320,52 +320,52 @@ let Sprites = new (function() {
       image: 'pigEnemy',
       frames: {
         default: {
-          frames: 1,
+          frames: 3,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
           firstFrameY: 0
         },
         attack: {
-          frames: 1,
+          frames: 6,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
           firstFrameY: 0
         },
         moveRight: {
-          frames: 1,
+          frames: 6,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 26
         },
         moveLeft: {
           frames: 1,
           frameTime: .2,
-          width: 32,
-          height: 32,
-          firstFrameX: 0,
+          width: 36,
+          height: 36,
+          firstFrameX: 72,
           firstFrameY: 0
         },
         moveUp: {
           frames: 1,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 144
         },
         moveDown: {
           frames: 1,
           frameTime: .2,
-          width: 32,
-          height: 32,
+          width: 36,
+          height: 36,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 108
         }
       }
     },
