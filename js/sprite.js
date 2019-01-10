@@ -1,6 +1,4 @@
 const Sprite = function (spriteConfig, currentState = 'default') {
-    
-    //Hellow World, Test practice using git -Neveen;
 
   const image = spriteConfig.image;
   const frameConfig = spriteConfig.frames;
