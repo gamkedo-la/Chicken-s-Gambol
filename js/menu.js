@@ -29,7 +29,7 @@ const Menu = new (function() {
 "selection by number key, slime patch organic randomization",
 "• Vaan Hope Khani: Interface concept and texture, main menu code, compiled",
 "credits, minimap interaction improvements",
-"• Christer \"McFunkypants\" Kaitila: Auto-attack and helper functions for AI,",
+"• Christer \"McFunkypants\" Kaitila: Helper functions for AI,",
 "footprints decal art and code, title screen, logo, additional chicken sounds,",
 "pathfinding with preview arrows, defeated character poses and fade out code",
 "• Terrence McDonnell: Mouse chicken cursor, scroll UI art, feedback cursors",
@@ -161,7 +161,7 @@ const Menu = new (function() {
       let creditsLineSkipY = 19;
       for (let i = 0; i < creditsList.length; i++) {
         drawTextWithShadow(gameContext, creditsX, creditsTopY + creditsLineSkipY * i, MENU_COLOR, MENU_FONT, 'left', 'top', creditsList[i]);
-      }    
+      }
     } else {
       gameContext.drawImage(Images.startMenu, 0, 0); // logo and main menu bg
 
