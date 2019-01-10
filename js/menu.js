@@ -16,6 +16,33 @@ const Menu = new (function() {
   let classListHelp = ["How to play", "Control layout", "Back"];
   let classListCredits = ['Caspar Dunant', "Back"];
 
+  let creditsList =
+["• Caspar \"SpadXIII\" Dunant: Project co-lead, initial implementation and setup,",
+"unit selection and movement, scrolling view, main interface code, unit behavior",
+"and collision, build and construction code, slime harvesting, level editor,",
+"animation class, input handling, in-game debug view, CSS, win/loss code",
+"• Marc Silva: Project co-lead, art and most animations for chicken, slime blob,",
+"pig, and goblin characters, house art",
+"• Vince McKeown: Art for grass, dirt, house and buildings (including damaged",
+"and destroyed states), goblin sprite integration",
+"• Brian Boucher: AI enemy army programming and related optimizations, group",
+"selection by number key, slime patch organic randomization",
+"• Vaan Hope Khani: Interface concept and texture, main menu code, compiled",
+"credits, minimap interaction improvements",
+"• Christer \"McFunkypants\" Kaitila: Auto-attack and helper functions for AI,",
+"footprints decal art and code, title screen, logo, additional chicken sounds,",
+"pathfinding with preview arrows, defeated character poses and fade out code",
+"• Terrence McDonnell: Mouse chicken cursor, scroll UI art, feedback cursors",
+"• Stebs: Intro song, chicken idle sounds and integration",
+"• Kise: Minimap main functionality",
+"• Trenton Pegeas: Snow tiles",
+"• Chris Markle: Goblin attack, selection, walking, and spawning sounds",
+"• Jaime Rivas: Particle effects base code",
+"• Buddie Chapman: UI button support",
+"• Ryan Gaillard: Clicking on mini-map to jump view",
+"• Chris DeLeon: Minimap shows box for screen area, credits integration",
+"          -- Click anywhere to return -- Game made in Gamkedo Club! --"];
+
   const MENU_PAGE = 0;
   const LEVELS_PAGE = 1;
   const SETTINGS_PAGE = 2;
@@ -44,8 +71,13 @@ const Menu = new (function() {
     if (Input.isPressed(KEY.SPACE) || Input.isPressed(KEY.ENTER)) {
       this.checkState();
     }
-    else if (pointingAt !== -1 && Input.isPressed(KEY.MOUSE_LEFT)) {
-      this.checkState();
+    else if (Input.isPressed(KEY.MOUSE_LEFT)) {
+      if(currentPage == CREDITS_PAGE) {
+        currentPage = MENU_PAGE;
+        cursor1 = 0;
+      } else if(pointingAt !== -1) {
+        this.checkState();
+      }
     }
 
     if (Input.isPressed(KEY.UP)) {
@@ -122,13 +154,23 @@ const Menu = new (function() {
   };
 
   this.draw = function() {
-    gameContext.drawImage(Images.startMenu, 0, 0); // logo and main menu bg
+    if(currentPage == CREDITS_PAGE) {
+      drawFillRect(gameContext, 0, 0, gameCanvas.width, gameCanvas.height, "black", 0.2);
+      let creditsX = 11;
+      let creditsTopY = 0;
+      let creditsLineSkipY = 19;
+      for (let i = 0; i < creditsList.length; i++) {
+        drawTextWithShadow(gameContext, creditsX, creditsTopY + creditsLineSkipY * i, MENU_COLOR, MENU_FONT, 'left', 'top', creditsList[i]);
+      }    
+    } else {
+      gameContext.drawImage(Images.startMenu, 0, 0); // logo and main menu bg
 
-    for (let i = 0; i < menuPageText[currentPage].length; i++) {
-      drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, MENU_COLOR, MENU_FONT, 'left', 'top', menuPageText[currentPage][i]);
+      for (let i = 0; i < menuPageText[currentPage].length; i++) {
+        drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, MENU_COLOR, MENU_FONT, 'left', 'top', menuPageText[currentPage][i]);
+      }
+
+      drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) + wobble);
     }
-
-    drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) + wobble);
   };
 
 })();
