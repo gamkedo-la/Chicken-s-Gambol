@@ -57,8 +57,10 @@ const AIPlayer = new (function() {
   this.collectSlime = function(){
 	let length = allEnemyChickenUnits.length;
 	for (let i = 0; i < length; i++){
-	  allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
-	}
+	  if (allEnemyChickenUnits[i].getTarget() === undefined){
+        allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
+      }
+    }
   }
 
   this.defendSlime = function(){

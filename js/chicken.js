@@ -35,7 +35,7 @@ const Chicken = function(team, settings) {
         return true;
       }
 
-      if (target.constructor === SlimePatch) {
+      if (target.constructor === SlimePatch || target.constructor === SlimePatchEnemy) {
         let returnSlime = false;
         harvested += target.collectSlime(settings.harvestSpeed * delta);
 
@@ -60,7 +60,7 @@ const Chicken = function(team, settings) {
         return true;
       }
 
-      if (target.constructor === MudPit && lastHarvestedPosition) {
+      if ((target.constructor === MudPit || target.constructor === MudPitEnemy ) && lastHarvestedPosition) {
         Game.addSlime(Math.round(harvested), this.getTeam());
 
         harvested = 0;
