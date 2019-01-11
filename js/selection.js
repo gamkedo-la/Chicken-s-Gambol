@@ -45,10 +45,7 @@ let Selection = new (function() {
     selection.push(unit);
     unit.select();
 
-    console.log(selection[0]);
-
-    if (selection[0] = Pig) {
-      console.log("pig selected");
+    if (unit.constructor === Pig) {
       pig_select_sound.play();
     }
   };
@@ -107,15 +104,6 @@ let Selection = new (function() {
       Selection.removeEnemiesAndBuildingsFromSelection();
       selectionChanged();
     }
-
-    let selections = Selection.getSelection();
-    for (let i = 0; i < selections.length; i++) {
-      if (selections[i] = Pig) {
-        pig_select_sound.play();
-        return
-      }
-    }
-
   }
 
   function handleLeftClick() {

@@ -72,7 +72,7 @@ const Menu = new (function() {
       this.checkState();
     }
     else if (Input.isPressed(KEY.MOUSE_LEFT)) {
-      if(currentPage == CREDITS_PAGE) {
+      if(currentPage === CREDITS_PAGE) {
         currentPage = MENU_PAGE;
         cursor1 = 0;
       } else if(pointingAt !== -1) {
