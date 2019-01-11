@@ -27,6 +27,7 @@ const Unit = function(team, settings) {
   this.damage = settings.damage;
 
   let readyToRemove = false;
+  let removedFromUnitCount = false;
   let enabled = true;
   let isSelected = false;
   let visible = false;
@@ -128,9 +129,16 @@ const Unit = function(team, settings) {
 
   }
 
-  this.doDamage = function(damage) {
+  this.doDamage = function(damage) {  
     health -= damage;
     if (health <= 0) {
+      let c = this.constructor;
+      if (c === Chicken || c === Goblin || c === Pig || c === ChickenEnemy || c === GoblinEnemy || c === PigEnemy) {
+        if(!removedFromUnitCount){
+          Game.subUnit(this.getTeam());
+          removedFromUnitCount = true;
+        }
+      }
 
       this.leaveDeadBody()
 

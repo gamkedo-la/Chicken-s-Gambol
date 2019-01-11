@@ -46,6 +46,8 @@ const AIPlayer = new (function() {
 
       this.sendChickenToCompleteBuilding();
 
+      this.buildEnemyUnit(PigEnemy);
+
 /*    if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
         this.defendSlime();
       }
@@ -78,6 +80,15 @@ const AIPlayer = new (function() {
     Game.buildHouse(TEAM_ENEMY);
     Game.create(HouseEnemy, TEAM_ENEMY, settings);
     housePlaced = true;
+  }
+  
+  this.buildEnemyUnit = function(unitConstructor){
+    let barracks;
+    let length = allEnemyBarracksUnits.length;
+      for (let i = 0; i < length; i++){ // This currently just selects the last enemy barracks in the array.
+        barracks = allEnemyBarracksUnits[i];
+      }
+    barracks.queueUnit(unitConstructor);
   }
   
   this.sendChickenToCompleteBuilding = function(){

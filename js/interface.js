@@ -171,6 +171,8 @@ const Interface = new (function() {
     //draw AI debug info
     if (DEBUG){
       drawText(gameContext, 10, 10, 'White', SLIME_FONT, 'left', 'middle', 'AI Slime: ' + Game.getNumSlime(TEAM_ENEMY));
+      drawText(gameContext, 10, 30, 'White', SLIME_FONT, 'left', 'middle', 'AI Units: ' + Game.getNumUnits(TEAM_ENEMY));
+      drawText(gameContext, 10, 50, 'White', SLIME_FONT, 'left', 'middle', 'AI Max Units: ' + Game.getMaxNumUnits(TEAM_ENEMY));
     }
   };
 
