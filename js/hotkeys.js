@@ -50,13 +50,13 @@ const HotKeys = new (function() {
     }
     else if (Selection.hasOnlySelected(Chicken)) {
       if (Input.isPressed(KEY.H)) {
-        Game.buildHouse();
+        Game.buildHouse(TEAM_PLAYER);
       }
       else if (Input.isPressed(KEY.M)) {
-        Game.buildMudPit();
+        Game.buildMudPit(TEAM_PLAYER);
       }
       else if (Input.isPressed(KEY.B)) {
-        Game.buildBarracks();
+        Game.buildBarracks(TEAM_PLAYER);
       }
     }
 

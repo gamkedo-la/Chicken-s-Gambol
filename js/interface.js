@@ -37,9 +37,9 @@ const Interface = new (function() {
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
-      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
+      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonHouse),
+      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
+      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
     ];
 
     unitBuildButtons = [
@@ -164,9 +164,14 @@ const Interface = new (function() {
 
     // draw  text
     drawTextWithShadow(gameContext, 658, 160, FONT_COLOR, UNITS_FONT, 'left', 'middle', 'Units');
-    drawTextWithShadow(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', Game.getNumUnits() + '/' + Game.getMaxNumUnits());
+    drawTextWithShadow(gameContext, 757, 160, FONT_COLOR, UNITS_FONT, 'right', 'middle', Game.getNumUnits(TEAM_PLAYER) + '/' + Game.getMaxNumUnits(TEAM_PLAYER));
     drawTextWithShadow(gameContext, 315, 403, FONT_COLOR, SLIME_FONT, 'left', 'middle', 'Slime');
-    drawTextWithShadow(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime());
+    drawTextWithShadow(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime(TEAM_PLAYER));
+
+    //draw AI debug info
+    if (DEBUG){
+      drawText(gameContext, 10, 10, 'White', SLIME_FONT, 'left', 'middle', 'AI Slime: ' + Game.getNumSlime(TEAM_ENEMY));
+    }
   };
 
 })();

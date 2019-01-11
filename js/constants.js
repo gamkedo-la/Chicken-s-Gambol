@@ -59,6 +59,12 @@ COSTS['MudPit'] = 30;
 COSTS['Chicken'] = 30;
 COSTS['Pig'] = 30;
 COSTS['Goblin'] = 30;
+COSTS['HouseEnemy'] = 30;
+COSTS['BarracksEnemy'] = 30;
+COSTS['MudPitEnemy'] = 30;
+COSTS['ChickenEnemy'] = 30;
+COSTS['PigEnemy'] = 30;
+COSTS['GoblinEnemy'] = 30;
 
 const TILE = {
   TEAM_PLAYER: 1,

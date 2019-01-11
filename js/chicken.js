@@ -81,10 +81,11 @@ const Chicken = function(team, settings) {
       return false;
     }
 
-    return !target.isComplete() && (target.constructor === House || target.constructor === MudPit || target.constructor === Barracks);
+    return !target.isComplete() && (target.constructor === House || target.constructor === MudPit || target.constructor === Barracks ||
+                                    target.constructor === HouseEnemy || target.constructor === MudPitEnemy || target.constructor === BarracksEnemy);
   };
 
-   this.findMudPit = function(position) {
+  this.findMudPit = function(position) {
     return this.findNearbyitemInList(Game.units, position, [MudPit, MudPitEnemy], team);
   };
 

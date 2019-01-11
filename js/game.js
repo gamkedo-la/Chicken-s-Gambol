@@ -8,7 +8,9 @@ let Game = new (function() {
   let removeDeadUnits = false;
 
   let numUnits = 0;
+  let numUnitsAI = 0;
   let maxNumUnits = MIN_NUM_UNITS;
+  let maxNumUnitsAI = MIN_NUM_UNITS;
   let absoluteMinNumUnits = MIN_NUM_UNITS;
   let absoluteMaxNumUnits = ABS_MIN_NUM_UNITS;
 
@@ -28,67 +30,116 @@ let Game = new (function() {
     this.units.push(unit);
 
     let c = unit.constructor;
-    if (c === Chicken || c === Goblin || c === Pig) {
-      this.addUnit();
+    if (c === Chicken || c === Goblin || c === Pig || c === ChickenEnemy || c === GoblinEnemy || c === PigEnemy) {
+      this.addUnit(team);
     }
 
     return unit;
   };
 
-  this.addUnit = function() {
-    numUnits++;
+  this.addUnit = function(team) {
+    if (team === TEAM_PLAYER){
+      numUnits++;
+    } else if (team === TEAM_ENEMY){
+      numUnitsAI++;
+    }
   };
-  this.subUnit = function() {
-    numUnits--;
+  
+  this.subUnit = function(team) {
+    if (team === TEAM_PLAYER){
+      numUnits--;
+    } else if (team === TEAM_ENEMY){
+      numUnitsAI--;
+    }
   };
-  this.getNumUnits = function() {
-    return numUnits;
+  
+  this.getNumUnits = function(team) {
+    if (team === TEAM_PLAYER){
+      return numUnits;
+    } else if (team === TEAM_ENEMY){
+      return numUnitsAI;
+    }
   };
 
-  this.addMaxNumUnits = function(amount) {
-    maxNumUnits = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
+  this.addMaxNumUnits = function(amount, team) {
+    if (team === TEAM_PLAYER){
+      maxNumUnits = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
+    } else if (team === TEAM_ENEMY){
+      maxNumUnitsAI = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
+    }
   };
-  this.subMaxNumUnits = function(amount) {
-    maxNumUnits = Math.max(absoluteMinNumUnits, maxNumUnits - amount);
+  
+  this.subMaxNumUnits = function(amount, team) {
+    if (team === TEAM_PLAYER){
+      maxNumUnits = Math.max(absoluteMinNumUnits, maxNumUnits - amount);
+    } else if (team === TEAM_ENEMY){
+      maxNumUnitsAI = Math.max(absoluteMinNumUnits, maxNumUnitsAI - amount);
+    }
   };
-  this.getMaxNumUnits = function() {
-    return maxNumUnits;
+  
+  this.getMaxNumUnits = function(team) {
+    if (team === TEAM_PLAYER){
+      return maxNumUnits;
+    } else if (team === TEAM_ENEMY){
+      return maxNumUnitsAI;
+    }
   };
 
   this.addSlime = function(amount, team) {
-	if (team === TEAM_PLAYER){
-	  numSlime += amount;	
-	} else if (team === TEAM_ENEMY){
-	  numSlimeAI += amount;
-	}
+    if (team === TEAM_PLAYER){
+      numSlime += amount;
+    } else if (team === TEAM_ENEMY){
+      numSlimeAI += amount;
+    }
     
   };
-  this.subSlime = function(amount) {
-    numSlime -= amount;
+  
+  this.subSlime = function(amount, team) {
+    if (team === TEAM_PLAYER){
+      numSlime -= amount;
+    } else if (team === TEAM_ENEMY){
+      numSlimeAI -= amount;
+    }
   };
-  this.getNumSlime = function(amount) {
-    return numSlime;
+  
+  this.getNumSlime = function(team) {
+    if (team === TEAM_PLAYER){
+      return numSlime;
+    } else if (team === TEAM_ENEMY){
+      return numSlimeAI;
+    }
   };
 
-  this.canCreateUnit = function() {
-    return numUnits < maxNumUnits;
+  this.canCreateUnit = function(team = TEAM_PLAYER) {
+    if (team === TEAM_PLAYER){
+      return numUnits < maxNumUnits;
+    } else if (team === TEAM_ENEMY){
+      return numUnitsAI < maxNumUnitsAI;
+    }
   };
 
-  this.hasAmountOfSlimeAvailable = function(amount) {
-    return amount <= numSlime;
+  this.hasAmountOfSlimeAvailable = function(amount, team) {
+    if (team === TEAM_PLAYER){
+      return amount <= numSlime;
+    } else if (team === TEAM_ENEMY){
+      return amount <= numSlimeAI;
+    }
   };
 
-  this.buildButton = function(Constructor, previewImage) {
-    if (!this.hasAmountOfSlimeAvailable(COSTS[Constructor.name])) {
+  this.buildButton = function(Constructor, previewImage, team) {
+
+    if (!this.hasAmountOfSlimeAvailable(COSTS[Constructor.name], team)) {
       return;
     }
 
-    this.subSlime(COSTS[Constructor.name]);
+    this.subSlime(COSTS[Constructor.name], team);
 
-    buildPreviewImage = previewImage;
-    buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
-    this.buildActionConstructor = Constructor;
-    placedBuilding = false;
+    if (team === TEAM_PLAYER){
+      buildPreviewImage = previewImage;
+      buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
+      this.buildActionConstructor = Constructor;
+      placedBuilding = false;
+    }
   };
 
   this.cancelBuildButton = function(Constructor) {
@@ -102,16 +153,28 @@ let Game = new (function() {
     return this.buildActionConstructor !== false;
   };
 
-  this.buildHouse = function() {
-    this.buildButton(House, Images.housePreview);
+  this.buildHouse = function(team) {
+    if (team === TEAM_PLAYER){
+      this.buildButton(House, Images.housePreview, team);
+    } else if (team === TEAM_ENEMY){
+      this.buildButton(HouseEnemy, Images.housePreview, team);
+    }
   };
 
-  this.buildMudPit = function() {
-    this.buildButton(MudPit, Images.mudPitPreview);
+  this.buildMudPit = function(team) {
+    if (team === TEAM_PLAYER){
+      this.buildButton(MudPit, Images.mudPitPreview, team);
+    } else if (team === TEAM_ENEMY){
+      this.buildButton(MudPitEnemy, Images.mudPitPreview, team);
+    }
   };
 
-  this.buildBarracks = function() {
-    this.buildButton(Barracks, Images.barracksPreview);
+  this.buildBarracks = function(team) {
+    if (team === TEAM_PLAYER){
+      this.buildButton(Barracks, Images.barracksPreview, team);
+    } else if (team === TEAM_ENEMY){
+      this.buildButton(BarracksEnemy, Images.barracksPreview, team);
+    }
   };
 
   this.deleteSelection = function() {
@@ -132,7 +195,7 @@ let Game = new (function() {
 
       let c = selection[i].constructor;
       if (c === Chicken || c === Goblin || c === Pig) {
-        Game.subUnit();
+        Game.subUnit(selection[0].getTeam());
       }
     }
 
