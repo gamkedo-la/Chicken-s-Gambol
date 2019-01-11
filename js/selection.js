@@ -47,7 +47,7 @@ let Selection = new (function() {
 
     console.log(selection[0]);
 
-    if (selection[0] = Pig) {
+    if (selection[0].constructor == Pig) {
       console.log("pig selected");
       pig_select_sound.play();
     }
@@ -110,7 +110,7 @@ let Selection = new (function() {
 
     let selections = Selection.getSelection();
     for (let i = 0; i < selections.length; i++) {
-      if (selections[i] = Pig) {
+      if (selection[0].constructor === Pig) {
         pig_select_sound.play();
         return
       }
