@@ -110,7 +110,7 @@ let Selection = new (function() {
 
     let selections = Selection.getSelection();
     for (let i = 0; i < selections.length; i++) {
-      if (selection[0].constructor === Pig) {
+      if (selection[i].constructor === Pig) {
         pig_select_sound.play();
         return
       }
