@@ -2,7 +2,7 @@ const Menu = new (function() {
   let itemsX = 340;
   let topItemY = 260;
   let itemsWidth = 300;
-  let rowHeight = 40;
+  let rowHeight = 60;
 
   let wobble = 12;
   let wobbleSpeed = 0.25;
