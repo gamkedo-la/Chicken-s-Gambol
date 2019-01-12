@@ -154,7 +154,7 @@ const Menu = new (function() {
   };
 
   this.draw = function() {
-    if(currentPage == CREDITS_PAGE) {
+    if(currentPage === CREDITS_PAGE) {
       drawFillRect(gameContext, 0, 0, gameCanvas.width, gameCanvas.height, "black", 0.2);
       let creditsX = 11;
       let creditsTopY = 0;

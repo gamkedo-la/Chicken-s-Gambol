@@ -4,6 +4,14 @@ const HotKeys = new (function() {
     if (Input.isPressed(KEY.U)) {
       DEBUG = !DEBUG;
     }
+    if (Input.isPressed(KEY.ESC)) {
+      if (PauseInterface.isPaused()) {
+        PauseInterface.resumeGame();
+      }
+      else {
+        PauseInterface.pauseGame();
+      }
+    }
 
     if (Input.isPressed(KEY.C)) {
       AI_ENABLED = !AI_ENABLED;

@@ -52,6 +52,11 @@ const Interface = new (function() {
     callbackList(buildingBuildButtons, 'disable', []);
   };
 
+  this.unInitialize = function() {
+    callbackList(unitBuildButtons, 'disable', []);
+    callbackList(buildingBuildButtons, 'disable', []);
+  };
+
   this.queueUnit = function(constructor, button) {
     let selection = Selection.getSelection();
 

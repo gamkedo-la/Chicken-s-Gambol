@@ -316,7 +316,7 @@ const Grid = new (function() {
     destination[0]++;
     destination[1]++;
     return destination;
-  }
+  };
 
   this.isWalkableCoords = function(x, y) {
     return this.isWalkableIndex(this.coordsToIndex(x, y));

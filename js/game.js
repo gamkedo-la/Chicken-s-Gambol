@@ -17,6 +17,25 @@ let Game = new (function() {
   let numSlime = STARTING_AMOUNT_SLIME;
   let numSlimeAI = STARTING_AMOUNT_SLIME;
 
+  this.initialize = function() {
+    this.buildActionConstructor = false;
+    buildPreviewImage = false;
+    buildPreviewImageInvalid = false;
+    removeDeadUnits = false;
+
+    numUnits = 0;
+    numUnitsAI = 0;
+    maxNumUnits = MIN_NUM_UNITS;
+    maxNumUnitsAI = MIN_NUM_UNITS;
+
+    numSlime = STARTING_AMOUNT_SLIME;
+    numSlimeAI = STARTING_AMOUNT_SLIME;
+  };
+
+  this.unInitialize = function() {
+    this.units = [];
+  };
+
   this.scheduleRemoveDeadUnits = function() {
     removeDeadUnits = true;
   };

@@ -1,6 +1,5 @@
 let gameCanvas, gameContext;
 let gameIsStarted = false;
-let pause = false;
 
 window.addEventListener('load', function() {
   gameCanvas = document.getElementById('gameCanvas');
@@ -27,21 +26,24 @@ window.addEventListener('load', function() {
 });
 
 function windowOnBlur() {
+  if (gameIsStarted) {
+    PauseInterface.pauseGame();
+    gameDraw(0);
+  }
+
   if (MainLoop.isRunning()) {
-    // Pause gameloop and show pause screen ?
-    console.log('pause');
     MainLoop.stop();
   }
 }
 
 function windowOnFocus() {
   if (!MainLoop.isRunning()) {
-    console.log('resume');
     MainLoop.start();
   }
 }
 
 function menuInitialize() {
+  Game.initialize();
   Input.initialize();
   Menu.initialize();
 
@@ -59,11 +61,24 @@ function gameInitialize(levelId) {
   }
 
   Interface.initialize();
+  PauseInterface.initialize();
 
   Grid.initialize(levels[levelId]);
   Minimap.initialize();
 
   gameIsStarted = true;
+}
+
+function gameUnInitialize() {
+  gameIsStarted = false;
+  Grid.unInitialize();
+  Interface.unInitialize();
+  Selection.clearSelection();
+  Game.unInitialize();
+
+  decalPositions = [];
+
+  AIPlayer.clearEnemyAndPlayerUnitArrays();
 }
 
 function debugMousePos(pos) {
@@ -88,21 +103,28 @@ function gameUpdate(delta) {
     Menu.update();
   }
   else {
-    Grid.update(delta);
-    Game.update(delta);
-    Selection.update(delta);
-    if (DEBUG) {
-      pathPreview.update(delta);
+    if (PauseInterface.isPaused()) {
+      PauseInterface.update();
     }
+    else {
+      Grid.update(delta);
+      Game.update(delta);
+      Selection.update(delta);
+      if (AI_ENABLED) {
+        AIPlayer.update(delta);
+      }
+      if (DEBUG) {
+        pathPreview.update(delta);
+      }
 
-    updateParticles(delta);
+      updateParticles(delta);
+
+      Interface.update(delta);
+    }
 
     HotKeys.update(delta);
-    Interface.update(delta);
-    if (AI_ENABLED) {
-      AIPlayer.update(delta);
-    }
   }
+
   Input.update(delta);
 }
 
@@ -115,30 +137,39 @@ function gameDraw(interpolationPercentage) {
   clearCanvas();
   gameContext.save();
 
-  let panPosition = Grid.getPanPosition();
-  gameContext.translate(-panPosition.x, -panPosition.y);
-
-  screenShake.draw(interpolationPercentage);
-
-  Grid.draw();
-  if (DEBUG) {
-    pathPreview.draw();
+  if (PauseInterface.isPaused()) {
+    PauseInterface.draw();
   }
-  Selection.draw();
-  Game.draw();
-  drawParticles();
+  else {
+    let panPosition = Grid.getPanPosition();
+    gameContext.translate(-panPosition.x, -panPosition.y);
 
-  if (DEBUG) {
-    Grid.drawDebug();
+    screenShake.draw(interpolationPercentage);
 
-    let pos = Input.getMousePosition();
-    let col = Math.floor(pos.x / TILE_SIZE);
-    let row = Math.floor(pos.y / TILE_SIZE);
-    drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
+    Grid.draw();
+    if (DEBUG) {
+      pathPreview.draw();
+    }
+    Selection.draw();
+    Game.draw();
+    drawParticles();
+
+    if (DEBUG) {
+      Grid.drawDebug();
+
+      let pos = Input.getMousePosition();
+      let col = Math.floor(pos.x / TILE_SIZE);
+      let row = Math.floor(pos.y / TILE_SIZE);
+      drawStrokeRect(gameContext, col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE, 'white', 2);
+    }
   }
 
   gameContext.restore();
-  Interface.draw();
+
+  if (!PauseInterface.isPaused()) {
+    Interface.draw();
+  }
+
   redrawCanvas();
 }
 
