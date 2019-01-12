@@ -33,15 +33,15 @@ const Menu = new (function() {
 "footprints decal art and code, title screen, logo, additional chicken sounds,",
 "pathfinding with preview arrows, defeated character poses and fade out code",
 "• Terrence McDonnell: Mouse chicken cursor, scroll UI art, feedback cursors",
-"• Stebs: Intro song, chicken idle sounds and integration",
+"• Stebs: Intro song, chicken idle sounds, and pig audio integration",
 "• Kise: Minimap main functionality",
-"• Trenton Pegeas: Snow tiles",
+"• Trenton Pegeas: Snow tiles, barn barracks and build animation",
 "• Chris Markle: Goblin attack, selection, walking, and spawning sounds",
 "• Jaime Rivas: Particle effects base code",
 "• Buddie Chapman: UI button support",
+"• Ryan Malm: Bug fix in the audio integration",
 "• Ryan Gaillard: Clicking on mini-map to jump view",
-"• Chris DeLeon: Minimap shows box for screen area, credits integration",
-"          -- Click anywhere to return -- Game made in Gamkedo Club! --"];
+"• Chris DeLeon: Minimap shows box for screen area, credits integration"];
 
   const MENU_PAGE = 0;
   const LEVELS_PAGE = 1;
