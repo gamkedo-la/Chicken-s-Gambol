@@ -29,44 +29,113 @@ const AIPlayer = new (function() {
   
   let nextBuildingPlot = [1100,1430];
   
+  let enemyWave = [];
+  let waveNumber = 1;
+  let enemyWaveReady = false;
+  let enemyWaveInterval = 30;
+  let elapsedSinceLastWave = 0;
+  
   this.update = function (delta){
+
     elapsedSinceUpdate += delta;
     if (updateInterval <= elapsedSinceUpdate) {
       elapsedSinceUpdate = 0;
+    }
+	
+	this.clearEnemyAndPlayerUnitArrays();
+	this.findAllEnemyUnits();
+    this.findAllPlayerUnits();
 
-      this.clearEnemyAndPlayerUnitArrays();
-      this.findAllEnemyUnits();
-      this.findAllPlayerUnits();
+    this.prepareEnemyWave();
 
-      this.allChickensCollectSlime();
+    elapsedSinceLastWave += delta;
+    if (enemyWaveInterval <= elapsedSinceLastWave  && enemyWaveReady) {
+      this.attackWithEnemyWave();
+    }
 
-      if (allEnemyHouseUnits.length < 1){
+    this.allChickensCollectSlime();
+
+    if (Game.getNumUnits(TEAM_ENEMY) >= (Game.getMaxNumUnits(TEAM_ENEMY) - 2)){
+      let enemyHouseBuildPending = false;
+      for (i = 0; i < allEnemyHouseUnits.length; i++){
+        if (!allEnemyHouseUnits[i].isComplete()){
+          enemyHouseBuildPending = true;
+        } else {
+          enemyHouseBuildPending = false;
+        }
+      }
+      if (!enemyHouseBuildPending){
         this.placeEnemyBuilding(HouseEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
       }
+    }
 
-      if (allEnemyMudPitUnits.length < 1){
-        this.placeEnemyBuilding(MudPitEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+    if (allEnemyMudPitUnits.length < 1){
+      this.placeEnemyBuilding(MudPitEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+    }
+
+    if (allEnemyBarracksUnits.length < 1){
+      this.placeEnemyBuilding(BarracksEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+    } else {
+
+      if (allEnemyChickenUnits.length < (2 * allEnemyMudPitUnits.length)){
+        this.buildEnemyUnit(ChickenEnemy);
       }
+      this.buildEnemyUnit(GoblinEnemy);
+      this.buildEnemyUnit(PigEnemy);
+    }
 
-      if (allEnemyBarracksUnits.length < 1){
-        this.placeEnemyBuilding(BarracksEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
-      } else {
-         this.buildEnemyUnit(ChickenEnemy);
-         this.buildEnemyUnit(GoblinEnemy);
-         this.buildEnemyUnit(PigEnemy);
-      }
+    this.sendChickenToCompleteBuilding();
 
-      this.sendChickenToCompleteBuilding();
-
-      if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
-        this.defendSlime();
-      }
-
-      this.attackAllPlayerUnits();
-
+    if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
+      this.defendSlime();
     }
 
   };
+  
+  this.prepareEnemyWave = function(){
+
+    if(enemyWaveReady){
+        return;
+    }
+
+    enemyWave = [];
+    let numberOfPigs = 2 + (waveNumber - 1);
+    let numberOfGoblins = 1 + (waveNumber -1);
+
+    if (allEnemyPigUnits.length >= numberOfPigs){
+      for (p = 0; p < numberOfPigs; p++){
+        enemyWave.push(allEnemyPigUnits[p]);
+      }
+    }
+
+    if (allEnemyPigUnits.length >= numberOfPigs){
+      for (g = 0; g < numberOfGoblins; g++){
+        enemyWave.push(allEnemyGoblinUnits[g]);
+      }
+    }
+
+    if (enemyWave.length === numberOfPigs + numberOfGoblins){
+      enemyWaveReady = true;
+    }
+  }
+
+  this.attackWithEnemyWave = function(){
+    let enemyUnitsLength = enemyWave.length;
+    for (let i = 0; i < enemyUnitsLength; i++){
+
+      let playerUnitsLength = allPlayerUnits.length;
+      for (let j = 0; j < playerUnitsLength; j++){
+
+        let enemyUnit = enemyWave[i];
+          if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
+               enemyUnit.setTarget(allPlayerUnits[j]);
+          }
+      }
+    }
+
+    enemyWaveReady = false;
+    elapsedSinceLastWave = 0;
+  }
 
   this.getUnitHealth = function (unit){
     console.log(unit.getHealth());
@@ -74,6 +143,10 @@ const AIPlayer = new (function() {
 
   this.getUnitMaxHealth = function (unit){
     console.log(unit.getMaxHealth());
+  }
+  
+  this.getElapsedSinceLastWave = function (){
+    return elapsedSinceLastWave;
   }
 
   this.allChickensCollectSlime = function(){

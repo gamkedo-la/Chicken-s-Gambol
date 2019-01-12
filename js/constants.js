@@ -1,5 +1,5 @@
 let DEBUG = false;
-let AI_ENABLED = false; //starts disabled for now to not interfere with other testing.
+let AI_ENABLED = true;
 const FRAME_RATE = 60;
 const CANVAS_PADDING = 60;
 

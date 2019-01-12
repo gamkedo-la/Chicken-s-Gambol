@@ -13,7 +13,7 @@ const HotKeys = new (function() {
       }
     }
 
-    if (Input.isPressed(KEY.C)) {
+    if (Input.isPressed(KEY.C) && DEBUG) {
       AI_ENABLED = !AI_ENABLED;
       if (AI_ENABLED) {
         console.log("AI Enabled");
