@@ -325,15 +325,7 @@ let Game = new (function() {
       }
     }
 
-    gameIsStarted = false;
-
-    if (hasPlayer) {
-      console.log('Player won! Enemy defeated');
-
-      return;
-    }
-
-    console.log('Enemy won! Player defeated...')
+    PauseInterface.gameOver(hasPlayer && hasPlayerSlime);
   }
 
   this.canBuildAtMousePosition = function(team) {

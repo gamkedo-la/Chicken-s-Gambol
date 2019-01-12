@@ -20,7 +20,7 @@ const Images = new (function() {
     mudPitEnemy: 'img/mudPitSprite.png',
     mudPitPreview: 'img/mudPit-preview.png',
     barracks: 'img/BarnBarracksSheet.png',
-    barracksEnemy: 'img/barracksSprite2.png',
+    barracksEnemy: 'img/BarnBarracksSheetEnemy.png',
     barracksPreview: 'img/barracks-preview.png',
     footprints: 'img/footprints.png',
     interfaceTopBg: 'img/interface-top-right-bg.png',

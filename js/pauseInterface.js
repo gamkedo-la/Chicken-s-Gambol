@@ -1,6 +1,8 @@
 const PauseInterface = new (function() {
 
   let gameIsPaused = false;
+  let gameIsOver = false;
+  let gameOverText = '';
   let halfWidth;
   let halfHeight;
   let buttons;
@@ -25,11 +27,24 @@ const PauseInterface = new (function() {
     return gameIsPaused;
   };
 
+  this.gameOver = function(playerWon) {
+    gameIsOver = true;
+    gameOverText = playerWon ? 'You won!' : 'You lost...';
+
+    this.pauseGame();
+  };
+
   this.pauseGame = function() {
     if (!gameIsPaused) {
       pauseContext.drawImage(gameCanvas, 0, 0);
       drawImage(pauseContext, Images.interfacePauseBg, halfWidth, halfHeight);
-      drawTextWithShadow(pauseContext, halfWidth, halfHeight - 20, FONT_COLOR, MENU_FONT, 'center', 'middle', 'Game Paused');
+      if (gameIsOver) {
+        drawTextWithShadow(pauseContext, halfWidth, halfHeight - 10, FONT_COLOR, MENU_FONT, 'center', 'middle', gameOverText);
+        drawTextWithShadow(pauseContext, halfWidth, halfHeight + 24, FONT_COLOR, BUTTON_COUNT_FONT, 'center', 'middle', 'Click to go back to menu');
+      }
+      else {
+        drawTextWithShadow(pauseContext, halfWidth, halfHeight - 20, FONT_COLOR, MENU_FONT, 'center', 'middle', 'Game Paused');
+      }
     }
 
     gameIsPaused = true;
@@ -41,19 +56,30 @@ const PauseInterface = new (function() {
 
   this.quitToMenu = function() {
     gameIsPaused = false;
+    gameIsOver = false;
+
     gameUnInitialize();
   };
 
   this.update = function(delta) {
+    if (gameIsOver) {
+      if (Input.isPressed(KEY.MOUSE_LEFT)) {
+        this.quitToMenu();
+      }
+
+      return;
+    }
     callbackList(buttons, 'update', [delta, Input.getMousePosition()]);
   };
 
   this.draw = function() {
     gameContext.drawImage(pauseCanvas, 0, 0);
 
-    callbackList(buttons, 'draw', []);
+    if (!gameIsOver) {
+      callbackList(buttons, 'draw', []);
 
-    drawImage(gameContext, Images.interfacePauseContainer, halfWidth, halfHeight);
+      drawImage(gameContext, Images.interfacePauseContainer, halfWidth, halfHeight);
+    }
   };
 
   this.drawButtonText = function(text, button) {
