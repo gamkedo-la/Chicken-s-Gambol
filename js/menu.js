@@ -2,7 +2,7 @@ const Menu = new (function() {
   let itemsX = 340;
   let topItemY = 260;
   let itemsWidth = 300;
-  let rowHeight = 60;
+  let rowHeight = 40;
 
   let wobble = 12;
   let wobbleSpeed = 0.25;
@@ -28,7 +28,7 @@ const Menu = new (function() {
 "• Brian Boucher: AI enemy army programming and related optimizations, group",
 "selection by number key, slime patch organic randomization",
 "• Vaan Hope Khani: Interface concept and texture, main menu code, compiled",
-"credits, minimap interaction improvements",
+"credits, minimap boundary debug",
 "• Christer \"McFunkypants\" Kaitila: Helper functions for AI,",
 "footprints decal art and code, title screen, logo, additional chicken sounds,",
 "pathfinding with preview arrows, defeated character poses and fade out code",
