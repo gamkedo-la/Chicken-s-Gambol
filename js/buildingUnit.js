@@ -41,8 +41,14 @@ const BuildingUnit = function(team, settings) {
       return;
     }
 
-    let step = Math.floor(buildCompletePercentage / 20);
+    let step = Math.min(4, Math.floor(buildCompletePercentage / 20));
     this.setState('step' + step);
+  };
+
+  this._doDamage = function(damage) {
+    let step = Math.max(0, Math.floor((this.getHealth() / this.getMaxHealth()) * 5));
+    console.log('set damage' + step);
+    this.setState('damage' + step);
   };
 
   this._remove = function() {

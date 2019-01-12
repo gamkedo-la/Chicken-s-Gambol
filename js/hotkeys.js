@@ -5,24 +5,15 @@ const HotKeys = new (function() {
       DEBUG = !DEBUG;
     }
 
-	if (Input.isPressed(KEY.C)) {
+    if (Input.isPressed(KEY.C)) {
       AI_ENABLED = !AI_ENABLED;
-	  if (AI_ENABLED){
-		  console.log("AI Enabled");
-	  }
-	  if (!AI_ENABLED){
-		  console.log("AI Disabled");
-	  }
+      if (AI_ENABLED) {
+        console.log("AI Enabled");
+      }
+      if (!AI_ENABLED) {
+        console.log("AI Disabled");
+      }
     }
-
-    // test dead bodies: insta-kill the known first unit
-    /*
-    if (Input.isPressed(KEY.K)) {
-      console.log("CHEAT KEY! [K]ILL A UNIT!");
-      Game.units[0].doDamage(999);
-    }
-    */
-
 
     if (Input.isPressed(KEY.PERIOD)) {
       Game.findIdleChicken();
@@ -92,6 +83,18 @@ const HotKeys = new (function() {
 
       if (Input.isPressed(KEY.FOUR)) {
         Selection.selectHotKeyGroup(4);
+      }
+    }
+
+    // test dead bodies: insta-kill the known first unit
+    if (DEBUG) {
+      if (Input.isPressed(KEY.K)) {
+        console.log("CHEAT KEY! [K]ILL A UNIT!");
+        Game.units[0].doDamage(Game.units[0].getHealth() + 1);
+      }
+      if (Input.isPressed(KEY.L)) {
+        console.log("CHEAT KEY! [L]ET UNIT GET DAMAGED!");
+        selection[0].doDamage(2);
       }
     }
   };

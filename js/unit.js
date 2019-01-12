@@ -115,7 +115,6 @@ const Unit = function(team, settings) {
   };
 
   this.leaveDeadBody = function() {
-
     console.log("Unit died! Adding a dead body decal...");
     if (this.deadBodySprite) {
       let pos = this.getPosition();
@@ -126,11 +125,14 @@ const Unit = function(team, settings) {
     {
       console.log("Unit does not have a deadBodySprite...");
     }
+  };
 
-  }
-
-  this.doDamage = function(damage) {  
+  this.doDamage = function(damage) {
     health -= damage;
+    if (this._doDamage) {
+      this._doDamage(damage);
+    }
+
     if (health <= 0) {
       let c = this.constructor;
       if (c === Chicken || c === Goblin || c === Pig || c === ChickenEnemy || c === GoblinEnemy || c === PigEnemy) {
@@ -140,7 +142,7 @@ const Unit = function(team, settings) {
         }
       }
 
-      this.leaveDeadBody()
+      this.leaveDeadBody();
 
       this.remove();
 

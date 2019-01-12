@@ -419,6 +419,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
@@ -493,6 +533,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
@@ -567,6 +647,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
@@ -704,6 +824,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
@@ -757,6 +917,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
@@ -810,6 +1010,46 @@ let Sprites = new (function() {
           height: 64,
           firstFrameX: 256,
           firstFrameY: 0
+        },
+        damage0: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 256,
+          firstFrameY: 64
+        },
+        damage1: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 192,
+          firstFrameY: 64
+        },
+        damage2: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 128,
+          firstFrameY: 64
+        },
+        damage3: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 64,
+          firstFrameY: 64
+        },
+        damage4: {
+          frames: 1,
+          frameTime: .2,
+          width: 64,
+          height: 64,
+          firstFrameX: 0,
+          firstFrameY: 64
         }
       },
     },
