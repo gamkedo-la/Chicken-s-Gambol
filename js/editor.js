@@ -65,7 +65,55 @@ const Editor = new (function() {
     }
   };
 
+  function askRowsCols() {
+    let cols = parseInt(window.prompt('Enter the number of columns for this level (min: 30):'));
+    if (!cols || cols < 30) {
+      alert('Min cols should be 30 or more');
+      return askRowsCols;
+    }
+
+    let rows = parseInt(window.prompt('Enter the number of rows for this level (min: 30):'));
+    if (!rows || rows < 30) {
+      alert('Min rows should be 30 or more');
+      return askRowsCols;
+    }
+
+    let defaultTile = parseInt(window.prompt('Enter the default tile index (for example: grass: 50, snow: 52):'));
+    if (!defaultTile || !WALKABLE_TILES[defaultTile]) {
+      alert('Default tile does not exist');
+      return askRowsCols();
+    }
+
+    return {
+      cols: cols,
+      rows: rows,
+      defaultTile: defaultTile
+    };
+  }
+
+  function loadEmptyLevel() {
+    let rc = askRowsCols();
+    let level = {
+      name: 'Empty level',
+      cols: rc.cols,
+      rows: rc.rows,
+      defaultTile: rc.defaultTile,
+      grid: []
+    };
+
+    let numIndexes = level.rows * level.cols;
+    for (let index = 0; index < numIndexes; index++) {
+      level.grid[index] = 0;
+    }
+
+    return level;
+  }
+
   this.initialize = function(_levelData) {
+    if (_levelData === -1) {
+      _levelData = loadEmptyLevel();
+    }
+
     levelData = _levelData;
     levelGrid = levelData.grid.slice();
 
