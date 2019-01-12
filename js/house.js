@@ -12,7 +12,7 @@ const House = function(team, settings) {
   };
 
   this._remove = function() {
-    Game.subMaxNumUnits(settings.providesNumUnits. this.getTeam());
+    Game.subMaxNumUnits(settings.providesNumUnits, this.getTeam());
   };
 
   BuildingUnit.call(this, team, settings);

@@ -27,8 +27,6 @@ const AIPlayer = new (function() {
   let allPlayerSlimePatchUnits = [];
   let allPlayerSlimeUnits = [];
   
-  let housePlaced = false;
-
   this.update = function (delta){
     elapsedSinceUpdate += delta;
     if (updateInterval <= elapsedSinceUpdate) {
@@ -38,15 +36,15 @@ const AIPlayer = new (function() {
       this.findAllEnemyUnits();
       this.findAllPlayerUnits();
 
-      this.collectSlime();
+      this.allChickensCollectSlime();
 
-      if(!housePlaced){
-       this.placeHouseEnemy();
-      }
+      //this.placeEnemyBuilding(HouseEnemy, [1300,1300]);
+	  //this.placeEnemyBuilding(MudPitEnemy, [1300+32,1300]);
+	  //this.placeEnemyBuilding(BarracksEnemy, [1300+64,1300]);
 
       this.sendChickenToCompleteBuilding();
 
-      this.buildEnemyUnit(PigEnemy);
+      //this.buildEnemyUnit(PigEnemy);
 
 /*    if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
         this.defendSlime();
@@ -66,7 +64,7 @@ const AIPlayer = new (function() {
     console.log(unit.getMaxHealth());
   }
 
-  this.collectSlime = function(){
+  this.allChickensCollectSlime = function(){
     let length = allEnemyChickenUnits.length;
     for (let i = 0; i < length; i++){
       if (allEnemyChickenUnits[i].getTarget() === undefined){
@@ -75,13 +73,32 @@ const AIPlayer = new (function() {
     }
   }
   
-  this.placeHouseEnemy = function(){
-    let settings = {x: 1300, y: 1300}; // temp for testing
-    Game.buildHouse(TEAM_ENEMY);
-    Game.create(HouseEnemy, TEAM_ENEMY, settings);
-    housePlaced = true;
+  this.placeEnemyBuilding = function(unitConstructor, position){ //WIP
+    
+    let centralUnit;  
+    
+    if (allEnemyBuildingUnits.length >= 1){
+      centralUnit = allEnemyBuildingUnits[Math.floor(Math.random() * (allEnemyBuildingUnits.length - 0)) + 0];
+    } else {
+      centralUnit = allEnemySlimeUnits[0];
+    }
+    
+    switch (unitConstructor){
+      case "HouseEnemy":
+        Game.buildHouse(TEAM_ENEMY);
+        break;
+      case "MudPitEnemy":
+        Game.buildMudPit(TEAM_ENEMY);
+        break;
+      case "BarracksEnemy":
+        Game.buildBarracks(TEAM_ENEMY);
+        break;
+    }
+
+    Game.create(unitConstructor, TEAM_ENEMY, [1300,1300]);
+    
   }
-  
+
   this.buildEnemyUnit = function(unitConstructor){
     let barracks;
     let length = allEnemyBarracksUnits.length;
@@ -102,7 +119,7 @@ const AIPlayer = new (function() {
       }
     }
     if (allBuildingsComplete && allEnemyChickenUnits[0].getTarget(uncompletedBuilding)) {
-      this.collectSlime();
+      this.allChickensCollectSlime();
     } else {
       allEnemyChickenUnits[0].setTarget(uncompletedBuilding);
     }

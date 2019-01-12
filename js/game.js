@@ -65,7 +65,7 @@ let Game = new (function() {
     if (team === TEAM_PLAYER){
       maxNumUnits = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
     } else if (team === TEAM_ENEMY){
-      maxNumUnitsAI = Math.min(absoluteMaxNumUnits, amount + maxNumUnits);
+      maxNumUnitsAI = Math.min(absoluteMaxNumUnits, amount + maxNumUnitsAI);
     }
   };
   
@@ -252,6 +252,7 @@ let Game = new (function() {
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
+	  
       checkGameWinLoseState(this.units);
     }
 
