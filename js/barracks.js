@@ -17,6 +17,10 @@ const Barracks = function(team, settings) {
       return;
     }
 
+    if (!this.isComplete()){
+      return;
+    }
+
     // @todo check for available slime with Game.hasAmountOfSlimeAvailable
 
     if (queue.length === 0) {
