@@ -10,7 +10,7 @@ const AIPlayer = new (function() {
   let allEnemyChickenUnits = [];
   let allEnemyBuildingUnits = [];
   let allEnemyHouseUnits = [];
-  let allEnemyMudpitUnits = [];
+  let allEnemyMudPitUnits = [];
   let allEnemyBarracksUnits = [];
   let allEnemySlimeUnits = [];
   let allEnemySlimePatchUnits = [];
@@ -22,10 +22,12 @@ const AIPlayer = new (function() {
   let allPlayerChickenUnits = [];
   let allPlayerBuildingUnits = [];
   let allPlayerHouseUnits = [];
-  let allPlayerMudpitUnits = [];
+  let allPlayerMudPitUnits = [];
   let allPlayerBarracksUnits = [];
   let allPlayerSlimePatchUnits = [];
   let allPlayerSlimeUnits = [];
+  
+  let nextBuildingPlot = [1100,1430];
   
   this.update = function (delta){
     elapsedSinceUpdate += delta;
@@ -38,20 +40,30 @@ const AIPlayer = new (function() {
 
       this.allChickensCollectSlime();
 
-      //this.placeEnemyBuilding(HouseEnemy, [1300,1300]);
-	  //this.placeEnemyBuilding(MudPitEnemy, [1300+32,1300]);
-	  //this.placeEnemyBuilding(BarracksEnemy, [1300+64,1300]);
+      if (allEnemyHouseUnits.length < 1){
+        this.placeEnemyBuilding(HouseEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+      }
+
+      if (allEnemyMudPitUnits.length < 1){
+        this.placeEnemyBuilding(MudPitEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+      }
+
+      if (allEnemyBarracksUnits.length < 1){
+        this.placeEnemyBuilding(BarracksEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+      } else {
+         this.buildEnemyUnit(ChickenEnemy);
+         this.buildEnemyUnit(GoblinEnemy);
+         this.buildEnemyUnit(PigEnemy);
+      }
 
       this.sendChickenToCompleteBuilding();
 
-      //this.buildEnemyUnit(PigEnemy);
-
-/*    if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
+      if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
         this.defendSlime();
       }
 
       this.attackAllPlayerUnits();
-*/
+
     }
 
   };
@@ -73,7 +85,7 @@ const AIPlayer = new (function() {
     }
   }
   
-  this.placeEnemyBuilding = function(unitConstructor, position){ //WIP
+  this.placeEnemyBuilding = function(unitConstructor, positionX, positionY){ //WIP
     
     let centralUnit;  
     
@@ -82,7 +94,8 @@ const AIPlayer = new (function() {
     } else {
       centralUnit = allEnemySlimeUnits[0];
     }
-    
+
+
     switch (unitConstructor){
       case "HouseEnemy":
         Game.buildHouse(TEAM_ENEMY);
@@ -94,9 +107,11 @@ const AIPlayer = new (function() {
         Game.buildBarracks(TEAM_ENEMY);
         break;
     }
-
-    Game.create(unitConstructor, TEAM_ENEMY, [1300,1300]);
     
+    let settings = {x: positionX, y:positionY}
+    Game.create(unitConstructor, TEAM_ENEMY, settings);
+    nextBuildingPlot[0] -= 64;
+
   }
 
   this.buildEnemyUnit = function(unitConstructor){
@@ -142,7 +157,7 @@ const AIPlayer = new (function() {
     let length = Game.units.length;
     for (let i = 0; i < length; i++) {
       let unit = Game.units[i];
-      if (unit.isPlayer(TEAM_ENEMY)) {
+      if (unit.isPlayer(TEAM_ENEMY)){
         allEnemyUnits.push(unit);
       }
     }
@@ -168,7 +183,7 @@ const AIPlayer = new (function() {
           allEnemyBuildingUnits.push(unit);
           break;
         case "MudPitEnemy":
-          allEnemyMudpitUnits.push(unit);
+          allEnemyMudPitUnits.push(unit);
           allEnemyBuildingUnits.push(unit);
           break;
         case "HouseEnemy":
@@ -229,13 +244,11 @@ const AIPlayer = new (function() {
       for (let j = 0; j < playerUnitsLength; j++){
 
         let enemyUnit = allEnemyMovingUnits[i];
-          if(allPlayerUnits[j].canDamage() === true /* && allPlayerUnits[j].constructor.name != "Slime"*/){ //Bug: attacking slime causes game to slow/crash
-             enemyUnit.setTarget(allPlayerUnits[j]);
+          if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
+               enemyUnit.setTarget(allPlayerUnits[j]);
           }
       }
-
     }
-
   });
 
   this.clearEnemyAndPlayerUnitArrays = (function (){
