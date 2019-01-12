@@ -30,6 +30,7 @@ let Selection = new (function() {
   this.setUnitSelection = function(unit) {
     this.clearSelection();
     this.addUnitToSelection(unit);
+    selectionChanged();
   };
 
   this.addUnitToSelection = function(unit) {

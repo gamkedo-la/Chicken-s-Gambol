@@ -19,7 +19,7 @@ const Images = new (function() {
     mudPit: 'img/mudPitSprite.png',
     mudPitEnemy: 'img/mudPitSprite.png',
     mudPitPreview: 'img/mudPit-preview.png',
-    barracks: 'img/barracksSprite2.png',
+    barracks: 'img/BarnBarracksSheet.png',
     barracksEnemy: 'img/barracksSprite2.png',
     barracksPreview: 'img/barracks-preview.png',
     footprints: 'img/footprints.png',

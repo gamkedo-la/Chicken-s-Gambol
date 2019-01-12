@@ -44,7 +44,7 @@ let Game = new (function() {
       numUnitsAI++;
     }
   };
-  
+
   this.subUnit = function(team) {
     if (team === TEAM_PLAYER){
       numUnits--;
@@ -52,7 +52,7 @@ let Game = new (function() {
       numUnitsAI--;
     }
   };
-  
+
   this.getNumUnits = function(team) {
     if (team === TEAM_PLAYER){
       return numUnits;
@@ -68,7 +68,7 @@ let Game = new (function() {
       maxNumUnitsAI = Math.min(absoluteMaxNumUnits, amount + maxNumUnitsAI);
     }
   };
-  
+
   this.subMaxNumUnits = function(amount, team) {
     if (team === TEAM_PLAYER){
       maxNumUnits = Math.max(absoluteMinNumUnits, maxNumUnits - amount);
@@ -76,7 +76,7 @@ let Game = new (function() {
       maxNumUnitsAI = Math.max(absoluteMinNumUnits, maxNumUnitsAI - amount);
     }
   };
-  
+
   this.getMaxNumUnits = function(team) {
     if (team === TEAM_PLAYER){
       return maxNumUnits;
@@ -91,9 +91,9 @@ let Game = new (function() {
     } else if (team === TEAM_ENEMY){
       numSlimeAI += amount;
     }
-    
+
   };
-  
+
   this.subSlime = function(amount, team) {
     if (team === TEAM_PLAYER){
       numSlime -= amount;
@@ -101,7 +101,7 @@ let Game = new (function() {
       numSlimeAI -= amount;
     }
   };
-  
+
   this.getNumSlime = function(team) {
     if (team === TEAM_PLAYER){
       return numSlime;
@@ -252,7 +252,7 @@ let Game = new (function() {
     if (removeDeadUnits) {
       removeDeadUnits = false;
       removeRemovableUnitsFromList(this.units);
-	  
+
       checkGameWinLoseState(this.units);
     }
 
