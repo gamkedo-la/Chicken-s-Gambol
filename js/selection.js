@@ -46,8 +46,13 @@ let Selection = new (function() {
     selection.push(unit);
     unit.select();
 
-    if (unit.constructor === Pig) {
-      pig_select_sound.play();
+    switch (unit.constructor.name){
+        case "Pig":
+          pig_select_sound.play();
+          break;
+        case "Chicken":
+          chicken_select_sound.play();
+          break;
     }
   };
 

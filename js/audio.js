@@ -43,3 +43,6 @@ idleChickenSound3.onended = assignIdleChickenSound(arrayOfIdleChickenSounds3);
 
 var pig_select_sound = new Audio();
 pig_select_sound.src = "audio/pig_select_sound.mp3";
+
+var chicken_select_sound = new Audio();
+chicken_select_sound.src = "audio/chicken_short.mp3";
