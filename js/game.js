@@ -146,13 +146,6 @@ let Game = new (function() {
   };
 
   this.buildButton = function(Constructor, previewImage, team) {
-
-    if (!this.hasAmountOfSlimeAvailable(COSTS[Constructor.name], team)) {
-      return;
-    }
-
-    this.subSlime(COSTS[Constructor.name], team);
-
     if (team === TEAM_PLAYER){
       buildPreviewImage = previewImage;
       buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
@@ -161,11 +154,32 @@ let Game = new (function() {
     }
   };
 
-  this.cancelBuildButton = function(Constructor) {
+  this.cancelBuildButton = function() {
     this.buildActionConstructor = false;
     placedBuilding = false;
     buildPreviewImage = false;
     buildPreviewImageInvalid = false;
+  };
+
+  this.placeBuilding = function() {
+    if (!this.hasAmountOfSlimeAvailable(COSTS[this.buildActionConstructor.name], TEAM_PLAYER)) {
+      placedBuilding = true;
+      return;
+    }
+
+    this.subSlime(COSTS[this.buildActionConstructor.name], TEAM_PLAYER);
+
+    let mousePos = Input.getMousePosition();
+
+    let settings = {
+      x: mousePos.x,
+      y: mousePos.y
+    };
+
+    Grid.normalizeCoords(settings);
+    let building = this.create(this.buildActionConstructor, TEAM_PLAYER, settings);
+    callbackList(Selection.getSelection(), 'setTarget', [building]);
+    placedBuilding = true;
   };
 
   this.hasActiveBuildButton = function() {
@@ -283,15 +297,7 @@ let Game = new (function() {
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
-      let settings = {
-        x: mousePos.x,
-        y: mousePos.y
-      };
-
-      Grid.normalizeCoords(settings);
-      let building = this.create(this.buildActionConstructor, TEAM_PLAYER, settings);
-      callbackList(Selection.getSelection(), 'setTarget', [building]);
-      placedBuilding = true;
+      this.placeBuilding();
     }
     else if (placedBuilding) {
       this.cancelBuildButton();
@@ -335,6 +341,10 @@ let Game = new (function() {
 
     if (team === undefined) {
       team = TEAM_PLAYER;
+    }
+
+    if (!this.hasAmountOfSlimeAvailable(COSTS[this.buildActionConstructor.name], team)) {
+      return false;
     }
 
     let mousePosition = Input.getMousePosition();
