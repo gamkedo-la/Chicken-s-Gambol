@@ -20,19 +20,25 @@ function assignIdleChickenSound(arrayOfIdleChickenSounds) {
   return arrayOfIdleChickenSounds[randomIdleChickenSoundsIndex];
 }
 
+var music_sound = new Audio();
+music_sound.src = "audio/background_tracks/hard_boiled_chicken-klaim.mp3";
+music_sound.autoplay = false;
+music_sound.loop = false;
+music_sound.play();
+
 idleChickenSound1.src = assignIdleChickenSound(arrayOfIdleChickenSounds1);
-idleChickenSound1.autoplay = true;
-idleChickenSound1.loop = true;
+idleChickenSound1.autoplay = false;
+idleChickenSound1.loop = false;
 idleChickenSound1.onended = assignIdleChickenSound(arrayOfIdleChickenSounds1);
 
 idleChickenSound2.src = assignIdleChickenSound(arrayOfIdleChickenSounds2);
-idleChickenSound2.autoplay = true;
-idleChickenSound2.loop = true;
+idleChickenSound2.autoplay = false;
+idleChickenSound2.loop = false;
 idleChickenSound2.onended = assignIdleChickenSound(arrayOfIdleChickenSounds2);
 
 idleChickenSound3.src = assignIdleChickenSound(arrayOfIdleChickenSounds3);
-idleChickenSound3.autoplay = true;
-idleChickenSound3.loop = true;
+idleChickenSound3.autoplay = false;
+idleChickenSound3.loop = false;
 idleChickenSound3.onended = assignIdleChickenSound(arrayOfIdleChickenSounds3);
 
 var pig_select_sound = new Audio();
