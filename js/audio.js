@@ -24,6 +24,7 @@ var music_sound = new Audio();
 music_sound.src = "audio/background_tracks/hard_boiled_chicken-klaim.mp3";
 music_sound.autoplay = false;
 music_sound.loop = false;
+music_sound.volume = 0.1;
 music_sound.play();
 
 idleChickenSound1.src = assignIdleChickenSound(arrayOfIdleChickenSounds1);
