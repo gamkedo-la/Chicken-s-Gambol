@@ -21,11 +21,10 @@ function assignIdleChickenSound(arrayOfIdleChickenSounds) {
 }
 
 var music_sound = new Audio();
-music_sound.src = "audio/background_tracks/hard_boiled_chicken-klaim.mp3";
 music_sound.autoplay = false;
 music_sound.loop = false;
 music_sound.volume = 0.1;
-music_sound.play();
+// won't be loaded until menu/game init code
 
 idleChickenSound1.src = assignIdleChickenSound(arrayOfIdleChickenSounds1);
 idleChickenSound1.autoplay = false;

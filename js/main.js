@@ -42,7 +42,18 @@ function windowOnFocus() {
   }
 }
 
+function playSong(filename) {
+  music_sound.pause();
+  music_sound.src = "audio/background_tracks/"+filename+".mp3";
+  music_sound.autoplay = false;
+  music_sound.loop = false;
+  music_sound.volume = 0.1;
+  music_sound.play();
+}
+
 function menuInitialize() {
+  playSong("chickens_intro_V2");
+
   Game.initialize();
   Input.initialize();
   Menu.initialize();
@@ -55,6 +66,8 @@ function menuInitialize() {
 }
 
 function gameInitialize(levelId) {
+  playSong("hard_boiled_chicken-klaim");
+
   if (!levels[levelId]) {
     alert('Level does not exists!?');
     return;
@@ -70,6 +83,8 @@ function gameInitialize(levelId) {
 }
 
 function gameUnInitialize() {
+  playSong("chickens_intro_V2");
+  
   gameIsStarted = false;
   Grid.unInitialize();
   Interface.unInitialize();
