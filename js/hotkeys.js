@@ -4,8 +4,12 @@ const HotKeys = new (function() {
     if (Input.isPressed(KEY.U)) {
       DEBUG = !DEBUG;
     }
+
     if (Input.isPressed(KEY.ESC)) {
-      if (PauseInterface.isPaused()) {
+      if (Game.hasActiveBuildButton()) {
+        Game.cancelBuildButton();
+      }
+      else if (PauseInterface.isPaused()) {
         PauseInterface.resumeGame();
       }
       else {
@@ -29,10 +33,6 @@ const HotKeys = new (function() {
 
     if (Input.isPressed(KEY.DELETE)) {
       Game.deleteSelection();
-    }
-
-    if (Input.isPressed(KEY.ESC) && Game.hasActiveBuildButton()) {
-      Game.cancelBuildButton();
     }
 
     let selection = Selection.getSelection();

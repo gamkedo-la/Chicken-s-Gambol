@@ -466,7 +466,7 @@ let Sprites = new (function() {
       image: 'buildButtonHouse',
       frames: {
         default: {
-          frames: 2,
+          frames: 1,
           frameTime: .8,
           width: 50,
           height: 50,
@@ -715,7 +715,7 @@ let Sprites = new (function() {
       image: 'buildButtonChicken',
       frames: {
         default: {
-          frames: 2,
+          frames: 1,
           frameTime: .8,
           width: 50,
           height: 50,
