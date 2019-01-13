@@ -27,7 +27,6 @@ const AIPlayer = new (function() {
   let allPlayerSlimePatchUnits = [];
   let allPlayerSlimeUnits = [];
   
-  let nextBuildingPlot = [1100,1430]; //arbitrary location until AI can find nearby buildable plots
   let buildingPlacedThisFrame = false;
 
   let enemyWave = [];
@@ -70,7 +69,7 @@ const AIPlayer = new (function() {
         }
       }
       if (!enemyHouseBuildPending){
-        this.placeEnemyBuilding(HouseEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+        this.placeEnemyBuilding(HouseEnemy);
         buildingPlacedThisFrame = true;
       }
     }
@@ -78,7 +77,7 @@ const AIPlayer = new (function() {
     //Attempt to Build Enemy MudPit if needed
     if(this.allBuildingsComplete() && !buildingPlacedThisFrame){
       if (allEnemyMudPitUnits.length < 1){
-        this.placeEnemyBuilding(MudPitEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+        this.placeEnemyBuilding(MudPitEnemy);
         buildingPlacedThisFrame = true;
       }
     }
@@ -86,7 +85,7 @@ const AIPlayer = new (function() {
     //Attempt to Build Enemy Barracks if needed
     if(this.allBuildingsComplete() && !buildingPlacedThisFrame){
       if (allEnemyBarracksUnits.length < 1){
-        this.placeEnemyBuilding(BarracksEnemy, nextBuildingPlot[0], nextBuildingPlot[1]);
+        this.placeEnemyBuilding(BarracksEnemy);
         buildingPlacedThisFrame = true;
       }
     }
@@ -213,7 +212,7 @@ const AIPlayer = new (function() {
     }
   }
   
-  this.placeEnemyBuilding = function(unitConstructor, positionX, positionY){ //WIP
+  this.placeEnemyBuilding = function(unitConstructor){
     
     let centralUnit;  
     
@@ -234,10 +233,8 @@ const AIPlayer = new (function() {
         Game.buildBarracks(TEAM_ENEMY);
         break;
     }
-    
-    let settings = {x: positionX, y:positionY}
-    Game.create(unitConstructor, TEAM_ENEMY, settings);
-    nextBuildingPlot[0] -= 64;
+
+    centralUnit.buildPlot(centralUnit, unitConstructor);
 
   }
 
