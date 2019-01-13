@@ -223,15 +223,14 @@ const AIPlayer = new (function() {
       centralUnit = allEnemySlimeUnits[0];
     }
 
-
     switch (unitConstructor){
-      case "HouseEnemy":
+      case HouseEnemy:
         Game.buildHouse(TEAM_ENEMY);
         break;
-      case "MudPitEnemy":
+      case MudPitEnemy:
         Game.buildMudPit(TEAM_ENEMY);
         break;
-      case "BarracksEnemy":
+      case BarracksEnemy:
         Game.buildBarracks(TEAM_ENEMY);
         break;
     }
