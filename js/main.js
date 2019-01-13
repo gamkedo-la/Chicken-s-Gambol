@@ -89,7 +89,7 @@ function debugMousePos(pos) {
     t +='<br>' + Grid.coordsToIndex(pos.x, pos.y);
   }
 
-  document.getElementById('test').innerHTML = t;
+  // document.getElementById('test').innerHTML = t;
 }
 
 function getPanPosition() {
