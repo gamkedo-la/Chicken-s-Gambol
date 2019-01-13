@@ -31,7 +31,7 @@ const Interface = new (function() {
     buttons = [
       new Button(654, 7, 30, 22, true, () => console.log('music button'), false, Images.topButtonBg),
       new Button(692, 7, 30, 22, true, () => console.log('sound button'), false, Images.topButtonBg),
-      new Button(730, 7, 30, 22, false, () => console.log('menu button'), false, Images.topButtonBg),
+      new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg),
       new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg),
       new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg)
     ];
