@@ -4,6 +4,7 @@ let Game = new (function() {
   let buildPreviewImage = false;
   let buildPreviewImageInvalid = false;
   let placedBuilding = false;
+  let canPlaceBuilding = false;
 
   let removeDeadUnits = false;
 
@@ -297,7 +298,9 @@ let Game = new (function() {
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
-      this.placeBuilding();
+      if (this.canBuildAtMousePosition()) {
+        this.placeBuilding();
+      }
     }
     else if (placedBuilding) {
       this.cancelBuildButton();
