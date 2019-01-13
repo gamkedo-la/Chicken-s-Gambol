@@ -10,10 +10,13 @@ const Menu = new (function() {
   let currentPage = 0;
   let pointingAt = -1;
 
-  let classListMenu = ["Play", "Options", "Help", "Credits"];
+  let classListMenu = ["Play", /*"Options",*/ "Help", "Credits"];
   let classListLevels = [];
   let classListSettings = ["Sounds", "Music", "Back"];
-  let classListHelp = ["How to play", "Control layout", "Back"];
+  let classListHelp = ["WASD moves view, mouse left select, mouse right move.",
+  "Harvest slimes to build your base buildings.",
+  "Defeat the goblin's slime and defend your own!",
+  "Back"];
   let classListCredits = ['Caspar Dunant', "Back"];
 
   let creditsList =
@@ -71,6 +74,7 @@ const Menu = new (function() {
     if (Input.isPressed(KEY.SPACE) || Input.isPressed(KEY.ENTER)) {
       this.checkState();
     }
+
     else if (Input.isPressed(KEY.MOUSE_LEFT)) {
       if(currentPage === CREDITS_PAGE) {
         currentPage = MENU_PAGE;
@@ -100,6 +104,10 @@ const Menu = new (function() {
         cursor1 = i;
         pointingAt = i;
       }
+    }
+
+    if(currentPage === HELP_PAGE) {
+      cursor1 = classListHelp.length-1; // force to last item, other ones are help text
     }
 
     //Wobble the cursors back and forth
@@ -163,13 +171,17 @@ const Menu = new (function() {
         drawTextWithShadow(gameContext, creditsX, creditsTopY + creditsLineSkipY * i, MENU_COLOR, MENU_FONT, 'left', 'top', creditsList[i]);
       }
     } else {
+      let leftX = itemsX;
+      if(currentPage === HELP_PAGE) {
+        leftX -= 200;
+      }
       gameContext.drawImage(Images.startMenu, 0, 0); // logo and main menu bg
 
       for (let i = 0; i < menuPageText[currentPage].length; i++) {
-        drawTextWithShadow(gameContext, itemsX, topItemY + rowHeight * i, MENU_COLOR, MENU_FONT, 'left', 'top', menuPageText[currentPage][i]);
+        drawTextWithShadow(gameContext, leftX, topItemY + rowHeight * i, MENU_COLOR, MENU_FONT, 'left', 'top', menuPageText[currentPage][i]);
       }
 
-      drawImage(gameContext, Images.menuCursor, itemsX - 20, topItemY + (cursor1 * rowHeight) + wobble);
+      drawImage(gameContext, Images.menuCursor, leftX - 20, topItemY + (cursor1 * rowHeight) + wobble);
     }
   };
 
