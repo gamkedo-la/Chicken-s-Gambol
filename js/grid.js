@@ -299,9 +299,9 @@ const Grid = new (function() {
       Math.floor((destination.y) / TILE_SIZE)
     ];
 
-	while (!this.isWalkable(destination[0], destination[1])){
-	  destination = this.findAlternateWalkableDestination(destination);
-	}
+    while (!this.isWalkable(destination[0], destination[1])){
+      destination = this.findAlternateWalkableDestination(destination);
+    }
 
     let path = findPath(levelData.cols, levelData.rows, start, destination);
 
@@ -313,9 +313,30 @@ const Grid = new (function() {
   };
 
   this.findAlternateWalkableDestination = function(destination){
+
+    while ((destination[0] > this.getBounds().bottomRight.x ) || (destination[1] > this.getBounds().bottomRight.y)){
+      while (!this.isWalkable(destination[0], destination[1])){
+        destination[0]--;
+        destination[1]--;
+      }
+      return destination;
+    }
+
     destination[0]++;
     destination[1]++;
+
     return destination;
+
+/*
+    if(destination[1] > this.getBounds().bottomRight.y){
+      while (!this.isWalkable(destination[0], destination[1])){
+        destination[1]--;
+      }
+    } else {
+      destination[1]++;
+    }
+*/
+    
   };
 
   this.isWalkableCoords = function(x, y) {
@@ -350,8 +371,8 @@ const Grid = new (function() {
   };
 
   this.update = function(delta) {
-  	let oldX = x;
-  	let oldY = y;
+    let oldX = x;
+    let oldY = y;
     let mousePosition = Input.getMousePosition();
     if (Interface.hasMouseOver(mousePosition)) {
       document.body.style.cursor = "url('img/chickenCursor.png'), auto";

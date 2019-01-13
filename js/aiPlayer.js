@@ -34,6 +34,11 @@ const AIPlayer = new (function() {
   let enemyWaveReady = false;
   let elapsedSinceLastWave = 0;
   let enemyWaveInterval = 120;
+  
+  let elapsedSinceGambol = 0;
+  let gambolInterval = 2;
+  
+  let attackers = [];
 
   this.update = function (delta){
 
@@ -51,6 +56,7 @@ const AIPlayer = new (function() {
     }
     this.sendChickenToCompleteBuilding();
     this.allIdleChickensCollectSlime();
+    this.pigsAndGoblinsGambol(delta);
 
     elapsedSinceLastWave += delta;
     this.prepareEnemyWave();
@@ -90,10 +96,11 @@ const AIPlayer = new (function() {
       }
     }
 
-    if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
-      this.defendSlime();
-    }
+    //if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
+    //  this.defendSlime();
+    //}
 
+    this.defendUnits();
   }; //end this.update()
   
   this.prepareEnemyWave = function(){
@@ -148,9 +155,9 @@ const AIPlayer = new (function() {
       for (let j = 0; j < playerUnitsLength; j++){
 
         let enemyUnit = enemyWave[i];
-          if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
-               enemyUnit.setTarget(allPlayerUnits[j]);
-          }
+        if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
+          enemyUnit.setTarget(allPlayerUnits[j]);
+        }
       }
     }
   }
@@ -212,6 +219,41 @@ const AIPlayer = new (function() {
     }
   }
   
+  this.pigsAndGoblinsGambol = function(delta){
+
+    elapsedSinceGambol += delta;
+    if (gambolInterval >= elapsedSinceGambol){
+        return;
+    }
+
+    let length = allEnemyMovingUnits.length;
+
+    for (let i = 0; i < length; i++){
+      unit = allEnemyMovingUnits[i];
+      if (!unit.getTarget() && unit.constructor != ChickenEnemy) { //Chickens are ironically too busy to gambol in this game.
+
+        let newPosition = {x: null, y: null};
+        let currentPosition = unit.getPosition();
+        let randomXchange = (Math.random(0, (2 * TILE_SIZE)) * 100);
+        let randomYchange = (Math.random(0, (2 * TILE_SIZE)) * 100);
+        let multiplierX = (Math.random(0,1) < 0.5 ? -1 : 1);
+        let multiplierY = (Math.random(0,1) < 0.5 ? -1 : 1);
+
+        newPosition.x = currentPosition.x + (randomXchange * multiplierX);
+        newPosition.y = currentPosition.y + (randomYchange * multiplierY);
+
+        //if (Grid.isWalkableCoords(newPosition)){
+          target = Game.createTarget(newPosition);
+          unit.setTarget(target)
+        //}
+      }
+    }
+
+    if (gambolInterval <= elapsedSinceGambol){
+      elapsedSinceGambol = 0;
+    }
+  }
+  
   this.placeEnemyBuilding = function(unitConstructor){
     
     let centralUnit;  
@@ -235,7 +277,6 @@ const AIPlayer = new (function() {
     }
 
     centralUnit.buildPlot(centralUnit, unitConstructor);
-
   }
 
   this.buildEnemyUnit = function(unitConstructor){
@@ -272,6 +313,29 @@ const AIPlayer = new (function() {
     }
     return allBuildingsComplete;
   }
+  
+  this.defendUnits = function(){ //WIP
+
+    for (let i = 0; i < allPlayerMovingUnits.length; i++){
+      for (let j = 0; j < allEnemyUnits.length; j++){
+        if (allPlayerMovingUnits[i].getTarget() === allEnemyUnits[j]){
+          if (attackers.indexOf(allPlayerMovingUnits[i]) === -1 ){
+            attackers.push(allPlayerMovingUnits[i]);
+            if (attackers[0].getHealth() <= 0){
+              attackers.shift();
+            }
+          }
+        }
+      }
+    }
+
+    if (attackers.length > 0){
+      for (let i = 0; i < allEnemyMovingUnits.length; i++){
+        allEnemyMovingUnits[i].setTarget(attackers[0]);
+      }
+      attackers.shift();
+    }
+  }
 
   this.defendSlime = function(){
     let length = allPlayerMovingUnits.length;
@@ -294,9 +358,9 @@ const AIPlayer = new (function() {
       for (let j = 0; j < playerUnitsLength; j++){
 
         let enemyUnit = allEnemyMovingUnits[i];
-          if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
-               enemyUnit.setTarget(allPlayerUnits[j]);
-          }
+        if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
+          enemyUnit.setTarget(allPlayerUnits[j]);
+        }
       }
     }
   }
@@ -314,6 +378,7 @@ const AIPlayer = new (function() {
     allEnemySlimePatchUnits = [];
     allEnemySlimeUnits = [];
     allPlayerUnits = [];
+    allPlayerMovingUnits = [];
   }
   
   this.findAllEnemyUnits = function(){
@@ -360,8 +425,8 @@ const AIPlayer = new (function() {
         case "SlimeEnemy":
           allEnemySlimeUnits.push(unit);
           break;
-        }
       }
+    }
   }
 
   this.findAllPlayerUnits = function(){
@@ -375,28 +440,26 @@ const AIPlayer = new (function() {
     }
 
     length = allPlayerUnits.length;
-      for (let i = 0; i < length; i++) {
-        let unit = allPlayerUnits[i];
-        switch (unit.constructor.name){
-          case "Pig":
-          case "Goblin":
-          case "Chicken":
-            allPlayerMovingUnits.push(unit);
-            break;
-          case "Barracks":
-          case "MudPit":
-          case "House":
-            allPlayerBuildingUnits.push(unit);
-            break;
-          case "SlimePatch":
-            allPlayerSlimePatchUnits.push(unit);
-            break;
-          case "Slime":
-            allPlayerSlimeUnits.push(unit);
-            break;
-        }
+    for (let i = 0; i < length; i++) {
+      let unit = allPlayerUnits[i];
+      switch (unit.constructor.name){
+        case "Pig":
+        case "Goblin":
+        case "Chicken":
+          allPlayerMovingUnits.push(unit);
+          break;
+        case "Barracks":
+        case "MudPit":
+        case "House":
+          allPlayerBuildingUnits.push(unit);
+          break;
+        case "SlimePatch":
+          allPlayerSlimePatchUnits.push(unit);
+          break;
+        case "Slime":
+          allPlayerSlimeUnits.push(unit);
+          break;
       }
-
+    }
   }
-
 });
