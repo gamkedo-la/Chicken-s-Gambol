@@ -178,7 +178,7 @@ const Interface = new (function() {
       drawText(gameContext, 10, 10, 'White', SLIME_FONT, 'left', 'middle', 'AI Slime: ' + Game.getNumSlime(TEAM_ENEMY));
       drawText(gameContext, 10, 30, 'White', SLIME_FONT, 'left', 'middle', 'AI Units: ' + Game.getNumUnits(TEAM_ENEMY));
       drawText(gameContext, 10, 50, 'White', SLIME_FONT, 'left', 'middle', 'AI Max Units: ' + Game.getMaxNumUnits(TEAM_ENEMY));
-      drawText(gameContext, 10, 70, 'White', SLIME_FONT, 'left', 'middle', 'Time Since Last Wave: ' + AIPlayer.getElapsedSinceLastWave());
+      drawText(gameContext, 10, 70, 'White', SLIME_FONT, 'left', 'middle', 'Time Since Last Wave: ' + Math.round(AIPlayer.getElapsedSinceLastWave() * 10) / 10.0);
     }
   };
 

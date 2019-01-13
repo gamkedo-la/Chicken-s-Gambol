@@ -52,14 +52,14 @@ const Button = function(x, y, w, h, isToggle, callback, drawCallback, activeBg, 
 
     if (this.isPositionOverButton(mousePosition)) {
       hover = true;
-
-      if (sprite) {
-        sprite.setState('hover');
-      }
       if (Input.isPressed(KEY.MOUSE_LEFT)) {
         active = isToggle && !active;
         callback(this);
       }
+    }
+
+    if ((active || hover) && sprite) {
+      sprite.setState('hover');
     }
     else if (sprite) {
       sprite.setState('default');

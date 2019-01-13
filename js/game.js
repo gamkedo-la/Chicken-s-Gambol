@@ -4,7 +4,7 @@ let Game = new (function() {
   let buildPreviewImage = false;
   let buildPreviewImageInvalid = false;
   let placedBuilding = false;
-  let canPlaceBuilding = false;
+  let buildButton = undefined;
 
   let removeDeadUnits = false;
 
@@ -146,12 +146,20 @@ let Game = new (function() {
     }
   };
 
-  this.buildButton = function(Constructor, previewImage, team) {
+  this.buildButton = function(Constructor, previewImage, team, button) {
     if (team === TEAM_PLAYER){
       buildPreviewImage = previewImage;
       buildPreviewImageInvalid = createTintedSprite(buildPreviewImage, 'red', .3);
       this.buildActionConstructor = Constructor;
       placedBuilding = false;
+
+      if (buildButton) {
+        buildButton.deactivate();
+      }
+      buildButton = button;
+      if (button) {
+        button.activate();
+      }
     }
   };
 
@@ -160,6 +168,11 @@ let Game = new (function() {
     placedBuilding = false;
     buildPreviewImage = false;
     buildPreviewImageInvalid = false;
+
+    if (buildButton) {
+      buildButton.deactivate();
+    }
+    buildButton = undefined;
   };
 
   this.placeBuilding = function() {
@@ -187,27 +200,27 @@ let Game = new (function() {
     return this.buildActionConstructor !== false;
   };
 
-  this.buildHouse = function(team) {
+  this.buildHouse = function(team, button) {
     if (team === TEAM_PLAYER){
-      this.buildButton(House, Images.housePreview, team);
+      this.buildButton(House, Images.housePreview, team, button);
     } else if (team === TEAM_ENEMY){
-      this.buildButton(HouseEnemy, Images.housePreview, team);
+      this.buildButton(HouseEnemy, Images.housePreview, team, button);
     }
   };
 
-  this.buildMudPit = function(team) {
+  this.buildMudPit = function(team, button) {
     if (team === TEAM_PLAYER){
-      this.buildButton(MudPit, Images.mudPitPreview, team);
+      this.buildButton(MudPit, Images.mudPitPreview, team, button);
     } else if (team === TEAM_ENEMY){
-      this.buildButton(MudPitEnemy, Images.mudPitPreview, team);
+      this.buildButton(MudPitEnemy, Images.mudPitPreview, team, button);
     }
   };
 
-  this.buildBarracks = function(team) {
+  this.buildBarracks = function(team, button) {
     if (team === TEAM_PLAYER){
-      this.buildButton(Barracks, Images.barracksPreview, team);
+      this.buildButton(Barracks, Images.barracksPreview, team, button);
     } else if (team === TEAM_ENEMY){
-      this.buildButton(BarracksEnemy, Images.barracksPreview, team);
+      this.buildButton(BarracksEnemy, Images.barracksPreview, team, button);
     }
   };
 
@@ -298,7 +311,7 @@ let Game = new (function() {
     }
 
     if (this.hasActiveBuildButton() && Input.isPressed(KEY.MOUSE_LEFT)) {
-      if (this.canBuildAtMousePosition()) {
+      if (this.canBuildAtMousePosition() && !Interface.hasMouseOver(mousePos)) {
         this.placeBuilding();
       }
     }
