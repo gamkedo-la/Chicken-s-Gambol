@@ -82,6 +82,10 @@ const Barracks = function(team, settings) {
     return spawnPosition;
   }
 
+  this.getQueue = function(){
+    return queue;
+  }
+
   this._draw = function() {
     if (DEBUG) {
       let p = getSpawnPosition();
