@@ -18,11 +18,29 @@ const Chicken = function(team, settings) {
     deadBodySprite: Images.deadChickenImg
   });
 
+  let maxDistanceToFindBuildingOrSlimePatch = 90000;
   let harvested = 0;
   let lastHarvestedPosition;
 
   this.finishedBuilding = function() {
     this.unsetTarget();
+    let newBuilding = this.findNearbyitemInList(
+      Game.units,
+      this.getPosition(),
+      [
+        House, Barracks, MudPit,
+        HouseEnemy, BarracksEnemy, MudPitEnemy
+      ],
+      team,
+      maxDistanceToFindBuildingOrSlimePatch,
+      function(item) {
+        return !item.isComplete();
+      }
+    );
+
+    if (newBuilding) {
+      this.setTarget(newBuilding);
+    }
   };
 
   this.childUpdate = function(delta) {
@@ -90,10 +108,10 @@ const Chicken = function(team, settings) {
   };
 
   this.findSlimePatch = function(position) {
-    return this.findNearbyitemInList(Game.units, position, [SlimePatch, SlimePatchEnemy], team, 90000);
+    return this.findNearbyitemInList(Game.units, position, [SlimePatch, SlimePatchEnemy], team, maxDistanceToFindBuildingOrSlimePatch);
   };
 
-  this.findNearbyitemInList = function(list, position, types, team, maxDistanceSquared) {
+  this.findNearbyitemInList = function(list, position, types, team, maxDistanceSquared, extraCheckCallback) {
 
     if (this.constructor === ChickenEnemy){
       maxDistanceSquared = 9000000;
@@ -114,6 +132,10 @@ const Chicken = function(team, settings) {
       }
 
       if (listItem.getTeam() !== team) {
+        continue;
+      }
+
+      if (extraCheckCallback && !extraCheckCallback(listItem)) {
         continue;
       }
 
