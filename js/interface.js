@@ -43,9 +43,9 @@ const Interface = new (function() {
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken, "Chicken (Build/Harvest)"),
-      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin, "Goblin (Combat)"),
-      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig, "Pig (Combat)")
+      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken, "Chicken (build/harvest, medium combat, slowest)"),
+      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin, "Goblin (ranged attack, weakest, fastest)"),
+      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig, "Pig (melee, most damage/health, medium speed)")
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
