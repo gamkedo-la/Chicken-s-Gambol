@@ -41,11 +41,11 @@ const TILE_COLLISION_SIZE = TILE_HALF_SIZE + 2;
 
 const GRID_SCROLL_SPEED = 200;
 
-const LASSO_COLOR = '#ffffce';
-const SELECTED_COLOR = '#ffe6ad';
-const MINIMAP_UNIT_COLOR = '#ffe6ad';
+const LASSO_COLOR = '#00beef';
+const SELECTED_COLOR = '#00beef';
+const MINIMAP_UNIT_COLOR = '#00efbe';
 const MINIMAP_UNIT_COLOR_ENEMY = '#ff2554';
-const HEALTH_BAR_COLOR = '#ffe6ad';
+const HEALTH_BAR_COLOR = '#00beef';
 const HEALTH_BAR_WIDTH = TILE_SIZE - 4;
 
 const MIN_NUM_UNITS = 5;
