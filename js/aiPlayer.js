@@ -255,6 +255,10 @@ const AIPlayer = new (function() {
 
   this.placeEnemyBuilding = function(unitConstructor){
 
+    if (allEnemyChickenUnits.length < 1){
+      return;
+    }
+
     let centralUnit;
 
     if (allEnemyBuildingUnits.length >= 1){
