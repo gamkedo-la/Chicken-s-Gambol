@@ -48,10 +48,10 @@ let Selection = new (function() {
 
     switch (unit.constructor.name){
         case "Pig":
-          pig_select_sound.play();
+          playSoundIfNotMuted(pig_select_sound);
           break;
         case "Chicken":
-          chicken_select_sound.play();
+          playSoundIfNotMuted(chicken_select_sound);
           break;
     }
   };

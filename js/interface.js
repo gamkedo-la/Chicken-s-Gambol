@@ -29,8 +29,8 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 22, true, () => console.log('music button'), false, Images.topButtonBg, undefined, "Toggle Music (To Do)"),
-      new Button(692, 7, 30, 22, true, () => console.log('sound button'), false, Images.topButtonBg, undefined, "Toggle Sound (To Do)"),
+      new Button(654, 7, 30, 22, true, () => (music_sound.paused ? music_sound.play() : music_sound.pause()), false, Images.topButtonBg, undefined, "Toggle Music"),
+      new Button(692, 7, 30, 22, true, () => isSoundMute = !isSoundMute, false, Images.topButtonBg, undefined, "Toggle Sound"),
       new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg, undefined, "Pause"),
       new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg, undefined, "Delete Selection"),
       new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg, undefined, "Find Idle Chicken")

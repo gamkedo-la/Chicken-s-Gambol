@@ -46,7 +46,7 @@ function playSong(filename) {
   music_sound.pause();
   music_sound.src = "audio/background_tracks/"+filename+".mp3";
   music_sound.autoplay = false;
-  music_sound.loop = false;
+  music_sound.loop = true;
   music_sound.volume = 0.1;
   music_sound.play();
 }

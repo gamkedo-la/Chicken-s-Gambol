@@ -1,3 +1,11 @@
+let isSoundMute = false;
+
+function playSoundIfNotMuted(whichSound) {
+	if(isSoundMute == false) {
+		whichSound.play();
+	}
+}
+
 let idleChickenSound1 = new Audio();
 let idleChickenSound2 = new Audio();
 let idleChickenSound3 = new Audio();
