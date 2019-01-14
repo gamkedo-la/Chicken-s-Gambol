@@ -96,21 +96,23 @@ const AIPlayer = new (function() {
       }
     }
 
-    //if (allEnemySlimeUnits[0].getHealth() < allEnemySlimeUnits[0].getMaxHealth()){
-    //  this.defendSlime();
-    //}
-
     this.defendUnits();
   }; //end this.update()
 
   this.prepareEnemyWave = function(){
+
+    for (let i = 0; i < enemyWave.length; i++){
+      if (enemyWave[i].getHealth() <= 0){
+        enemyWave.splice(i, 1);
+      }
+    }
 
     if (enemyWave.length <= 0){
       enemyWaveReady = false;
     }
 
     if(enemyWaveReady){
-        return;
+      return;
     }
 
     enemyWave = [];
@@ -334,7 +336,8 @@ const AIPlayer = new (function() {
 
     if (attackers.length > 0){
       for (let i = 0; i < allEnemyMovingUnits.length; i++){
-        allEnemyMovingUnits[i].setTarget(attackers[0]);
+        let nearbyAttacker = allEnemyMovingUnits[i].findNearbyitemInList(attackers, allEnemyMovingUnits[i].getPosition(), [Pig, Goblin, Chicken], TEAM_PLAYER, 90000)
+        allEnemyMovingUnits[i].setTarget(nearbyAttacker);
       }
       attackers.shift();
     }

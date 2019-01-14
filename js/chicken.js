@@ -104,10 +104,16 @@ const Chicken = function(team, settings) {
   };
 
   this.findMudPit = function(position) {
+    if (this.constructor === ChickenEnemy){
+      maxDistanceToFindBuildingOrSlimePatch = 9000000;
+    }
     return this.findNearbyitemInList(Game.units, position, [MudPit, MudPitEnemy], team);
   };
 
   this.findSlimePatch = function(position) {
+    if (this.constructor === ChickenEnemy){
+      maxDistanceToFindBuildingOrSlimePatch = 9000000;
+    }
     return this.findNearbyitemInList(Game.units, position, [SlimePatch, SlimePatchEnemy], team, maxDistanceToFindBuildingOrSlimePatch);
   };
 

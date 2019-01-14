@@ -200,9 +200,6 @@ const Unit = function(team, settings) {
   };
 
   this.findNearbyitemInList = function(list, position, types, team, maxDistanceSquared, extraCheckCallback) {
-    if (this.constructor === ChickenEnemy){
-      maxDistanceSquared = 9000000;
-    }
 
     let item, distance;
     let l = list.length;
