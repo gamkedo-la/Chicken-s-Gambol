@@ -118,7 +118,6 @@ const MovingUnit = function(team, settings) {
           otherTeam,
           scoutDistanceSquared
         );
-        console.log('find enemy', enemyUnit);
         if (enemyUnit) {
           this.setTarget(enemyUnit);
         }

@@ -115,16 +115,16 @@ const Unit = function(team, settings) {
   };
 
   this.leaveDeadBody = function() {
-    console.log("Unit died! Adding a dead body decal...");
+//    console.log("Unit died! Adding a dead body decal...");
     if (this.deadBodySprite) {
       let pos = this.getPosition();
       pos.angle = Math.random()*Math.PI*2;
       addGroundDecal(pos,this.deadBodySprite);
     }
-    else
-    {
-      console.log("Unit does not have a deadBodySprite...");
-    }
+//    else
+//    {
+//      console.log("Unit does not have a deadBodySprite...");
+//    }
   };
 
   this.doDamage = function(damage) {

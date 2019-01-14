@@ -13,7 +13,7 @@ const BuildingUnit = function(team, settings) {
     unwalkableGrid: [2, 2],
     maxBuildDistance: 8 //Settings copied from Slime class
   });
-  
+
   //Variables copied from Slime class
   let maxBuildDistanceSquared = Math.pow(settings.maxBuildDistance * TILE_SIZE, 2);
   let buildablePlots = [];
@@ -52,7 +52,6 @@ const BuildingUnit = function(team, settings) {
 
   this._doDamage = function(damage) {
     let step = Math.max(0, Math.floor((this.getHealth() / this.getMaxHealth()) * 5));
-    console.log('set damage' + step);
     this.setState('damage' + step);
   };
 
@@ -65,7 +64,7 @@ const BuildingUnit = function(team, settings) {
   this.isBuilding = function() {
     return true;
   };
-  
+
   //Functions below copied from Slime class
   this.buildPlot = function(centralUnit, buildingType) {
     findBuildablePlots();
@@ -83,10 +82,10 @@ const BuildingUnit = function(team, settings) {
     }
 
     plot.centralUnit = centralUnit;
-	
+
     Game.create(buildingType, team, plot);
   }
-  
+
   function findBuildablePlots() {
     if (0 < buildablePlots.length) {
       return;
@@ -128,7 +127,7 @@ const BuildingUnit = function(team, settings) {
 
     //buildablePlots = shuffle(buildablePlots.splice(0, buildablePlots.length));
   }
-  
+
   function addPlotPosition(x, y, distanceFromCentralUnit) {
     let length = buildablePlots.length;
     for (let i = 0; i < length; i++) {
@@ -139,7 +138,7 @@ const BuildingUnit = function(team, settings) {
 
     buildablePlots.push({ x: x, y: y, distanceFromCentralUnit: distanceFromCentralUnit });
   }
-  
+
 };
 
 BuildingUnit.prototype = Object.create(Unit.prototype);
