@@ -329,16 +329,23 @@ let Game = new (function() {
   }
 
   function checkGameWinLoseState(list) {
+    let criticalUnit = false;
     let hasPlayer = false;
     let hasPlayerSlime = false;
     let hasEnemy = false;
     let hasEnemySlime = false;
 
+    let criticalUnitConstructors = [
+      Chicken, ChickenEnemy,
+      Barracks, BarracksEnemy
+    ];
+
     let length = list.length;
     for (let i = 0; i < length; i++) {
       let unit = list[i];
-      hasPlayer = hasPlayer || unit.isPlayer(TEAM_PLAYER);
-      hasEnemy = hasEnemy || unit.isEnemy(TEAM_ENEMY);
+      criticalUnit = criticalUnitConstructors.indexOf(unit.constructor) !== -1;
+      hasPlayer = hasPlayer || (criticalUnit && unit.getTeam() === TEAM_PLAYER);
+      hasEnemy = hasEnemy || (criticalUnit && unit.getTeam() === TEAM_ENEMY);
       hasPlayerSlime = hasPlayerSlime || unit.constructor === Slime;
       hasEnemySlime = hasEnemySlime || unit.constructor === SlimeEnemy;
 
@@ -347,7 +354,9 @@ let Game = new (function() {
       }
     }
 
-    PauseInterface.gameOver(hasPlayer && hasPlayerSlime);
+    setTimeout(function() {
+      PauseInterface.gameOver(hasPlayer && hasPlayerSlime);
+    }, 1);
   }
 
   this.canBuildAtMousePosition = function(team) {

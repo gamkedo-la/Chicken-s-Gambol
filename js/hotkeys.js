@@ -17,7 +17,7 @@ const HotKeys = new (function() {
       }
     }
 
-    if (Input.isPressed(KEY.C) && DEBUG) {
+    if (DEBUG && Input.isPressed(KEY.C)) {
       AI_ENABLED = !AI_ENABLED;
       if (AI_ENABLED) {
         console.log("AI Enabled");
@@ -94,15 +94,16 @@ const HotKeys = new (function() {
       }
     }
 
-    // test dead bodies: insta-kill the known first unit
     if (DEBUG) {
       if (Input.isPressed(KEY.K)) {
+        let kill = selection[0] ? selection[0] : Game.units[0];
         console.log("CHEAT KEY! [K]ILL A UNIT!");
-        Game.units[0].doDamage(Game.units[0].getHealth() + 1);
+        kill.doDamage(kill.getHealth() + 1);
       }
       if (Input.isPressed(KEY.L)) {
+        let kill = selection[0] ? selection[0] : Game.units[0];
         console.log("CHEAT KEY! [L]ET UNIT GET DAMAGED!");
-        selection[0].doDamage(2);
+        kill.doDamage(2);
       }
     }
   };
