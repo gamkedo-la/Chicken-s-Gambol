@@ -8,7 +8,7 @@ const Pig = function(team, settings) {
     unitRanksSpacing: 36,
     footprints: Images.footprints,
     collisionRange: 26,
-    speed: 1.75,
+    speed: 1.6,
     damage: 4,
     maxHealth: 13,
     selectionY: TILE_HALF_SIZE / 2,

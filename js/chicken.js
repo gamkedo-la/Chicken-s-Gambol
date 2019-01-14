@@ -95,7 +95,7 @@ const Chicken = function(team, settings) {
   };
 
   this.canBuildBuilding = function(target) {
-    if (!target.isComplete || target.isComplete == undefined) {
+    if (!target.isComplete || target.isComplete === undefined) {
       return false;
     }
 
