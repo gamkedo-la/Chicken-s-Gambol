@@ -199,6 +199,54 @@ const Unit = function(team, settings) {
     return distanceBetweenPointsSquared(this.getPosition(), clickPosition) < clickRadiusSquared;
   };
 
+  this.findNearbyitemInList = function(list, position, types, team, maxDistanceSquared, extraCheckCallback) {
+    if (this.constructor === ChickenEnemy){
+      maxDistanceSquared = 9000000;
+    }
+
+    let item, distance;
+    let l = list.length;
+
+    for (let i = 0; i < l; i++) {
+      let listItem = list[i];
+
+      if (listItem.getTeam() !== team) {
+        continue;
+      }
+
+      if (types.indexOf(listItem.constructor) === -1) {
+        continue;
+      }
+
+      if (listItem.getTeam() !== team) {
+        continue;
+      }
+
+      if (extraCheckCallback && !extraCheckCallback(listItem)) {
+        continue;
+      }
+
+      if (item === undefined) {
+        distance = distanceBetweenPointsSquared(position, listItem.getPosition());
+        if (maxDistanceSquared && maxDistanceSquared < distance) {
+          continue;
+        }
+
+        item = listItem;
+        continue;
+      }
+
+      let distance2 = distanceBetweenPointsSquared(position, listItem.getPosition());
+
+      if (maxDistanceSquared && maxDistanceSquared < distance && distance2 < distance) {
+        item = listItem;
+        distance = distance2;
+      }
+    }
+
+    return item;
+  };
+
   this.update = function(delta) {
     if (!enabled) {
       return;

@@ -31,6 +31,11 @@ const MovingUnit = function(team, settings) {
 
   let currentPath;
 
+  let scoutTimeout = 1;
+  let scoutTimeoutRemaining = scoutTimeout;
+  let scoutDistanceSquared = 90000;
+  let otherTeam = (team === TEAM_PLAYER) ? TEAM_ENEMY : TEAM_PLAYER;
+
   this.getTarget = function() {
     return target;
   };
@@ -94,7 +99,31 @@ const MovingUnit = function(team, settings) {
   this._update = function(delta) {
     let state = this.getState();
     if (!target && state === 'default') {
-      // find closest enemy within detection range; set target else return
+      // scout for enemy units nearby...
+      scoutTimeoutRemaining -= delta;
+      if (scoutTimeoutRemaining <= 0) {
+        scoutTimeoutRemaining += scoutTimeout;
+        let enemyUnit = this.findNearbyitemInList(
+          Game.units,
+          this.getPosition(),
+          [
+            Pig, PigEnemy,
+            Chicken, ChickenEnemy,
+            Goblin, GoblinEnemy,
+            House, HouseEnemy,
+            Barracks, BarracksEnemy,
+            MudPit, MudPitEnemy,
+            Slime, SlimeEnemy
+          ],
+          otherTeam,
+          scoutDistanceSquared
+        );
+        console.log('find enemy', enemyUnit);
+        if (enemyUnit) {
+          this.setTarget(enemyUnit);
+        }
+      }
+
       return;
     }
 

@@ -26,7 +26,7 @@ const AIPlayer = new (function() {
   let allPlayerBarracksUnits = [];
   let allPlayerSlimePatchUnits = [];
   let allPlayerSlimeUnits = [];
-  
+
   let buildingPlacedThisFrame = false;
 
   let enemyWave = [];
@@ -34,10 +34,10 @@ const AIPlayer = new (function() {
   let enemyWaveReady = false;
   let elapsedSinceLastWave = 0;
   let enemyWaveInterval = 120;
-  
+
   let elapsedSinceGambol = 0;
   let gambolInterval = 2;
-  
+
   let attackers = [];
 
   this.update = function (delta){
@@ -102,13 +102,13 @@ const AIPlayer = new (function() {
 
     this.defendUnits();
   }; //end this.update()
-  
+
   this.prepareEnemyWave = function(){
-  
+
     if (enemyWave.length <= 0){
       enemyWaveReady = false;
     }
-  
+
     if(enemyWaveReady){
         return;
     }
@@ -161,11 +161,11 @@ const AIPlayer = new (function() {
       }
     }
   }
-  
+
   this.getElapsedSinceLastWave = function (){
     return elapsedSinceLastWave;
   }
-  
+
   this.moreChickensNeeded = function(){
 
     let barracks;
@@ -193,9 +193,9 @@ const AIPlayer = new (function() {
       return false;
     }
   }
-  
+
   this.sendChickenToCompleteBuilding = function(){
-    
+
     let uncompletedBuilding;
     let length = allEnemyBuildingUnits.length;
     for (let i = 0; i < length; i++){
@@ -204,7 +204,7 @@ const AIPlayer = new (function() {
       }
     }
 
-    if (!this.allBuildingsComplete()) {
+    if (!this.allBuildingsComplete() && allEnemyChickenUnits[0]) {
       allEnemyChickenUnits[0].setTarget(uncompletedBuilding);
     }
   }
@@ -212,13 +212,13 @@ const AIPlayer = new (function() {
   this.allIdleChickensCollectSlime = function(){
     let length = allEnemyChickenUnits.length;
     for (let i = 0; i < length; i++){
-      currentTarget = allEnemyChickenUnits[i].getTarget();
+      let currentTarget = allEnemyChickenUnits[i].getTarget();
       if (currentTarget === undefined ||(currentTarget.isBuilding() && currentTarget.constructor != MudPitEnemy && currentTarget.isComplete() && currentTarget.getTeam() === TEAM_ENEMY)){
         allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
       }
     }
   }
-  
+
   this.pigsAndGoblinsGambol = function(delta){
 
     elapsedSinceGambol += delta;
@@ -229,7 +229,7 @@ const AIPlayer = new (function() {
     let length = allEnemyMovingUnits.length;
 
     for (let i = 0; i < length; i++){
-      unit = allEnemyMovingUnits[i];
+      let unit = allEnemyMovingUnits[i];
       if (!unit.getTarget() && unit.constructor != ChickenEnemy) { //Chickens are ironically too busy to gambol in this game.
 
         let newPosition = {x: null, y: null};
@@ -243,8 +243,7 @@ const AIPlayer = new (function() {
         newPosition.y = currentPosition.y + (randomYchange * multiplierY);
 
         //if (Grid.isWalkableCoords(newPosition)){
-          target = Game.createTarget(newPosition);
-          unit.setTarget(target)
+          unit.setTarget(Game.createTarget(newPosition))
         //}
       }
     }
@@ -253,11 +252,11 @@ const AIPlayer = new (function() {
       elapsedSinceGambol = 0;
     }
   }
-  
+
   this.placeEnemyBuilding = function(unitConstructor){
-    
-    let centralUnit;  
-    
+
+    let centralUnit;
+
     if (allEnemyBuildingUnits.length >= 1){
       centralUnit = allEnemyBuildingUnits[Math.floor(Math.random() * (allEnemyBuildingUnits.length - 0)) + 0];
     } else {
@@ -297,7 +296,7 @@ const AIPlayer = new (function() {
 
     barracks.queueUnit(unitConstructor);
   }
-  
+
   this.allBuildingsComplete = function(){
     let length = allEnemyBuildingUnits.length;
 
@@ -313,7 +312,7 @@ const AIPlayer = new (function() {
     }
     return allBuildingsComplete;
   }
-  
+
   this.defendUnits = function(){ //WIP
 
     for (let i = 0; i < allPlayerMovingUnits.length; i++){
@@ -380,7 +379,7 @@ const AIPlayer = new (function() {
     allPlayerUnits = [];
     allPlayerMovingUnits = [];
   }
-  
+
   this.findAllEnemyUnits = function(){
 
     let length = Game.units.length;
