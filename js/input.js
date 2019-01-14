@@ -23,6 +23,8 @@ const Input = new (function() {
 
   let canvasRect;
 
+  let toolTipText = null;
+
   // display a preview of what the AI path would be?
   const PREVIEW_PATH = true;
 
@@ -144,6 +146,18 @@ const Input = new (function() {
       }
     }
   };
+
+  this.setToolTip = function(newText) {
+    toolTipText = newText;
+  }
+  this.drawToolTip = function() {
+    if(toolTipText !== null) {
+      let mousePos = this.getMousePosition();
+      let textSize = gameContext.measureText(toolTipText).width;
+      drawFillRect(gameContext, mousePos.sx-textSize/2, mousePos.sy-15, textSize, 15, 'black');
+      drawTextWithShadow(gameContext, mousePos.sx, mousePos.sy, FONT_COLOR, BUTTON_COUNT_FONT, 'center', 'bottom', toolTipText);
+    }
+  }
 
   function getButtonId(event) {
     if (event.keyCode !== undefined) {

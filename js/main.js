@@ -169,6 +169,9 @@ function gameDraw(interpolationPercentage) {
     Game.draw();
     drawParticles();
 
+
+    gameContext.restore();
+
     if (DEBUG) {
       Grid.drawDebug();
 
@@ -183,6 +186,8 @@ function gameDraw(interpolationPercentage) {
 
   if (!PauseInterface.isPaused()) {
     Interface.draw();
+    Input.drawToolTip();
+    Input.setToolTip(null); // wipe/reset any previous tooltip
   }
 
   redrawCanvas();

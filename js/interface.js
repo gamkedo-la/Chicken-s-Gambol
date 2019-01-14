@@ -29,23 +29,23 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 22, true, () => console.log('music button'), false, Images.topButtonBg),
-      new Button(692, 7, 30, 22, true, () => console.log('sound button'), false, Images.topButtonBg),
-      new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg),
-      new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg),
-      new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg)
+      new Button(654, 7, 30, 22, true, () => console.log('music button'), false, Images.topButtonBg, undefined, "Toggle Music (To Do)"),
+      new Button(692, 7, 30, 22, true, () => console.log('sound button'), false, Images.topButtonBg, undefined, "Toggle Sound (To Do)"),
+      new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg, undefined, "Pause"),
+      new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg, undefined, "Delete Selection"),
+      new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg, undefined, "Find Idle Chicken")
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonHouse),
-      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonMudPit),
-      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonBarracks)
+      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonHouse, "House (Increase Unit Cap)"),
+      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonMudPit, "Slime Pit (Store Slime)"),
+      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonBarracks, "Barracks (Build Units)")
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken),
-      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin),
-      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig)
+      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken, "Chicken (Build/Harvest)"),
+      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin, "Goblin (Combat)"),
+      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig, "Pig (Combat)")
     ];
 
     callbackList(unitBuildButtons, 'disable', []);

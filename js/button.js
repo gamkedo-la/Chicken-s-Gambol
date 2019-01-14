@@ -1,4 +1,4 @@
-const Button = function(x, y, w, h, isToggle, callback, drawCallback, activeBg, sprite) {
+const Button = function(x, y, w, h, isToggle, callback, drawCallback, activeBg, sprite, toolTipText) {
 
   let hover = false;
   let active = false;
@@ -52,6 +52,10 @@ const Button = function(x, y, w, h, isToggle, callback, drawCallback, activeBg, 
 
     if (this.isPositionOverButton(mousePosition)) {
       hover = true;
+      if(toolTipText) {
+        Input.setToolTip(toolTipText);
+      }
+
       if (Input.isPressed(KEY.MOUSE_LEFT)) {
         active = isToggle && !active;
         callback(this);

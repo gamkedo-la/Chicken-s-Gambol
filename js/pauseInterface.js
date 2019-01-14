@@ -18,8 +18,8 @@ const PauseInterface = new (function() {
     halfHeight = pauseCanvas.height / 2;
 
     buttons = [
-      new Button(405, 241, 63, 24, true, this.resumeGame, this.drawButtonText.bind(this, 'Resume'), Images.interfacePauseButtonBg),
-      new Button(302, 241, 63, 24, true, this.quitToMenu, this.drawButtonText.bind(this, 'Menu'), Images.interfacePauseButtonBg),
+      new Button(405, 241, 63, 24, true, this.resumeGame, this.drawButtonText.bind(this, 'Resume'), Images.interfacePauseButtonBg, undefined, "Unpause Game"),
+      new Button(302, 241, 63, 24, true, this.quitToMenu, this.drawButtonText.bind(this, 'Menu'), Images.interfacePauseButtonBg, undefined, "Quit Game"),
     ];
   };
 
