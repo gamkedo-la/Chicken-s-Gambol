@@ -19,6 +19,8 @@ let Game = new (function() {
   let numSlimeAI = STARTING_AMOUNT_SLIME;
 
   this.initialize = function() {
+    this.units = [];
+
     this.buildActionConstructor = false;
     buildPreviewImage = false;
     buildPreviewImageInvalid = false;

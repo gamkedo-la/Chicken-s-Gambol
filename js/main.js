@@ -54,7 +54,6 @@ function playSong(filename) {
 function menuInitialize() {
   playSong("chickens_intro_V2");
 
-  Game.initialize();
   Input.initialize();
   Menu.initialize();
 
@@ -73,6 +72,7 @@ function gameInitialize(levelId) {
     return;
   }
 
+  Game.initialize();
   Interface.initialize();
   PauseInterface.initialize();
 
@@ -84,7 +84,7 @@ function gameInitialize(levelId) {
 
 function gameUnInitialize() {
   playSong("chickens_intro_V2");
-  
+
   gameIsStarted = false;
   Grid.unInitialize();
   Interface.unInitialize();
