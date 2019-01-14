@@ -283,7 +283,15 @@ const Unit = function(team, settings) {
     }
 
     if (sprite) {
-      sprite.drawAt(this.getPosition());
+      let posNow = this.getPosition();
+      sprite.drawAt(posNow);
+      if(this.getBuildPercentage && this.constructor.name != "Slime") {
+        let buildPerc = this.getBuildPercentage();
+        if(buildPerc<100.0) {
+          drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, 100.0, 'black', 5);
+          drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, buildPerc/100.0, 'orange', 5);
+        }
+      }
     }
 
     if (this._draw) {

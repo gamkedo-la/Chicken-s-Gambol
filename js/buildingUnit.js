@@ -36,6 +36,10 @@ const BuildingUnit = function(team, settings) {
     return buildCompletePercentage === 100;
   };
 
+  this.getBuildPercentage = function() {
+    return buildCompletePercentage;
+  }
+
   this.addBuildPercentage = function(percentage) {
     buildCompletePercentage = Math.min(100, buildCompletePercentage + percentage);
 
