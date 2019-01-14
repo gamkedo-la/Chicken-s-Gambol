@@ -21,15 +21,15 @@ const Menu = new (function() {
 
   let creditsList =
 ["• Caspar \"SpadXIII\" Dunant: Project co-lead, initial implementation and setup,",
-"unit selection and movement, scrolling view, main interface code, unit behavior",
-"and collision, build and construction code, slime harvesting, level editor,",
-"animation class, input handling, in-game debug view, CSS, win/loss code",
-"• Marc Silva: Project co-lead, art and most animations for chicken, slime blob,",
-"pig, and goblin characters, house art",
-"• Vince McKeown: Art for grass, dirt, house and buildings (including damaged",
-"and destroyed states), goblin sprite integration",
-"• Brian Boucher: AI enemy army programming and related optimizations, group",
-"selection by number key, slime patch organic randomization",
+"unit selection and movement, scrolling view, main interface code, unit",
+" behavior and collision, build and construction code, slime harvesting, level",
+"editor, animation code, input handling, in-game debug view, win/loss code",
+"• Marc Silva: Project co-lead, art and most animations for chicken, slime",
+" blob,pig, and goblin characters, house art",
+"• Vince McKeown: Art for grass, dirt, house and buildings (including",
+"damaged and destroyed states), goblin sprite integration",
+"• Brian Boucher: AI enemy army programming and related optimizations,",
+"group selection by number key, slime patch organic randomization",
 "• Vaan Hope Khani: Interface, menu code, compiled credits, minimap boundary",
 "• Christer \"McFunkypants\" Kaitila: Helper functions for AI,",
 "footprints decal art and code, title screen, logo, additional chicken sounds,",
@@ -99,8 +99,14 @@ const Menu = new (function() {
 
     pointingAt = -1;
     let mousePos = Input.getMousePosition();
+    let leftX = itemsX;
+    let width = itemsWidth;
+    if(currentPage === HELP_PAGE) {
+      leftX -= 200;
+      width += 200;
+    }
     for (let i = 0; i < menuPageText[currentPage].length; i++) {
-      if (pointIsInBox(mousePos, {x: itemsX, y: topItemY + rowHeight * i}, {x: itemsX + itemsWidth, y: topItemY + rowHeight * i + rowHeight})) {
+      if (pointIsInBox(mousePos, {x: leftX, y: topItemY + rowHeight * i}, {x: leftX + width, y: topItemY + rowHeight * i + rowHeight})) {
         cursor1 = i;
         pointingAt = i;
       }
