@@ -12,6 +12,8 @@ const FakeTarget = function(team, settings) {
   };
 
   Unit.call(this, team, settings);
+
+  this.minimapDraw = function() {};
 };
 
 FakeTarget.prototype = Object.create(Unit.prototype);
