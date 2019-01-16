@@ -6,10 +6,12 @@ const BuildingUnit = function(team, settings) {
   settings.y = settings.y + ((settings.unwalkableGrid[1] - 1) / 2 * TILE_SIZE);
 
   let buildCompletePercentage = 0;
+  let buildComplete = false;
 
   settings = extend(settings, {
     state: 'step0',
     healthbarY: TILE_SIZE * 1.2,
+    startHealth: 0,
     unwalkableGrid: [2, 2],
     maxBuildDistance: 8 //Settings copied from Slime class
   });
@@ -24,7 +26,11 @@ const BuildingUnit = function(team, settings) {
 
   this.setComplete = function() {
     buildCompletePercentage = 100;
-    this.setState('default');
+    buildComplete = true;
+
+    // "hack" to force health to be 100%
+    this.addHealth(this.getMaxHealth());
+
     callbackList(this.getFollowers(), 'finishedBuilding', [this]);
 
     if (this._setComplete) {
@@ -33,34 +39,60 @@ const BuildingUnit = function(team, settings) {
   };
 
   this.isComplete = function() {
-    return buildCompletePercentage === 100;
+    return buildComplete;
   };
 
-  this.getBuildPercentage = function() {
-    return buildCompletePercentage;
-  }
+  this.calcBuildComplete = function() {
+    if (buildComplete) {
+      return;
+    }
 
-  this.addBuildPercentage = function(percentage) {
-    buildCompletePercentage = Math.min(100, buildCompletePercentage + percentage);
+    buildCompletePercentage = Math.round(this.getHealth() / this.getMaxHealth() * 100);
 
     if (buildCompletePercentage === 100) {
       this.setComplete();
 
       Interface.selectionChanged(Selection.getSelection());
-      return;
     }
+  };
 
-    let step = Math.min(4, Math.floor(buildCompletePercentage / 20));
-    this.setState('step' + step);
+  this.addBuildPercentage = function(amount) {
+    this.addHealth(amount);
+    this.calcBuildComplete();
+
+    this.setStateFixed();
   };
 
   this._doDamage = function(damage) {
-    let step = Math.max(0, Math.floor((this.getHealth() / this.getMaxHealth()) * 5));
-    this.setState('damage' + step);
+    this.calcBuildComplete();
+
+    this.setStateFixed();
+  };
+
+  this.setStateFixed = function() {
+    if (this.getHealth() === this.getMaxHealth()) {
+      this.setState('default');
+      return;
+    }
+
+    let step = Math.max(0, Math.floor(this.getHealth() / this.getMaxHealth() * 5));
+    this.setState((buildComplete ? 'damage' : 'step') + step);
   };
 
   this._remove = function() {
     Grid.updateWalkableGridForBuilding(oldX, oldY, settings.unwalkableGrid, true);
+  };
+
+  this._draw = function() {
+    if (this.constructor === Slime || this.constructor === SlimeEnemy) {
+      return;
+    }
+
+    if (!buildComplete) {
+      let posNow = this.getPosition();
+      drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, 100.0, 'black', 5);
+      drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, buildCompletePercentage/100.0, 'orange', 5);
+    }
   };
 
   Unit.call(this, team, settings);
@@ -88,7 +120,7 @@ const BuildingUnit = function(team, settings) {
     plot.centralUnit = centralUnit;
 
     Game.create(buildingType, team, plot);
-  }
+  };
 
   function findBuildablePlots() {
     if (0 < buildablePlots.length) {
@@ -111,7 +143,6 @@ const BuildingUnit = function(team, settings) {
         }
       }
     }
-
 
     if (0 < buildablePlots.length) {
       //sorts buildablePlots from nearest to farthest from centralUnit.

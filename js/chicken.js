@@ -10,7 +10,7 @@ const Chicken = function(team, settings) {
     collisionRange: 26,
     harvestSpeed: 5,
     harvestMax: 25,
-    buildSpeed: 5,
+    buildSpeed: 0.5,
     speed: 1.4,
     damage: 3,
     maxHealth: 10,
@@ -34,7 +34,7 @@ const Chicken = function(team, settings) {
       team,
       maxDistanceToFindBuildingOrSlimePatch,
       function(item) {
-        return !item.isComplete();
+        return !item.isComplete() || item.isDamaged();
       }
     );
 
@@ -78,7 +78,7 @@ const Chicken = function(team, settings) {
         return true;
       }
 
-      if ((target.constructor === MudPit || target.constructor === MudPitEnemy ) && lastHarvestedPosition) {
+      if ((target.constructor === MudPit || target.constructor === MudPitEnemy) && lastHarvestedPosition) {
         Game.addSlime(Math.round(harvested), this.getTeam());
 
         harvested = 0;
@@ -94,13 +94,18 @@ const Chicken = function(team, settings) {
     return false;
   };
 
+  let buildingConstructors = [
+    House, HouseEnemy,
+    MudPit, MudPitEnemy,
+    Barracks, BarracksEnemy
+  ];
+
   this.canBuildBuilding = function(target) {
     if (!target.isComplete || target.isComplete === undefined) {
       return false;
     }
 
-    return !target.isComplete() && (target.constructor === House || target.constructor === MudPit || target.constructor === Barracks ||
-                                    target.constructor === HouseEnemy || target.constructor === MudPitEnemy || target.constructor === BarracksEnemy);
+    return (!target.isComplete() || target.isDamaged()) && (buildingConstructors.indexOf(target.constructor) !== -1);
   };
 
   this.findMudPit = function(position) {

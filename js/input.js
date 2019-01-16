@@ -95,7 +95,7 @@ const Input = new (function() {
       mouseRaw = { x: event.clientX, y: event.clientY };
     }
     else {
-      throw "Which mouse position?";
+      throw 'Which mouse position?';
     }
 
     mousePosition.ux = mouseRaw.x - canvasRect.left;
@@ -149,22 +149,23 @@ const Input = new (function() {
 
   this.setToolTip = function(newText) {
     toolTipText = newText;
-  }
+  };
+
   this.drawToolTip = function() {
-    if(toolTipText !== null) {
+    if (toolTipText !== null) {
       let mousePos = this.getMousePosition();
       let textSize = gameContext.measureText(toolTipText).width;
-      drawFillRect(gameContext, mousePos.sx-textSize/2, mousePos.sy-15, textSize, 15, 'black');
-      drawTextWithShadow(gameContext, mousePos.sx, mousePos.sy, FONT_COLOR, BUTTON_COUNT_FONT, 'center', 'bottom', toolTipText);
+      drawFillRect(gameContext, mousePos.sx - textSize / 2, mousePos.sy - 20, textSize, 15, 'black');
+      drawTextWithShadow(gameContext, mousePos.sx, mousePos.sy - 5, FONT_COLOR, BUTTON_COUNT_FONT, 'center', 'bottom', toolTipText);
     }
-  }
+  };
 
   function getButtonId(event) {
     if (event.keyCode !== undefined) {
       return event.keyCode;
     }
 
-    throw "What button to use?";
+    throw 'What button to use?';
   }
 
   function getMouseButtonId(event) {

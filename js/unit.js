@@ -36,7 +36,7 @@ const Unit = function(team, settings) {
 
   let state;
 
-  let health = settings.maxHealth;
+  let health = (settings.startHealth !== undefined) ? settings.startHealth : settings.maxHealth;
 
   this.canSelect = function() {
     return settings.canSelect;
@@ -150,12 +150,20 @@ const Unit = function(team, settings) {
     }
   };
 
-  this.getHealth = function(){
+  this.getHealth = function() {
     return health;
   };
 
-  this.getMaxHealth = function(){
+  this.addHealth = function(amount) {
+    health = Math.min(settings.maxHealth, health + amount);
+  };
+
+  this.getMaxHealth = function() {
     return settings.maxHealth;
+  };
+
+  this.isDamaged = function() {
+    return this.getHealth() < this.getMaxHealth();
   };
 
   this.getCollisionRange = function() {
@@ -283,15 +291,7 @@ const Unit = function(team, settings) {
     }
 
     if (sprite) {
-      let posNow = this.getPosition();
-      sprite.drawAt(posNow);
-      if(this.getBuildPercentage && this.constructor.name != "Slime") {
-        let buildPerc = this.getBuildPercentage();
-        if(buildPerc<100.0) {
-          drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, 100.0, 'black', 5);
-          drawStrokeCircle(gameContext, posNow.x, posNow.y - settings.healthbarY - 6, 3, buildPerc/100.0, 'orange', 5);
-        }
-      }
+      sprite.drawAt(this.getPosition());
     }
 
     if (this._draw) {

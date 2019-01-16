@@ -11,6 +11,7 @@ const Slime = function(team, settings) {
     maxGrowDistance: 8,
     unwalkableGrid: [3, 2],
     maxHealth: 500,
+    startHealth: 500,
     deadBodySprite: Images.deadSlimeImg
   });
 
@@ -102,7 +103,7 @@ const Slime = function(team, settings) {
     }
 
     patch.slime = slime;
-	
+
 	if (slime.getTeam() === TEAM_PLAYER){
 	  Game.create(SlimePatch, team, patch);
 	} else if (slime.getTeam() === TEAM_ENEMY){

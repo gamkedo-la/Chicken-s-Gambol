@@ -29,23 +29,23 @@ const Interface = new (function() {
 
   this.initialize = function() {
     buttons = [
-      new Button(654, 7, 30, 22, true, () => (music_sound.paused ? music_sound.play() : music_sound.pause()), false, Images.topButtonBg, undefined, "Toggle Music"),
-      new Button(692, 7, 30, 22, true, () => isSoundMute = !isSoundMute, false, Images.topButtonBg, undefined, "Toggle Sound"),
-      new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg, undefined, "Pause"),
-      new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg, undefined, "Delete Selection"),
-      new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg, undefined, "Find Idle Chicken")
+      new Button(654, 7, 30, 22, true, () => (music_sound.paused ? music_sound.play() : music_sound.pause()), false, Images.topButtonBg, undefined, 'Toggle Music'),
+      new Button(692, 7, 30, 22, true, () => isSoundMute = !isSoundMute, false, Images.topButtonBg, undefined, 'Toggle Sound'),
+      new Button(730, 7, 30, 22, false, PauseInterface.pauseGame, false, Images.topButtonBg, undefined, 'Pause'),
+      new Button(271, 451, 20, 22, false, Game.deleteSelection.bind(Game), false, Images.bottomButtonBg, undefined, 'Delete Selection'),
+      new Button(475, 451, 20, 22, false, Game.findIdleChicken.bind(Game), false, Images.bottomButtonBg, undefined, 'Find Idle Chicken')
     ];
 
     buildingBuildButtons = [
-      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonHouse, "House (Increase Unit Cap)"),
-      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonMudPit, "Slime Pit (Store Slime)"),
-      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonBarracks, "Barracks (Build Units)")
+      new Button(300, 422, 50, 50, false, Game.buildHouse.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonHouse, 'House (Increase Unit Cap) ' + COSTS['House'] + ' slime'),
+      new Button(358, 422, 50, 50, false, Game.buildMudPit.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonMudPit, 'Slime Pit (Store Slime) ' + COSTS['MudPit'] + ' slime'),
+      new Button(416, 422, 50, 50, false, Game.buildBarracks.bind(Game, TEAM_PLAYER), false, Images.buildButtonBg, Sprites.buildButtonBarracks, 'Barracks (Build Units) ' + COSTS['Barracks'] + ' slime')
     ];
 
     unitBuildButtons = [
-      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken, "Chicken (build/harvest, medium combat, slowest)"),
-      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin, "Goblin (ranged attack, weakest, fastest)"),
-      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig, "Pig (melee, most damage/health, medium speed)")
+      new Button(300, 422, 50, 50, false, this.queueUnit.bind(this, Chicken), this.showButtonBuildProgress.bind(this, Chicken), Images.buildButtonBg, Sprites.buildButtonChicken, 'Chicken (build/harvest, medium combat, slowest) ' + COSTS['Chicken'] + ' slime'),
+      new Button(358, 422, 50, 50, false, this.queueUnit.bind(this, Goblin), this.showButtonBuildProgress.bind(this, Goblin), Images.buildButtonBg, Sprites.buildButtonGoblin, 'Goblin (ranged attack, weakest, fastest) ' + COSTS['Goblin'] + ' slime'),
+      new Button(416, 422, 50, 50, false, this.queueUnit.bind(this, Pig), this.showButtonBuildProgress.bind(this, Pig), Images.buildButtonBg, Sprites.buildButtonPig, 'Pig (melee, most damage/health, medium speed) ' + COSTS['Pig'] + ' slime')
     ];
 
     callbackList(unitBuildButtons, 'disable', []);
@@ -174,7 +174,7 @@ const Interface = new (function() {
     drawTextWithShadow(gameContext, 450, 403, FONT_COLOR, SLIME_FONT, 'right', 'middle', Game.getNumSlime(TEAM_PLAYER));
 
     //draw AI debug info
-    if (DEBUG){
+    if (DEBUG) {
       drawText(gameContext, 10, 10, 'White', SLIME_FONT, 'left', 'middle', 'AI Slime: ' + Game.getNumSlime(TEAM_ENEMY));
       drawText(gameContext, 10, 30, 'White', SLIME_FONT, 'left', 'middle', 'AI Units: ' + Game.getNumUnits(TEAM_ENEMY));
       drawText(gameContext, 10, 50, 'White', SLIME_FONT, 'left', 'middle', 'AI Max Units: ' + Game.getMaxNumUnits(TEAM_ENEMY));
