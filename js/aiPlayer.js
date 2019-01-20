@@ -70,6 +70,7 @@ const AIPlayer = new (function() {
       for (i = 0; i < allEnemyHouseUnits.length; i++){
         if (!allEnemyHouseUnits[i].isComplete()){
           enemyHouseBuildPending = true;
+          return;
         } else {
           enemyHouseBuildPending = false;
         }
@@ -118,8 +119,10 @@ const AIPlayer = new (function() {
     enemyWave = [];
     let numberOfPigs = 2 + (waveNumber - 1);
     let numberOfGoblins = 1 + (waveNumber -1);
+    let numberOfChickens = Math.max((waveNumber - 2), 0)
     let enemyPigsReady = false;
     let enemyGoblinsReady = false;
+    let enemyChickensReady = false;
 
     if (allEnemyPigUnits.length >= numberOfPigs){
       enemyPigsReady = true;
@@ -133,16 +136,25 @@ const AIPlayer = new (function() {
       this.buildEnemyUnit(GoblinEnemy);
     }
 
-    if (enemyPigsReady && enemyGoblinsReady && (enemyWaveInterval <= elapsedSinceLastWave)){
+    if (allEnemyChickenUnits.length - (allEnemyMudPitUnits.length * 2) >= numberOfChickens){
+      enemyChickensReady = true;
+    } else {
+      this.buildEnemyUnit(ChickenEnemy);
+    }
+
+    if (enemyPigsReady && enemyGoblinsReady && enemyChickensReady && (enemyWaveInterval <= elapsedSinceLastWave)){
       for (p = 0; p < numberOfPigs; p++){
         enemyWave.push(allEnemyPigUnits[p]);
       }
       for (g = 0; g < numberOfGoblins; g++){
         enemyWave.push(allEnemyGoblinUnits[g]);
       }
+      for (c = 0; c < numberOfChickens; c++){
+        enemyWave.push(allEnemyChickenUnits[c]);
+      }
     }
 
-    if ((enemyWave.length === numberOfPigs + numberOfGoblins) && (enemyWaveInterval <= elapsedSinceLastWave)){
+    if ((enemyWave.length === numberOfPigs + numberOfGoblins + numberOfChickens) && (enemyWaveInterval <= elapsedSinceLastWave)){
       elapsedSinceLastWave = 0;
       enemyWaveReady = true;
       waveNumber++;
@@ -157,7 +169,7 @@ const AIPlayer = new (function() {
       for (let j = 0; j < playerUnitsLength; j++){
 
         let enemyUnit = enemyWave[i];
-        if((allPlayerUnits[j].canDamage() === true) && (enemyUnit.constructor != ChickenEnemy)){ /* && allPlayerUnits[j].constructor.name != "Slime"*/ //Bug: attacking slime causes game to slow/crash
+        if(allPlayerUnits[j].canDamage() === true){
           enemyUnit.setTarget(allPlayerUnits[j]);
         }
       }
@@ -214,9 +226,11 @@ const AIPlayer = new (function() {
   this.allIdleChickensCollectSlime = function(){
     let length = allEnemyChickenUnits.length;
     for (let i = 0; i < length; i++){
-      let currentTarget = allEnemyChickenUnits[i].getTarget();
-      if (currentTarget === undefined ||(currentTarget.isBuilding() && currentTarget.constructor != MudPitEnemy && currentTarget.isComplete() && currentTarget.getTeam() === TEAM_ENEMY)){
-        allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
+      if (enemyWave.indexOf(allEnemyChickenUnits[i]) === -1 ){
+        let currentTarget = allEnemyChickenUnits[i].getTarget();
+        if (currentTarget === undefined ||(currentTarget.isBuilding() && currentTarget.constructor != MudPitEnemy && currentTarget.isComplete() && currentTarget.getTeam() === TEAM_ENEMY)){
+          allEnemyChickenUnits[i].setTarget(allEnemyChickenUnits[i].findSlimePatch(allEnemyChickenUnits[i].getPosition(), allEnemySlimePatchUnits));
+        }
       }
     }
   }
