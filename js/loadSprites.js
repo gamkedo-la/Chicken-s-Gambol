@@ -31,28 +31,28 @@ let Sprites = new (function() {
           firstFrameY: 4
         },
         attack: {
-          frames: 2,
-          frameTime: .2,
+          frames: 4,
+          frameTime: .16,
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 4
+          firstFrameY: 160
         },
         build: {
-          frames: 2,
+          frames: 12,
           frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 4
+          firstFrameY: 224
         },
         harvest: {
-          frames: 2,
-          frameTime: .2,
+          frames: 4,
+          frameTime: .1,
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 4
+          firstFrameY: 256
         },
         moveRight: {
           frames: 6,
@@ -60,7 +60,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 4
+          firstFrameY: 32
         },
         moveLeft: {
           frames: 6,
@@ -68,7 +68,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 36
+          firstFrameY: 64
         },
         moveUp: {
           frames: 2,
@@ -76,7 +76,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 100
+          firstFrameY: 128
         },
         moveDown: {
           frames: 3,
@@ -84,7 +84,7 @@ let Sprites = new (function() {
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 68
+          firstFrameY: 96
         }
       }
     },

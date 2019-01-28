@@ -49,14 +49,18 @@ const Chicken = function(team, settings) {
       if (this.canBuildBuilding(target)) {
         target.addBuildPercentage(settings.buildSpeed * delta);
         lastHarvestedPosition = undefined;
-
+        if(this.getState() != "build"){
+          this.setState('build');
+        }
         return true;
       }
 
       if (target.constructor === SlimePatch || target.constructor === SlimePatchEnemy) {
         let returnSlime = false;
         harvested += target.collectSlime(settings.harvestSpeed * delta);
-
+        if(this.getState() != "harvest"){
+          this.setState('harvest');
+        }
         if (target.isReadyToRemove() && harvested < settings.harvestMax) {
 //          console.log('not enough');
           this.setTarget(this.findSlimePatch(this.getPosition()));
