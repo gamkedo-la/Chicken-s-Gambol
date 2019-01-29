@@ -161,12 +161,12 @@ let Sprites = new (function() {
       image: 'goblin',
       frames: {
         default: {
-          frames: 6,
+          frames: 4,
           frameTime: .2,
           width: 32,
           height: 32,
           firstFrameX: 0,
-          firstFrameY: 0
+          firstFrameY: 160
         },
         attack: {
           frames: 6,
@@ -178,7 +178,7 @@ let Sprites = new (function() {
         },
         moveRight: {
           frames: 6,
-          frameTime: .2,
+          frameTime: .18,
           width: 32,
           height: 32,
           firstFrameX: 0,
@@ -186,7 +186,7 @@ let Sprites = new (function() {
         },
         moveLeft: {
           frames: 6,
-          frameTime: .2,
+          frameTime: .18,
           width: 32,
           height: 32,
           firstFrameX: 0,

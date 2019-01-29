@@ -10,7 +10,7 @@ const Chicken = function(team, settings) {
     collisionRange: 26,
     harvestSpeed: 5,
     harvestMax: 25,
-    buildSpeed: 0.5,
+    buildSpeed: 1,
     speed: 1.4,
     damage: 3,
     maxHealth: 10,
