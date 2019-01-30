@@ -267,12 +267,12 @@ let Sprites = new (function() {
       image: 'pig',
       frames: {
         default: {
-          frames: 2,
+          frames: 4,
           frameTime: .2,
           width: 36,
           height: 36,
-          firstFrameX: 144,
-          firstFrameY: 0
+          firstFrameX: 0,
+          firstFrameY: 180
         },
         attack: {
           frames: 6,
@@ -299,16 +299,16 @@ let Sprites = new (function() {
           firstFrameY: 72
         },
         moveUp: {
-          frames: 1,
-          frameTime: .2,
+          frames: 6,
+          frameTime: .18,
           width: 36,
           height: 36,
           firstFrameX: 0,
           firstFrameY: 144
         },
         moveDown: {
-          frames: 1,
-          frameTime: .2,
+          frames: 6,
+          frameTime: .18,
           width: 36,
           height: 36,
           firstFrameX: 0,
